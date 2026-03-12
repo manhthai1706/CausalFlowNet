@@ -67,7 +67,7 @@ CausalFlowNet khắc phục những hạn chế của các mô hình truyền th
 
 Với nội dung và mục tiêu trên, báo cáo được tổ chức thành 5 chương chính:
 - **Phần mở đầu:** Lý do chọn đề tài, mục tiêu, đối tượng, phương pháp và khung tóm tắt đề tài. 
-- **Chương 1 – Cơ sở lý thuyết:** Trình bày nền tảng cốt lõi về đồ thị nhân quả DAG, mô hình phương trình cấu trúc (SEM), nguyên lý tính bất đối xứng mô hình Nhiễu ANM, toán tử Hilbert-Schmidt và hàm phạt tối ưu phi chu trình liên tục. 
-- **Chương 2 – Mô hình Deep Additive Noise Model (DeepANM):** Lý giải hệ thống Pipeline 3 pha do tác giả tích hợp, mô tả phân rã kỹ thuật từ sắp xếp Topological, quy luật huấn luyện MLP kết hợp Gumbel-Softmax Noise đến phương thức Adaptive LASSO lọc cạnh ngõ ra. 
-- **Chương 3 – Thử nghiệm và Đánh giá (Experimental Results):** Giới thiệu các bộ dữ liệu dùng để benchmark, so sánh tham số SHD/Accuracy với cơ sở truyền thống. Trình bày Ablation Study kiểm duyệt sức chịu tải của từng Modun thiết kế. 
-- **Chương 4 – Kết luận:** Đúc kết lại sức mạnh của hệ thống DeepANM so với mục tiêu đề ra và mở rộng hướng giải đáp các điểm yếu của thuật toán trong tương lai. 
+- **Chương 1 – Cơ sở lý thuyết:** Trình bày nền tảng cốt lõi về đồ thị nhân quả DAG, mô hình phương trình cấu trúc (SEM), lý thuyết về Normalizing Flows và hàm phạt tối ưu phi chu trình liên tục. 
+- **Chương 2 – Mô hình CausalFlowNet:** Lý giải hệ thống Pipeline do tác giả xây dựng, mô tả chi tiết kiến trúc MLP-Attention, cơ chế Gumbel-Softmax và quy trình tối ưu hóa hai giai đoạn. 
+- **Chương 3 – Thử nghiệm và Đánh giá (Experimental Results):** Giới thiệu các bộ dữ liệu dùng để benchmark (Sachs, SynTReN, ALARM), so sánh các chỉ số SHD, SID, TPR và trình bày bộ công cụ trực quan hóa. 
+- **Chương 4 – Kết luận:** Đúc kết lại những đóng góp của đề tài CausalFlowNet so với các phương pháp truyền thống và đề xuất hướng mở rộng. 
