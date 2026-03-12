@@ -31,7 +31,7 @@ CausalFlowNet khắc phục những hạn chế của các mô hình truyền th
 1. Hệ thống hóa lý thuyết về học cấu trúc nhân quả (Causal Structure Learning), mô hình phương trình cấu trúc (SEM) và các ràng buộc phi chu trình liên tục (Acyclicity Constraints).
 2. Xây dựng mô hình **CausalFlowNet** có khả năng học quan hệ nhân quả trên dữ liệu đa biến phi tuyến và phân phối phức tạp.
 3. Triển khai thuật toán tối ưu hóa **Augmented Lagrangian (ALM)** để đảm bảo tính hợp lệ (DAG) của đồ thị nhân quả tìm được.
-4. Đạt được kết quả vượt trội về độ chính xác (TPR), độ tin cậy (SID/SHD) trên các bộ dữ liệu Benchmark tiêu chuẩn (Sachs, SynTReN, ALARM).
+4. Đạt được kết quả vượt trội về độ chính xác (TPR), độ tin cậy (SID/SHD) trên các bộ dữ liệu Benchmark tiêu chuẩn (Sachs, SynTReN-20).
 
 ## 4. Đối tượng và phạm vi nghiên cứu
 
@@ -42,7 +42,7 @@ CausalFlowNet khắc phục những hạn chế của các mô hình truyền th
 
 **Phạm vi nghiên cứu:**
 - **Về lý thuyết:** Tập trung vào mạng Perceptron (MLP) với tích hợp Self-Attention, cơ chế Gumbel-Softmax, và toán tử HSIC (Hilbert-Schmidt Independence Criterion).
-- **Về dữ liệu:** Xử lý dữ liệu dạng bảng (Tabular Data) quan sát đa biến liên tục. Thử nghiệm trên các tập dữ liệu thực tế và giả lập có quy mô từ nhỏ (Sachs - 11 nodes) đến trung bình (SynTReN - 20 nodes) và phức tạp (ALARM - 37 nodes).
+- **Về dữ liệu:** Xử lý dữ liệu dạng bảng (Tabular Data) quan sát đa biến liên tục. Thử nghiệm trên hai bộ dữ liệu Benchmark gồm dữ liệu Y sinh học thực tế (Sachs - 11 nodes) và dữ liệu mạng gen giả lập (SynTReN-20 - 20 nodes).
 - **Giới hạn:** Đề tài làm việc trên dữ liệu quan sát tĩnh, chưa xét đến dữ liệu chuỗi thời gian hay các biến ẩn không quan sát được (Unobserved Confounders).
 
 ## 5. Phương pháp nghiên cứu
@@ -69,5 +69,5 @@ Với nội dung và mục tiêu trên, báo cáo được tổ chức thành 5 
 - **Phần mở đầu:** Lý do chọn đề tài, mục tiêu, đối tượng, phương pháp và khung tóm tắt đề tài. 
 - **Chương 1 – Cơ sở lý thuyết:** Trình bày nền tảng cốt lõi về đồ thị nhân quả DAG, mô hình phương trình cấu trúc (SEM), lý thuyết về Normalizing Flows và hàm phạt tối ưu phi chu trình liên tục. 
 - **Chương 2 – Mô hình CausalFlowNet:** Trình bày chi tiết về kiến trúc hệ thống, Pipeline xử lý, kiến trúc MLP-Attention, cơ chế Gumbel-Softmax và quy trình tối ưu hóa hai giai đoạn. 
-- **Chương 3 – Thử nghiệm và Đánh giá (Experimental Results):** Giới thiệu các bộ dữ liệu dùng để benchmark (Sachs, SynTReN, ALARM), so sánh các chỉ số SHD, SID, TPR và trình bày bộ công cụ trực quan hóa. 
+- **Chương 3 – Thử nghiệm và Đánh giá (Experimental Results):** Giới thiệu các bộ dữ liệu được dùng để benchmark (Sachs, SynTReN-20), so sánh các chỉ số SHD, SID, TPR và trình bày bộ công cụ trực quan hóa. 
 - **Chương 4 – Kết luận:** Đúc kết lại những đóng góp của đề tài CausalFlowNet so với các phương pháp truyền thống và đề xuất hướng mở rộng. 
