@@ -14,7 +14,17 @@ Tính chất quan trọng nhất của DAG là tính acyclicity (không chu trì
 
 Trong đó W là ma trận trọng số kề kích thước d x d, (W * W) là phép nhân từng phần tử (Hadamard product), và d là số lượng biến. Hàm h(W) = 0 khi và chỉ khi đồ thị biểu diễn bởi W là một DAG (Zheng et al., 2018). Việc tính hàm mũ ma trận (matrix exponential) đảm bảo tất cả các đường đi có độ dài bất kỳ đều được xét đến trong việc phát hiện chu trình.
 
-### 1.1.2. Mô hình Phương trình Cấu trúc (SEM)
+### 1.1.2. Mô hình Nhân quả Cấu trúc (SCM)
+
+**Mô hình Nhân quả Cấu trúc** (Structural Causal Model – SCM), được hệ thống hóa bởi Judea Pearl (2000), là một khung lý thuyết tổng quát để biểu diễn và suy luận về quan hệ nhân quả. Một SCM bao gồm ba thành phần:
+
+1. **Tập biến ngoại sinh U** (exogenous variables): Các biến nhiễu độc lập, đại diện cho các yếu tố bên ngoài mô hình không thể quan sát trực tiếp.
+2. **Tập biến nội sinh X** (endogenous variables): Các biến quan sát được, mỗi biến được xác định bởi các biến cha và nhiễu tương ứng thông qua một hàm cấu trúc.
+3. **Đồ thị nhân quả G**: Biểu diễn quan hệ nhân quả giữa các biến dưới dạng DAG.
+
+Điểm mạnh cốt lõi của SCM so với các mô hình thống kê thông thường là khả năng trả lời câu hỏi **can thiệp (interventional)** thông qua toán tử do(·) của Pearl. Khi thực hiện can thiệp do(X_i = v), tức là gán cưỡng bức giá trị cho biến X_i, toàn bộ cơ chế sinh dữ liệu thay đổi theo cấu trúc nhân quả, khác hoàn toàn so với việc chỉ điều kiện hóa thống kê thông thường (conditioning). Khả năng phân biệt này là nền tảng để CausalFlowNet học được cấu trúc nhân quả thực sự từ dữ liệu quan sát.
+
+### 1.1.3. Mô hình Phương trình Cấu trúc (SEM)
 
 **Mô hình Phương trình Cấu trúc** (Structural Equation Model – SEM) mô tả cơ chế sinh ra dữ liệu thông qua hệ phương trình:
 
