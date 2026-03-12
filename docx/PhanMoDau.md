@@ -4,64 +4,64 @@
 
 Trong bối cảnh bùng nổ của Khoa học dữ liệu (Data Science) và Học máy (Machine Learning), các mô hình Học sâu (Deep Learning) ngày một thể hiện năng lực cao trong việc giải quyết những bài toán phức tạp từ nhận dạng hình ảnh, xử lý ngôn ngữ tự nhiên cho đến dự báo xu hướng. Hầu hết sự thành công này được xây dựng trên năng lực nắm bắt sự **Tương quan (Correlation)** tốt của mô hình học sâu ẩn dưới các tập dữ liệu khổng lồ. 
 
-Tuy nhiên, trong các bài toán đưa ra quyết định thực tiễn (Ví dụ: Kê đơn thuốc, Lập kế hoạch kinh tế, Tối ưu hóa dây chuyền sản xuất), sự tương quan thống kê không phải lúc nào cũng mang lại giá trị định hướng. Cổ ngữ Toán học có câu "Tương quan không có nghĩa là Nhân quả" (Correlation does not imply Causation). Hai sự kiện có thể xảy ra đồng thời do một sự trùng hợp, hoặc do chúng cùng chịu chi phối của một yếu tố ẩn thứ ba (Confounder), chứ không phải kiện này gây ra kiện kia. Việc chỉ dựa vào phân tích tương quan dẫn đến những quyết sách sai lầm, điều này là cốt lõi của **"Khám phá Nhân quả (Causal Discovery)"**.
+Tuy nhiên, trong các bài toán đưa ra quyết định thực tiễn (Ví dụ: Y sinh, Kinh tế, Công nghiệp), sự tương quan thống kê không phải lúc nào cũng mang lại giá trị định hướng. Câu nói nổi tiếng "Correlation does not imply Causation" (Tương quan không có nghĩa là Nhân quả) nhấn mạnh rằng hai sự kiện có thể cùng xảy ra do một yếu tố ẩn (Confounder) chứ không nhất thiết có quan hệ trực tiếp. Việc chỉ dựa vào phân tích tương quan dẫn đến những quyết sách sai lầm, điều này là cốt lõi của **"Khám phá Nhân quả (Causal Discovery)"**.
 
-Tìm kiếm được cấu trúc nguyên nhân - kết quả (Cause-Effect Topology) là chìa khóa để trả lời các câu hỏi về **Sự can thiệp (Intervention)** (*"Điều gì xảy ra nếu thay đổi A?"*) thay vì chỉ tập trung vào **Khả năng quan sát (Observation)** (*"Thấy A thì B thế nào?"*). Các bài kiểm tra đối chứng ngẫu nhiên (RCT - Randomized Controlled Trials) thường là cách duy nhất để kiểm tra tính nhân quả, nhưng chúng thường rất tốn kém, tốn thời gian, hoặc thậm chí vi phạm đạo đức học (như thử nghiệm chất độc lên con người). Do đó, bài toán học được biểu diễn nhân quả từ bộ dữ liệu quan sát tự nhiên đang là mảnh đất giàu tiềm năng nhưng cũng đầy thách thức. Thấu hiểu nhu cầu này, tôi quyết định chọn đề tài **"Khám phá cấu trúc nhân quả phi tuyến bằng mô hình nhiễu cộng sâu (Deep Additive Noise Model - DeepANM)"** nhằm tận dụng sức mạnh linh hoạt của Mạng Neural để hỗ trợ khai phá chiều nhân quả tự động với độ chính xác và tính giải thích cao. 
+Tìm kiếm được cấu trúc nguyên nhân - kết quả (Cause-Effect Topology) là chìa khóa để trả lời các câu hỏi về **Sự can thiệp (Intervention)** (*"Điều gì xảy ra nếu thay đổi A?"*) thay vì chỉ tập trung vào **Khả năng quan sát (Observation)**. Trong khi các thử nghiệm lâm sàng (RCT) thường tốn kém hoặc bất khả thi vì lý do đạo đức, khả năng học cấu trúc nhân quả từ dữ liệu quan sát (Observational Data) mở ra tiềm năng cực lớn. Thấu hiểu nhu cầu này, tôi quyết định thực hiện đề tài **"Khám phá cấu trúc nhân quả phi tuyến bằng mô hình Causal Flow Network (CausalFlowNet)"** nhằm kết hợp sức mạnh biểu diễn của Normalizing Flows và sự linh hoạt của Mạng Neural để khai phá quan hệ nhân quả với độ chính xác và tính giải thích cao.
 
 ## 2. Tổng quan lịch sử nghiên cứu của đề tài
 
 ### a) Tại thế giới
-Bài toán khám phá nhân quả trên thế giới xuất hiện từ khá sớm với các thuật toán dựa trên ràng buộc độc lập như PC Algorithm (Spirtes et al., 2000) hay tính điểm số đánh giá như GES (Chickering, 2002). Một hướng đi cổ điển khác là LiNGAM (Shimizu, 2006) lợi dụng tính không tuần hoàn của đồ thị tuyến tính để tìm chiều tác động.
-  * Trong khoảng thập kỷ trở lại đây, nhóm thuật toán **Causal Continuous Optimization** nhận được sự bùng nổ với công trình **NOTEARS** (Zheng et al., 2018), chuyển đổi bài toán tìm đồ thị DAG từ tổ hợp (NP-Hard) sang bài toán tối ưu hóa liên tục. Năm 2022, Bello et al. giới thiệu **DAGMA** với kỹ thuật hàm phạt Log-determinant Barrier ưu việt hơn.
-  * Liên quan đến xử lý dữ liệu Phi tuyến (Nonlinear) hoặc Nhiễu đa phương sai (Heteroscedasticity), thế giới đã đề xuất các mô hình học sâu nhiễu cộng (Additive Noise Models - ANM), kỹ thuật tính toán bất đối xứng HSIC (Gretton, 2005; Peters, 2014) và mô hình Nhiễu lai DECI/Causica (Brouillard, 2020). 
+Bài toán khám phá nhân quả xuất hiện từ sớm với các thuật toán dựa trên ràng buộc (Constraint-based) như PC Algorithm hoặc tính điểm số (Score-based) như GES. Một hướng đi khác là Functional Causal Models (FCM) như LiNGAM, ANM (Peters et al., 2014) lợi dụng tính bất đối xứng của nhiễu để tìm chiều tác động.
+  * Sự bùng nổ đến từ **Causal Continuous Optimization** với công trình **NOTEARS** (Zheng et al., 2018), chuyển đổi bài toán tìm đồ thị DAG từ tổ hợp sang tối ưu hóa liên tục. Sau đó, **DAGMA** (2022) và các mô hình dựa trên mạng neural như **DECI/Causica** đã đẩy mạnh khả năng xử lý dữ liệu phi tuyến.
+  * Xu hướng mới nhất tập trung vào việc xử lý các phân phối phức tạp, không chỉ dừng lại ở nhiễu cộng (Additive Noise), thông qua các kỹ thuật như **Normalizing Flows** và biến đổi biến tiềm ẩn (Latent Variable Models).
 
 ### b) Tại Việt Nam và cơ sở giáo dục
-Tại Việt Nam, các hướng nghiên cứu về Trí tuệ Nhân tạo (AI) hiện tại phần lớn vẫn xoáy sâu vào phân tích hình ảnh (Computer Vision), Xử lý ngôn ngữ tự nhiên (Văn bản tiếng Việt) tĩnh và các mạng học dự báo. Mảng Mô hình Nhân quả (Causal AI / Causal Machine Learning) còn khá sơ khai. Những đề tài hiện tại áp dụng phân tích nhân quả thường loanh quanh ở góc độ sử dụng Bayes Networks truyền thống cho Y tế lâm sàng hoặc Thống kê kinh tế vĩ mô. Việc thiết kế và phát triển một hệ thống mạng Neural riêng biệt giải quyết bài toán biểu diễn nhân quả liên tục hầu như chưa có sự đào sâu triệt để tại cấp độ học thuật Đại học.
+Tại Việt Nam, các nghiên cứu về AI hiện tại phần lớn vẫn tập trung vào Computer Vision và NLP. Mảng **Causal AI** còn khá mới mẻ, chủ yếu dừng lại ở mức độ ứng dụng các thư viện sẵn có hoặc dùng mạng Bayes truyền thống trong Thống kê y tế. Việc tự xây dựng và tối ưu một kiến trúc mạng Neural chuyên biệt, tích hợp các ràng buộc toán học khắt khe để học cấu trúc nhân quả như CausalFlowNet là một hướng đi mang tính đón đầu tại cấp độ học thuật.
 
-### c) Tính mới và sự nổi bật của đề tài (DeepANM)
-Đề tài này đóng góp một quy trình (Pipeline) mới mẻ, gạt bỏ giới hạn của phân loại tương quan và khắc phục tỷ lệ báo lỗi giả (False Positive) rất cao của các thuật toán nhân quả liên tục toàn cục (Global Optimization) trước đây. **Tính mới bao gồm:**
-- Phân rã bài toán thành hệ thống 3 pha riêng biệt: Sắp xếp Topological bằng thuật toán HSIC O(N·D), Khớp nhân quả bằng Mô hình Học Sâu kết hợp biến Gumbel-Softmax có cơ chế trộn (Mixed Mechanisms), và Bộ xử lý Lọc cạnh thích nghi. 
-- Thay vì để mạng neural quyết định tùy ý các chiều cạnh dẫn đến chu trình nghịch, tính mới nằm ở việc dùng Thuật toán **Sink-First** khóa chặt định hướng trước khi Neural vào việc.
-- Thay vì loại bỏ cạnh giả bằng một ngưỡng cứng (ví dụ `<0.3`), DeepANM lọc cạnh bằng Random Forest LASSO và Cổng thích nghi ATE Percentile.
+### c) Tính mới và sự nổi bật của đề tài (CausalFlowNet)
+CausalFlowNet khắc phục những hạn chế của các mô hình truyền thống bằng cách tích hợp các công nghệ tiên tiến:
+- **Normalizing Flows**: Sử dụng cơ chế biến đổi mật độ (Density Estimation) để mô hình hóa những phân phối dữ liệu phức tạp, phi tuyến và không nhất thiết phải là Gauss.
+- **Self-Attention & Gumbel-Softmax**: Tích hợp cơ chế Attention để nắm bắt phụ thuộc đặc trưng và Gumbel-Softmax để mô hình hóa các cơ chế đa dạng (Mixed Mechanisms).
+- **Quy trình Optimizing hai giai đoạn**: Phân tách quá trình huấn luyện thành giai đoạn **Khám phá (Discovery)** (với trọng số L1 mạnh) và giai đoạn **Tinh chỉnh cấu trúc (Refinement)** (sử dụng ALM) để giảm thiểu tối đa tỷ lệ cạnh giả (False Positives).
+- **Hệ thống đánh giá đa chiều**: Không chỉ dùng SHD, đề tài sử dụng thêm **SID (Structural Intervention Distance)** để đánh giá hiệu quả của mô hình dưới góc độ can thiệp nhân quả thực tế.
 
 ## 3. Mục tiêu đồ án tốt nghiệp
 
 Đề tài hướng tới việc thực hiện các mục tiêu cốt lõi sau:
-1. Số hóa hệ thống lý thuyết các kiến thức nền tảng trong suy luận Cấu trúc Nhân quả (Causal Structure Learning), khái niệm can thiệp Do-Calculus và Mô hình Nhiễu cộng (ANM). 
-2. Xây dựng, biên dịch và điều chỉnh thuật toán cho một mô hình Học Máy giải quyết tình trạng **Dữ liệu phân bố phi tuyến (Nonlinear)** và **Nhiễu không đồng nhất (Heteroscedasticity, Multimodal)**.
-3. Liên kết được hệ thống Mạng Neural Tự động Gi mã VAE cùng Tối ưu hóa Ràng buộc Không Chu Trình (Acyclicity Constraint) thành một mã nguồn duy nhất. 
-4. Cải thiện đáng kể độ đo khoảng cách cấu trúc (Structural Hamming Distance - SHD) so với các giải pháp truyền thống trên các tập dữ liệu thực tế (Boston Housing, Sinh học Tế bào Sachs).
+1. Hệ thống hóa lý thuyết về học cấu trúc nhân quả (Causal Structure Learning), mô hình phương trình cấu trúc (SEM) và các ràng buộc phi chu trình liên tục (Acyclicity Constraints).
+2. Xây dựng mô hình **CausalFlowNet** có khả năng học quan hệ nhân quả trên dữ liệu đa biến phi tuyến và phân phối phức tạp.
+3. Triển khai thuật toán tối ưu hóa **Augmented Lagrangian (ALM)** để đảm bảo tính hợp lệ (DAG) của đồ thị nhân quả tìm được.
+4. Đạt được kết quả vượt trội về độ chính xác (TPR), độ tin cậy (SID/SHD) trên các bộ dữ liệu Benchmark tiêu chuẩn (Sachs, SynTReN, ALARM).
 
 ## 4. Đối tượng và phạm vi nghiên cứu
 
 **Đối tượng nghiên cứu:**
-- Hệ thống Mạng Neural Nhân tạo (Feed-forward Neural Networks, VAE).
-- Thuật toán Máy học phục vụ khám phá thông số cấu trúc (Causal Discovery Structure Learning Models). Cụ thể là trường phái Additive Noise Models (Nhiễu Cộng).
+- Các mô hình học sâu nhân quả (Deep Causal Discovery).
+- Kỹ thuật Normalizing Flows để ước lượng mật độ xác suất.
+- Thuật toán tối ưu hóa trên không gian đồ thị liên tục.
 
 **Phạm vi nghiên cứu:**
-- **Về lý thuyết học máy:** Tập trung khai thác mạng Perceptron Nhiều Lớp (MLP), cơ chế suy luận Gumbel-softmax để phân cụm, Hàm phạt tối ưu liên tục ALM, và phương pháp tính ước lượng Độc lập Thống kê bằng Toán tử Kernel.
-- **Về dữ liệu áp dụng:** Hệ thống DeepANM trong giới hạn của đề tài chỉ xử lý bộ dữ liệu dạng bảng quan sát đa biến liên tục và chuẩn hóa (Continuous Multivariate Tabular Data). Đề tài sẽ được thử nghiệm trên bộ Benchmark Y - Sinh học có Ground-truth thực tế (Sachs, 2005) và bộ điểm chuẩn Kinh tế Boston Housing.
-- Đề tài **không** bao quát dữ liệu xử lý chuỗi thời gian (Time-series / Temporal Causality), cũng chưa xét trường hợp khuyết đặc trưng chứa yếu tố Confounders không quan sát được (Latent Unobserved Confounders). 
+- **Về lý thuyết:** Tập trung vào mạng Perceptron (MLP) với tích hợp Self-Attention, cơ chế Gumbel-Softmax, và toán tử HSIC (Hilbert-Schmidt Independence Criterion).
+- **Về dữ liệu:** Xử lý dữ liệu dạng bảng (Tabular Data) quan sát đa biến liên tục. Thử nghiệm trên các tập dữ liệu thực tế và giả lập có quy mô từ nhỏ (Sachs - 11 nodes) đến trung bình (SynTReN - 20 nodes) và phức tạp (ALARM - 37 nodes).
+- **Giới hạn:** Đề tài làm việc trên dữ liệu quan sát tĩnh, chưa xét đến dữ liệu chuỗi thời gian hay các biến ẩn không quan sát được (Unobserved Confounders).
 
 ## 5. Phương pháp nghiên cứu
 
-Để thực hiện đồ án, em đã vận dụng kết hợp các phương pháp nghiên cứu sau:
-- **Nghiên cứu tài liệu (Literature Review):** Đọc dịch và phân tích các bài báo học thuật mới nhất trên Science, IEEE, NeurIPS (2005 - 2023) về chủ đề DAG Liên Tục (NOTEARS, DAGMA), Mô hình Nhiễu lai (DECI), Tiêu chuẩn Tính độc lập HSIC. 
-- **Thiết kế Cấu trúc Trạng thái (Architectural Modeling):** Vẽ đồ thị thuật toán vòng làm việc của các module mạng Neural thành một hệ thống mã chuẩn khép kín.
-- **Lập trình và Thực nghiệm (Implementation & Empirical Study):** Cài đặt thuật toán bằng ngôn ngữ Python với framework PyTorch (Tối ưu hóa Autograd của Tensor GPU). Đóng gói code thành thư viện theo chuẩn Clean Code (có Script CI test liên tục). 
-- **Phương pháp So sánh và Đánh giá (Evaluation Assessment):** Quan sát và ghi nhận các thông số kỹ thuật, chạy phương pháp cắt bỏ phần bổ trợ (Ablation Study) nhằm đối chiếu tác dụng của từng module lên kết quả tổng khi so với biểu đồ Ground-truth có sẵn.  
+- **Nghiên cứu tài liệu:** Phân tích các công nghệ từ NOTEARS, DAGMA đến các kiến trúc Normalizing Flows mới nhất.
+- **Xây dựng kiến trúc (Architectural Design):** Thiết kế Pipeline tích hợp từ tiền xử lý, định tuyến dòng (Flow), đến lớp ràng buộc ALM.
+- **Lập trình thực nghiệm:** Sử dụng Python, PyTorch để huấn luyện mô hình với sự tối ưu từ GPU. Đóng gói mã nguồn theo chuẩn module hóa, dễ dàng mở rộng.
+- **Đánh giá và Đối chiếu:** So sánh trực quan (Heatmaps, Causal Graphs) và định lượng (Metrics) giữa kết quả dự đoán của mô hình và Ground-truth thực tế.
 
 ## 6. Đóng góp mới của đề tài và những vấn đề chưa thực hiện được
 
 ### 6.1 Những đóng góp thiết thực
-1. **Lọc nhiễu tự động hóa với hiệu năng cao (Adaptive ATE Gate):** Xây dựng Cổng ngưỡng Neural tỷ lệ thuận 15% (Percentile) làm rơi cạnh nhân quả thay vì phải thử-sai thủ công ngưỡng siêu tham số (Hyperparameter Threshold). 
-2. Thực thi xấp xỉ bộ đánh giá Loss `FastHSIC` qua phương pháp Đặc trưng Fourier ngẫu nhiên, hạ tầng phức tạp tính toán từ $O(N^2)$ xuống chỉ còn $O(N \cdot D)$ (với N là số lượng mẫu, D là số biến).
-3. Biên tập và tích hợp thêm kỹ thuật Cắt tỉa Độc Lập Có điều kiện Phân cực một phần (Partial Correlation CI Pruning) sử dụng Cây quyết định HistGradientBoosting — Giúp nhận diện chính xác các cạnh trực tiếp, loại bỏ các đường truyền gián tiếp (Direct Path Matching).
+1. **Lớp Flow-based Discovery**: Đề xuất cách tiếp cận dùng Normalizing Flows để xử lý dữ liệu có độ lệch lớn và nhiễu phi chuẩn, giúp mô hình hóa phân phối chính xác hơn các phương pháp MSE truyền thống.
+2. **Cơ chế Ngưỡng thích nghi (Adaptive Thresholding)**: Tự động tính toán ngưỡng loại bỏ cạnh dựa trên phân phối trọng số thực tế thay vì một hằng số cứng, giúp tăng TPR và hạ SHD.
+3. **Trực quan hóa cao cấp**: Xây dựng bộ công cụ `visualize.py` hỗ trợ so sánh song song đồ thị thực tế và đồ thị dự đoán, hỗ trợ phân tích định tính hiệu quả.
 
 ### 6.2 Những vấn đề chưa thực hiện được 
-1. Mất mát khả năng khám phá nguyên nhân khi dữ liệu chịu ảnh hưởng bởi biến ngoại lai ẩn (Latent Variable / Missing data) chưa được giám sát. 
-2. Thời gian huấn luyện mạng Deep Neural SCM khá tốn kém nếu dữ liệu lớn với hơn hàng ngàn mốc (Node dimension), do mạng MLP phải rẽ nhánh độc lập cho mỗi biến một kiến trúc phân kỳ riêng biệt. 
-3. Chỉ biểu thị được tác động nhân quả qua một ma trận số nguyên thủy dạng vô hướng (ATE Jacobian Float), chưa phản ánh được cơ chế phức tạp dạng hàm truyền hàm (Transfer functions) có chu kỳ không đồng nhất.
+1. Chi phí tính toán tăng nhanh khi số lượng biến (nodes) tăng lên hàng trăm do độ phức tạp của ma trận trọng số và các vòng lặp tối ưu hóa ALM.
+2. Độ nhạy của mô hình vẫn phụ thuộc vào việc điều chỉnh các siêu tham số (Hyperparameters) như l1_reg trong từng giai đoạn huấn luyện.
 
 ## 7. Kết cấu của đề tài
 
