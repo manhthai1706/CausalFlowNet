@@ -119,7 +119,7 @@ $$ \min_W L(W) = \text{NLL}(W) + \lambda_{HSIC} L_{HSIC}(W) + \lambda_{L1} \|W\|
 
 **Điều kiện:** $\quad h(W) = \text{Tr}(e^{W \circ W}) - d = 0$
 
-Trong đó NLL là hàm mất mát âm log-likelihood từ Normalizing Flow, $L_{HSIC}$ là hạng phạt HSIC, $\|W\|_1$ là chuẩn L1 khuyến khích ma trận kề thưa (sparse), $\lambda_{HSIC}$ và $\lambda_{L1}$ là các hệ số điều chuẩn, và $h(W) = 0$ là ràng buộc acyclicity.
+Trong đó NLL là hàm mất mát âm log-likelihood từ Normalizing Flow, $L_{\text{HSIC}}$ là hạng phạt HSIC, $\|W\|_1$ là chuẩn $L1$ khuyến khích ma trận kề thưa (sparse), $\lambda_{\text{HSIC}}$ và $\lambda_{\text{L1}}$ là các hệ số điều chuẩn, và $h(W) = 0$ là ràng buộc acyclicity.
 
 ### 1.5.2. Phương pháp Augmented Lagrangian (ALM)
 
