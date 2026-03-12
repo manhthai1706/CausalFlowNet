@@ -11,8 +11,8 @@ from ultis.visualize import plot_structure_comparison # Import premium compariso
 
 # Configuration
 CONFIG = {
-    'data_path': 'datasets/sachs/cyto_full_data.csv',
-    'target_path': 'datasets/sachs/cyto_full_target.csv', 
+    'data_path': 'https://raw.githubusercontent.com/FenTechSolutions/CausalDiscoveryToolbox/master/cdt/data/resources/cyto_full_data.csv',
+    'target_path': 'https://raw.githubusercontent.com/FenTechSolutions/CausalDiscoveryToolbox/master/cdt/data/resources/cyto_full_target.csv', 
     'n_clusters': 5,
     'flow_bins': 12,
     'lda_hsic': 0.03,
@@ -34,10 +34,8 @@ def set_seed(seed=42):
     torch.backends.cudnn.benchmark = False
 
 def load_data():
-    """Load and prepare Sachs dataset."""
-    if not os.path.exists(CONFIG['data_path']):
-        raise FileNotFoundError(f"Data file {CONFIG['data_path']} not found.")
-        
+    """Load and prepare Sachs dataset from remote URLs."""
+    print(f"Loading data from: {CONFIG['data_path']}")
     df = pd.read_csv(CONFIG['data_path'])
     node_names = list(df.columns)
     data = df.values
@@ -46,12 +44,12 @@ def load_data():
     col_to_idx = {col: i for i, col in enumerate(node_names)}
     true_adj = np.zeros((len(node_names), len(node_names)))
     
-    if os.path.exists(CONFIG['target_path']):
-        target_df = pd.read_csv(CONFIG['target_path'])
-        for _, row in target_df.iterrows():
-            cause, effect = row['Cause'], row['Effect']
-            if cause in col_to_idx and effect in col_to_idx:
-                true_adj[col_to_idx[cause], col_to_idx[effect]] = 1
+    print(f"Loading target from: {CONFIG['target_path']}")
+    target_df = pd.read_csv(CONFIG['target_path'])
+    for _, row in target_df.iterrows():
+        cause, effect = row['Cause'], row['Effect']
+        if cause in col_to_idx and effect in col_to_idx:
+            true_adj[col_to_idx[cause], col_to_idx[effect]] = 1
                 
     return torch.tensor(data, dtype=torch.float32, device=device), true_adj, node_names
 
