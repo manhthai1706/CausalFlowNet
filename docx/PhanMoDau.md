@@ -57,7 +57,7 @@ CausalFlowNet khắc phục những hạn chế của các mô hình truyền th
 ### 6.1 Những đóng góp thiết thực
 1. **Lớp Khai phá dựa trên Dòng chảy (Flow-based Discovery)**: Đề xuất cách tiếp cận dùng Normalizing Flows để xử lý dữ liệu có độ lệch lớn và nhiễu phi chuẩn, giúp mô hình hóa phân phối chính xác hơn các phương pháp MSE truyền thống.
 2. **Cơ chế Ngưỡng thích nghi (Adaptive Thresholding)**: Tự động tính toán ngưỡng loại bỏ cạnh dựa trên phân phối trọng số thực tế thay vì một hằng số cứng, giúp tăng TPR và hạ SHD.
-3. **Trực quan hóa cao cấp**: Xây dựng bộ công cụ `visualize.py` hỗ trợ so sánh song song đồ thị nhân quả thực tế (Ground-truth) và đồ thị dự đoán, kết hợp hiển thị ma trận trọng số (Heatmap) để kiểm tra chéo định tính các cạnh đúng/sai (TP/FP).
+3. **Trực quan hóa cao cấp**: Xây dựng bộ công cụ trực quan hóa hỗ trợ so sánh song song đồ thị nhân quả thực tế (Ground-truth) và đồ thị dự đoán, kết hợp hiển thị ma trận trọng số (Heatmap) để kiểm tra chéo định tính các cạnh đúng/sai (TP/FP).
 
 ### 6.2 Những vấn đề chưa thực hiện được 
 1. Chi phí tính toán tăng nhanh khi số lượng biến (nodes) tăng lên hàng trăm do độ phức tạp của ma trận trọng số và các vòng lặp tối ưu hóa Augmented Lagrangian.
