@@ -34,10 +34,10 @@ Trong CausalFlowNet, hàm cấu trúc f_i được xấp xỉ bởi một mạng
 
 ### 1.2.2. Khối Residual có Cổng (Gated Residual Block)
 
-Để tăng cường khả năng biểu diễn và giúp mô hình học được các cơ chế nhân quả phức tạp, CausalFlowNet triển khai kiến trúc **Gated Residual Block**. Cơ chế hoạt động của khối này gồm ba bước:
+Để tăng cường khả năng biểu diễn và giúp mô hình học được các cơ chế nhân quả phi tuyến phức tạp — điều mà MLP đơn giản khó đạt được do vấn đề gradient vanishing và thiếu cơ chế lọc thông tin — CausalFlowNet triển khai kiến trúc **Gated Residual Block**. Cơ chế hoạt động của khối này gồm ba bước:
 
 1. **Layer Normalization:** Chuẩn hóa đầu vào để ổn định quá trình huấn luyện.
-2. **Cơ chế Cổng (Gating):** Ánh xạ đặc trưng lên không gian 2D, sau đó tách thành hai thành phần — features và gate — điều tiết lẫn nhau theo công thức: `h = σ_act(features) * σ(gate)`.
+2. **Cơ chế Cổng (Gating):** Ánh xạ đặc trưng lên không gian 2D, sau đó tách thành hai thành phần — features và gate — điều tiết lẫn nhau theo công thức **h = σ_act(features) · σ(gate)**. Cơ chế này cho phép mô hình chủ động "bật/tắt" các tín hiệu đặc trưng tùy theo ngữ cảnh dữ liệu.
 3. **Kết nối Residual:** Cộng kết quả với đầu vào gốc để tránh mất mát thông tin và giúp mô hình hội tụ nhanh hơn.
 
 Trọng số được khởi tạo theo phương pháp **Orthogonal Initialization** với hệ số gain = 1.4, giúp gradient lan truyền ổn định qua nhiều lớp.
@@ -56,13 +56,13 @@ Xác suất log của x được tính thông qua định lý đổi biến:
 
 **log p(x) = log p(z) + Σ log |det(∂f_k/∂z_k)|**
 
-Số hạng **log |det J|** (log của định thức Jacobian) đo lường sự co giãn thể tích của phép biến đổi, đảm bảo tính chuẩn tắc của phân phối.
+Số hạng **log |det J|** (log của định thức Jacobian) đo lường sự co giãn thể tích của phép biến đổi — về mặt trực quan, nếu phép biến đổi làm "nén" không gian thì log-prob tăng lên, và ngược lại. Điều này đảm bảo tổng xác suất luôn bảo toàn và phân phối học được có tính chuẩn tắc.
 
 ### 1.3.2. Neural Spline Flow với Rational-Quadratic Splines
 
 CausalFlowNet sử dụng **Neural Spline Flow** (NSF) với lớp ghép **Rational-Quadratic Splines** (RQS). Thay vì các phép biến đổi affine đơn giản, RQS chia miền đầu vào thành nhiều thùng (bins) và xấp xỉ từng đoạn bằng một hàm hữu tỷ bậc hai, cho phép biểu diễn phân phối phức tạp và đa dạng một cách linh hoạt.
 
-**Cơ chế hoạt động của SplineCouplingLayer:**
+**Cơ chế hoạt động của lớp ghép Spline:**
 - Đầu vào x được chia thành hai phần theo *binary mask*: phần tĩnh (x_static) và phần động (x_dynamic).
 - Phần tĩnh được đưa qua mạng nơ-ron để tạo ra các tham số (widths, heights, derivatives) của spline.
 - Phần động được biến đổi bằng RQS sử dụng các tham số trên, sinh ra giá trị mới và log-determinant tương ứng.
