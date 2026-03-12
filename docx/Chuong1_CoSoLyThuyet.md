@@ -145,18 +145,5 @@ Cả ba chỉ số trên đều được tính toán và báo cáo trong mọi t
 
 ## 1.7. Tiểu kết Chương 1
 
-Chương 1 đã trình bày hệ thống nền tảng lý thuyết cốt lõi làm cơ sở cho mô hình CausalFlowNet được đề xuất trong đề tài.
+Chương 1 đã trình bày các nền tảng lý thuyết cốt lõi phục vụ cho đề tài, bao gồm: khái niệm DAG và SEM làm ngôn ngữ biểu diễn quan hệ nhân quả; kiến trúc Gated Residual MLP để xấp xỉ hàm cấu trúc phi tuyến; Neural Spline Flow để ước lượng mật độ phân phối nhiễu linh hoạt; toán tử HSIC để kiểm định tính độc lập thống kê; và phương pháp Augmented Lagrangian để tối ưu hóa có ràng buộc acyclicity. Cuối cùng, bộ ba chỉ số TPR, SHD và SID cung cấp công cụ đánh giá đa chiều cho đồ thị nhân quả được phục hồi. Những lý thuyết này là nền tảng trực tiếp cho kiến trúc CausalFlowNet sẽ được trình bày trong Chương 2.
 
-Trước tiên, khái niệm **Đồ thị Có hướng Không chu trình (DAG)** và **Mô hình Phương trình Cấu trúc (SEM)** được giới thiệu như ngôn ngữ toán học để biểu diễn quan hệ nhân quả giữa các biến. Tính hợp lệ của DAG được đảm bảo thông qua hàm ràng buộc acyclicity dạng hàm mũ ma trận, cho phép đưa bài toán học cấu trúc nhân quả về dạng tối ưu hóa liên tục có ràng buộc.
-
-Tiếp theo, kiến trúc **Gated Residual MLP** được trình bày như công cụ xấp xỉ hàm cấu trúc nhân quả phi tuyến. Cơ chế cổng (gating) và kết nối residual giúp mô hình học được các quan hệ phức tạp trong khi vẫn đảm bảo ổn định số học trong quá trình huấn luyện.
-
-Để mô hình hóa phân phối của phần nhiễu một cách chính xác và linh hoạt, đề tài áp dụng **Neural Spline Flow** với lớp ghép Rational-Quadratic Splines kết hợp phân phối ưu tiên hỗn hợp Gaussian. Cách tiếp cận này khắc phục hạn chế của các mô hình giả định nhiễu Gauss đơn giản, cho phép xử lý dữ liệu có phân phối đa dạng và phức tạp.
-
-Tính độc lập thống kê giữa nhiễu và biến đầu vào — điều kiện cần để xác nhận chiều nhân quả — được kiểm định thông qua **toán tử HSIC** xấp xỉ bằng Random Fourier Features, hạ độ phức tạp tính toán từ O(N²) xuống O(N · m) và cho phép xử lý song song hiệu quả.
-
-Toàn bộ bài toán được giải quyết thông qua **Augmented Lagrangian Method**, kết hợp hàm mất mát âm log-likelihood, hạng phạt HSIC và chuẩn L1 khuyến khích đồ thị thưa, dưới ràng buộc acyclicity chặt chẽ.
-
-Cuối cùng, ba chỉ số đánh giá **TPR, SHD và SID** tạo thành bộ tiêu chí đa chiều để đo lường chất lượng đồ thị nhân quả được phục hồi, không chỉ về mặt cấu trúc mà còn về mặt can thiệp nhân quả thực tế.
-
-Những kiến thức lý thuyết này sẽ được vận dụng trực tiếp trong Chương 2, nơi kiến trúc cụ thể của mô hình CausalFlowNet và quy trình huấn luyện hai giai đoạn sẽ được trình bày chi tiết.
