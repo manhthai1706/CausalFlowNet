@@ -10,9 +10,9 @@ Một **Đồ thị Có hướng Không chu trình** (Directed Acyclic Graph –
 
 Tính chất quan trọng nhất của DAG là tính acyclicity (không chu trình). Để đảm bảo đồ thị học được từ dữ liệu là một DAG hợp lệ, CausalFlowNet sử dụng hàm ràng buộc sau:
 
-$$ h(W) = \text{Tr}(e^{W \circ W}) - d = 0 $$
+\[ h(W) = \text{Tr}(e^{W \circ W}) - d = 0 \]
 
-Trong đó $W \in \mathbb{R}^{d \times d}$ là ma trận trọng số kề kích thước $d \times d$, $W \circ W$ là phép nhân từng phần tử (Hadamard product), $d$ là số lượng biến, và $\text{Tr}(\cdot)$ là Vết của ma trận (tổng các phần tử trên đường chéo chính). Hàm $h(W) = 0$ khi và chỉ khi đồ thị biểu diễn bởi $W$ là một DAG (Zheng et al., 2018). Việc tính hàm mũ ma trận (matrix exponential) đảm bảo tất cả các đường đi có độ dài bất kỳ đều được xét đến trong việc phát hiện chu trình.
+Trong đó \( W \in \mathbb{R}^{d \times d} \) là ma trận trọng số kề kích thước \( d \times d \), \( W \circ W \) là phép nhân từng phần tử (Hadamard product), \( d \) là số lượng biến, và \( \text{Tr}(\cdot) \) là Vết của ma trận (tổng các phần tử trên đường chéo chính). Hàm \( h(W) = 0 \) khi và chỉ khi đồ thị biểu diễn bởi \( W \) là một DAG (Zheng et al., 2018). Việc tính hàm mũ ma trận (matrix exponential) đảm bảo tất cả các đường đi có độ dài bất kỳ đều được xét đến trong việc phát hiện chu trình.
 
 ### 1.1.2. Mô hình Nhân quả Cấu trúc (SCM)
 
@@ -28,11 +28,11 @@ Trong đó $W \in \mathbb{R}^{d \times d}$ là ma trận trọng số kề kích
 
 **Mô hình Phương trình Cấu trúc** (Structural Equation Model – SEM) mô tả cơ chế sinh ra dữ liệu thông qua hệ phương trình:
 
-$$ X_i = f_i(PA_i, \epsilon_i), \quad \forall i = 1, \dots, d $$
+\[ X_i = f_i(PA_i, \epsilon_i), \quad \forall i = 1, \dots, d \]
 
-Trong đó $PA_i$ là tập hợp các biến cha (parents) của $X_i$ trong DAG, $f_i$ là hàm cấu trúc nhân quả, và $\epsilon_i$ là nhiễu độc lập.
+Trong đó \( PA_i \) là tập hợp các biến cha (parents) của \( X_i \) trong DAG, \( f_i \) là hàm cấu trúc nhân quả, và \( \epsilon_i \) là nhiễu độc lập.
 
-Trong CausalFlowNet, hàm cấu trúc $f_i$ được xấp xỉ bởi một mạng Perceptron Nhiều Lớp (MLP) dùng chung cho tất cả các nút. Phần dư sau khi trừ giá trị dự báo chính là phần nhiễu $\epsilon_i$, và tính độc lập của $\epsilon_i$ với các biến đầu vào là điều kiện cần để xác nhận cấu trúc nhân quả tìm được.
+Trong CausalFlowNet, hàm cấu trúc \( f_i \) được xấp xỉ bởi một mạng Perceptron Nhiều Lớp (MLP) dùng chung cho tất cả các nút. Phần dư sau khi trừ giá trị dự báo chính là phần nhiễu \( \epsilon_i \), và tính độc lập của \( \epsilon_i \) với các biến đầu vào là điều kiện cần để xác nhận cấu trúc nhân quả tìm được.
 
 ---
 
@@ -42,9 +42,9 @@ Trong CausalFlowNet, hàm cấu trúc $f_i$ được xấp xỉ bởi một mạ
 
 **Mạng Perceptron Nhiều Lớp** (Multi-Layer Perceptron – MLP) là nền tảng của mọi mạng học sâu, bao gồm các lớp tuyến tính và hàm kích hoạt phi tuyến xếp chồng lên nhau. Mỗi lớp thực hiện phép biến đổi:
 
-$$ h^{(l)} = \sigma(W^{(l)} \cdot h^{(l-1)} + b^{(l)}) $$
+\[ h^{(l)} = \sigma(W^{(l)} \cdot h^{(l-1)} + b^{(l)}) \]
 
-Trong đó $W^{(l)}$ và $b^{(l)}$ lần lượt là ma trận trọng số và vectơ độ lệch của lớp thứ $l$, còn $\sigma$ là hàm kích hoạt phi tuyến.
+Trong đó \( W^{(l)} \) và \( b^{(l)} \) lần lượt là ma trận trọng số và vectơ độ lệch của lớp thứ \( l \), còn \( \sigma \) là hàm kích hoạt phi tuyến.
 
 ### 1.2.2. Khối Residual có Cổng (Gated Residual Block)
 
@@ -64,13 +64,13 @@ Trọng số được khởi tạo theo phương pháp **Orthogonal Initializati
 
 **Normalizing Flows** là một họ mô hình xác suất sử dụng chuỗi các phép biến đổi khả nghịch (invertible transformations) để ánh xạ biến dữ liệu gốc $x$ thành một biến trong không gian ẩn $z$ có phân phối biết trước (thường là Gauss hoặc GMM):
 
-$$ z = f_K \circ f_{K-1} \circ \dots \circ f_1(x) $$
+\[ z = f_K \circ f_{K-1} \circ \dots \circ f_1(x) \]
 
-Xác suất log của dữ liệu quan sát $x$ được tính chuẩn xác thông qua định lý đổi biến, dựa trên phân phối ưu tiên $p(z)$ và đạo hàm của phép biến đổi:
+Xác suất log của dữ liệu quan sát \( x \) được tính chuẩn xác thông qua định lý đổi biến, dựa trên phân phối ưu tiên \( p(z) \) và đạo hàm của phép biến đổi:
 
-$$ \log p(x) = \log p(z) + \sum_{k=1}^K \log \left| \det \left( \frac{\partial f_k}{\partial x_{k-1}} \right) \right| $$
+\[ \log p(x) = \log p(z) + \sum_{k=1}^K \log \left| \det \left( \frac{\partial f_k}{\partial x_{k-1}} \right) \right| \]
 
-Số hạng **$\log |\det J|$** (log của định thức ma trận Jacobian) đo lường sự thay đổi thể tích cục bộ của phép biến đổi. Về mặt trực quan, nếu phép biến đổi làm "nén" không gian thì mật độ xác suất tại đó tăng lên, và ngược lại. Điều này giúp CausalFlowNet đánh giá chính xác mật độ xác suất của từng nhiễu $\epsilon_i$ khi đưa chúng qua luồng Spline.
+Số hạng **\( \log |\det J| \)** (log của định thức ma trận Jacobian) đo lường sự thay đổi thể tích cục bộ của phép biến đổi. Về mặt trực quan, nếu phép biến đổi làm "nén" không gian thì mật độ xác suất tại đó tăng lên, và ngược lại. Điều này giúp CausalFlowNet đánh giá chính xác mật độ xác suất của từng nhiễu \( \epsilon_i \) khi đưa chúng qua luồng Spline.
 
 ### 1.3.2. Neural Spline Flow với Rational-Quadratic Splines
 
@@ -85,9 +85,9 @@ CausalFlowNet sử dụng **Neural Spline Flow** (NSF) với lớp ghép **Ratio
 
 Thay vì dùng Gauss đơn giản làm phân phối ưu tiên, CausalFlowNet sử dụng **Gaussian Mixture Model (GMM)** có thể học được. GMM là tổ hợp tuyến tính của K thành phần Gaussian:
 
-$$ p(z) = \sum_{k=1}^K \pi_k \mathcal{N}(z | \mu_k, \Sigma_k) $$
+\[ p(z) = \sum_{k=1}^K \pi_k \mathcal{N}(z | \mu_k, \Sigma_k) \]
 
-Trong đó $\pi_k, \mu_k, \Sigma_k$ là các tham số có thể học được. GMM Prior cho phép mô hình nắm bắt cấu trúc đa cụm trong không gian ẩn, đặc biệt phù hợp với dữ liệu sinh học có nhiều phân tầng (như tập Sachs).
+Trong đó \( \pi_k, \mu_k, \Sigma_k \) là các tham số có thể học được. GMM Prior cho phép mô hình nắm bắt cấu trúc đa cụm trong không gian ẩn, đặc biệt phù hợp với dữ liệu sinh học có nhiều phân tầng (như tập Sachs).
 
 ---
 
@@ -97,15 +97,15 @@ Trong đó $\pi_k, \mu_k, \Sigma_k$ là các tham số có thể học được.
 
 **Hilbert-Schmidt Independence Criterion** (HSIC) là một tiêu chuẩn đo lường sự phụ thuộc thống kê giữa hai biến ngẫu nhiên X và Y dựa trên lý thuyết không gian Hilbert tái sinh nhân (RKHS). HSIC = 0 khi và chỉ khi X và Y độc lập thống kê.
 
-Trong SEM, nhiễu $\epsilon_i$ phải độc lập với các biến cha $PA_i$. CausalFlowNet sử dụng HSIC như một hạng phạt trong hàm mất mát để thúc đẩy tính độc lập này, từ đó xác nhận tính đúng đắn của chiều nhân quả được học.
+Trong SEM, nhiễu \( \epsilon_i \) phải độc lập với các biến cha \( PA_i \). CausalFlowNet sử dụng HSIC như một hạng phạt trong hàm mất mát để thúc đẩy tính độc lập này, từ đó xác nhận tính đúng đắn của chiều nhân quả được học.
 
 ### 1.4.2. Xấp xỉ Nhanh bằng Random Fourier Features
 
 Tính toán HSIC chính xác có độ phức tạp O(N²), không khả thi với tập dữ liệu lớn. CausalFlowNet giải quyết vấn đề này bằng cơ chế tính toán HSIC song song siêu nhanh, sử dụng **Random Fourier Features** (RFF) để xấp xỉ hàm nhân Gauss:
 
-$$ k(x, y) \approx \phi(x)^\top \phi(y) $$
+\[ k(x, y) \approx \phi(x)^\top \phi(y) \]
 
-Trong đó $\phi(x) = \sqrt{\frac{2}{m}} \cos(W^\top x + b)$ là đặc trưng Fourier ngẫu nhiên với $W \sim \mathcal{N}(0, I)$ và $b \sim \text{Uniform}(0, 2\pi)$. Phép xấp xỉ này hạ độ phức tạp tính toán xuống còn **$\mathcal{O}(N \cdot m)$** (với $m$ là số lượng đặc trưng ngẫu nhiên), cho phép xử lý song song tất cả N nút nhân quả trong một phép nhân ma trận theo lô (batch matrix multiplication).
+Trong đó \( \phi(x) = \sqrt{\frac{2}{m}} \cos(W^\top x + b) \) là đặc trưng Fourier ngẫu nhiên với \( W \sim \mathcal{N}(0, I) \) và \( b \sim \text{Uniform}(0, 2\pi) \). Phép xấp xỉ này hạ độ phức tạp tính toán xuống còn **\( \mathcal{O}(N \cdot m) \)** (với \( m \) là số lượng đặc trưng ngẫu nhiên), cho phép xử lý song song tất cả N nút nhân quả trong một phép nhân ma trận theo lô (batch matrix multiplication).
 
 ---
 
@@ -115,24 +115,24 @@ Trong đó $\phi(x) = \sqrt{\frac{2}{m}} \cos(W^\top x + b)$ là đặc trưng F
 
 Bài toán học cấu trúc nhân quả trong CausalFlowNet được phát biểu dưới dạng bài toán tối ưu hóa có ràng buộc:
 
-$$ \min_{W} L(W) = \text{NLL}(W) + \lambda_{HSIC} L_{HSIC}(W) + \lambda_{L1} \|W\|_1 $$
+\[ \min_{W} L(W) = \text{NLL}(W) + \lambda_{HSIC} L_{HSIC}(W) + \lambda_{L1} \Vert W \Vert_1 \]
 
-**Điều kiện:** $\quad h(W) = \text{Tr}(e^{W \circ W}) - d = 0$
+**Điều kiện:** \( h(W) = \text{Tr}(e^{W \circ W}) - d = 0 \)
 
-Trong đó NLL là hàm mất mát âm log-likelihood từ Normalizing Flow, $L_{HSIC}$ là hạng phạt HSIC, $\|W\|_1$ là chuẩn $L_1$ khuyến khích ma trận kề thưa (sparse), $\lambda_{HSIC}$ và $\lambda_{L1}$ là các hệ số điều chuẩn (hyperparameters), và $h(W) = 0$ là ràng buộc acyclicity.
+Trong đó NLL là hàm mất mát âm log-likelihood từ Normalizing Flow, \( L_{HSIC} \) là hạng phạt HSIC, \( \Vert W \Vert_1 \) là chuẩn \( L_1 \) khuyến khích ma trận kề thưa (sparse), \( \lambda_{HSIC} \) và \( \lambda_{L1} \) là các hệ số điều chuẩn (hyperparameters), và \( h(W) = 0 \) là ràng buộc acyclicity.
 
 ### 1.5.2. Phương pháp Augmented Lagrangian (ALM)
 
 **Augmented Lagrangian Method** chuyển bài toán có ràng buộc sang bài toán không ràng buộc bằng cách đưa ràng buộc vào hàm mục tiêu:
 
-$$ L_{\text{aug}}(W, \alpha, \rho) = L(W) + \alpha h(W) + \frac{\rho}{2} h(W)^2 $$
+\[ L_{\text{aug}}(W, \alpha, \rho) = L(W) + \alpha h(W) + \frac{\rho}{2} h(W)^2 \]
 
-Trong đó $\alpha$ là nhân tử Lagrange và $\rho$ là tham số phạt. Sau mỗi vòng lặp ngoài, các tham số được cập nhật theo quy tắc:
+Trong đó \( \alpha \) là nhân tử Lagrange và \( \rho \) là tham số phạt. Sau mỗi vòng lặp ngoài, các tham số được cập nhật theo quy tắc:
 
-- $\alpha \leftarrow \alpha + \rho h(W)$
-- $\rho \leftarrow \min(\gamma \rho, \rho_{\text{max}})$
+- \( \alpha \leftarrow \alpha + \rho h(W) \)
+- \( \rho \leftarrow \min(\gamma \rho, \rho_{\text{max}}) \)
 
-Với $\gamma$ là hệ số tăng trưởng và $\rho_{\text{max}}$ là giá trị phạt tối đa (được giới hạn để đảm bảo ổn định số học). Phương pháp này đảm bảo mô hình hội tụ về một DAG hợp lệ.
+Với \( \gamma \) là hệ số tăng trưởng và \( \rho_{\text{max}} \) là giá trị phạt tối đa (được giới hạn để đảm bảo ổn định số học). Phương pháp này đảm bảo mô hình hội tụ về một DAG hợp lệ.
 
 ---
 
