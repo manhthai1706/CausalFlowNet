@@ -61,7 +61,7 @@ CausalFlowNet khắc phục những hạn chế của các mô hình truyền th
 
 ### 6.2 Những vấn đề chưa thực hiện được 
 1. Chi phí tính toán tăng nhanh khi số lượng biến (nodes) tăng lên hàng trăm do độ phức tạp của ma trận trọng số và các vòng lặp tối ưu hóa Augmented Lagrangian.
-2. Độ nhạy của mô hình vẫn phụ thuộc vào việc điều chỉnh các siêu tham số (Hyperparameters) như `l1_reg` trong từng giai đoạn huấn luyện, đòi hỏi kinh nghiệm tinh chỉnh thực tế.
+2. Độ nhạy của mô hình vẫn phụ thuộc vào việc điều chỉnh các siêu tham số (Hyperparameters) như tham số điều chuẩn L1 (l1_reg) trong từng giai đoạn huấn luyện, đòi hỏi kinh nghiệm tinh chỉnh thực tế.
 3. Mô hình chưa xử lý được trường hợp dữ liệu chứa các biến ngoại lai ẩn không quan sát được (Latent Confounders), dẫn đến khả năng nhầm lẫn cạnh giả khi có yếu tố gây nhiễu chung.
 
 ## 7. Kết cấu của đề tài
