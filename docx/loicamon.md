@@ -2,7 +2,7 @@ LỜI CẢM ƠN
 
 Lời đầu tiên, chúng em xin gửi lời chào trân trọng và lời chúc sức khỏe đến quý Thầy Cô cùng toàn thể quý độc giả. Trong quá trình học tập tại trường Đại học Lạc Hồng, chúng em đã thực hiện dự án tốt nghiệp thuộc lĩnh vực Trí tuệ nhân tạo với đề tài: **"Nghiên cứu và Xây dựng kiến trúc mô hình để khám phá cấu trúc nhân quả phi tuyến tính từ dữ liệu"**. Đây là kết quả của sự nỗ lực nghiên cứu, tích lũy kiến thức và trải nghiệm thực tiễn của chúng em trong suốt thời gian qua.
 
-Mục tiêu cốt lõi của đề tài là thiết kế và triển khai mô hình **CausalFlowNet** — một hệ thống học sâu tiên tiến nhằm tự động trích xuất các đồ thị có hướng không chu trình (DAG) từ dữ liệu quan sát. CausalFlowNet hướng tới việc giải quyết các mối quan hệ phi tuyến tính phức tạp và nhiễu không định dạng bằng cách kết hợp sức mạnh của **các mô hình xác suất dựa trên dòng chảy chuẩn hóa (Normalizing Flows)** và các ràng buộc toán học khắt khe về tính nhân quả.
+Mục tiêu cốt lõi của đề tài là thiết kế và triển khai mô hình **CausalFlowNet** — một mô hình học sâu tiên tiến nhằm tự động trích xuất các đồ thị có hướng không chu trình (DAG) từ dữ liệu quan sát. CausalFlowNet hướng tới việc giải quyết các mối quan hệ phi tuyến tính phức tạp và nhiễu không định dạng bằng cách kết hợp sức mạnh của **các mô hình xác suất dựa trên dòng chảy chuẩn hóa (Normalizing Flows)** và các ràng buộc toán học khắt khe về tính nhân quả.
 
 Đồ án được hoàn thiện dựa trên các trụ cột công nghệ cốt lõi:
 - **Neural Spline Flows & GMM Prior:** Sử dụng dòng chảy chuẩn hóa với các hàm bậc hai hữu tỷ và phân phối ưu tiên hỗn hợp Gaussian để ước lượng mật độ nhiễu một cách linh hoạt và chính xác.
