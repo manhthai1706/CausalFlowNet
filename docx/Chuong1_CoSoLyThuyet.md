@@ -115,7 +115,7 @@ Trong đó $\phi(x) = \sqrt{\frac{2}{m}} \cos(W^\top x + b)$ là đặc trưng F
 
 Bài toán học cấu trúc nhân quả trong CausalFlowNet được phát biểu dưới dạng bài toán tối ưu hóa có ràng buộc:
 
-$$ \min_W L(W) = \text{NLL}(W) + \lambda_{HSIC} L_{HSIC}(W) + \lambda_{L1} \|W\|_1 $$
+$$ \min_W L(W) = \text{NLL}(W) + \lambda_{\text{HSIC}} L_{\text{HSIC}}(W) + \lambda_{\text{L1}} \|W\|_1 $$
 
 **Điều kiện:** $\quad h(W) = \text{Tr}(e^{W \circ W}) - d = 0$
 
