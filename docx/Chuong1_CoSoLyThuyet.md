@@ -6,7 +6,7 @@ Chương này trình bày các nền tảng lý thuyết cần thiết để xâ
 
 ### 1.1.1. Đồ thị Có hướng Không chu trình (DAG)
 
-Một **Đồ thị Có hướng Không chu trình** (Directed Acyclic Graph – DAG) là một cấu trúc toán học G = (V, E), trong đó V là tập hợp các nút (biến ngẫu nhiên) và E là tập hợp các cạnh có hướng, với điều kiện không tồn tại bất kỳ chu trình có hướng nào trong đồ thị. Trong bối cảnh khám phá nhân quả, mỗi cạnh có hướng i → j trong DAG biểu thị rằng biến X_i là nguyên nhân trực tiếp của biến X_j.
+Một **Đồ thị Có hướng Không chu trình** (Directed Acyclic Graph – DAG) là một cấu trúc toán học G = (V, E), trong đó V là tập hợp các nút (biến ngẫu nhiên) và E là tập hợp các cạnh có hướng, với điều kiện không tồn tại bất kỳ chu trình có hướng nào trong đồ thị. Trong bối cảnh khám phá nhân quả, mỗi cạnh có hướng $X_i \rightarrow X_j$ trong DAG biểu thị rằng biến $X_i$ là nguyên nhân trực tiếp của biến $X_j$ trong phạm vi các biến quan sát được (tức là không có biến trung gian nào khác nằm trong mô hình đóng vai trò trung chuyển tác động từ $X_i$ sang $X_j$).
 
 Tính chất quan trọng nhất của DAG là tính acyclicity (không chu trình). Để đảm bảo đồ thị học được từ dữ liệu là một DAG hợp lệ, CausalFlowNet sử dụng hàm ràng buộc sau:
 
