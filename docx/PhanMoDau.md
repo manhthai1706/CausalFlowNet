@@ -55,7 +55,7 @@ CausalFlowNet khắc phục những hạn chế của các mô hình truyền th
 ## 6. Đóng góp mới của đề tài và những vấn đề chưa thực hiện được
 
 ### 6.1 Những đóng góp thiết thực
-1. **Lớp Flow-based Discovery**: Đề xuất cách tiếp cận dùng Normalizing Flows để xử lý dữ liệu có độ lệch lớn và nhiễu phi chuẩn, giúp mô hình hóa phân phối chính xác hơn các phương pháp MSE truyền thống.
+1. **Lớp Khai phá dựa trên Dòng chảy (Flow-based Discovery)**: Đề xuất cách tiếp cận dùng Normalizing Flows để xử lý dữ liệu có độ lệch lớn và nhiễu phi chuẩn, giúp mô hình hóa phân phối chính xác hơn các phương pháp MSE truyền thống.
 2. **Cơ chế Ngưỡng thích nghi (Adaptive Thresholding)**: Tự động tính toán ngưỡng loại bỏ cạnh dựa trên phân phối trọng số thực tế thay vì một hằng số cứng, giúp tăng TPR và hạ SHD.
 3. **Trực quan hóa cao cấp**: Xây dựng bộ công cụ `visualize.py` hỗ trợ so sánh song song đồ thị nhân quả thực tế (Ground-truth) và đồ thị dự đoán, kết hợp hiển thị ma trận trọng số (Heatmap) để kiểm tra chéo định tính các cạnh đúng/sai (TP/FP).
 
@@ -66,7 +66,7 @@ CausalFlowNet khắc phục những hạn chế của các mô hình truyền th
 
 ## 7. Kết cấu của đề tài
 
-Với nội dung và mục tiêu trên, báo cáo được tổ chức thành 5 chương chính:
+Với nội dung và mục tiêu trên, báo cáo được tổ chức thành Phần Mở Đầu và 4 chương chính:
 - **Phần mở đầu:** Lý do chọn đề tài, mục tiêu, đối tượng, phương pháp và khung tóm tắt đề tài. 
 - **Chương 1 – Cơ sở lý thuyết:** Trình bày nền tảng cốt lõi về đồ thị nhân quả DAG, mô hình phương trình cấu trúc (SEM), lý thuyết về Normalizing Flows và hàm phạt tối ưu phi chu trình liên tục. 
 - **Chương 2 – Mô hình CausalFlowNet:** Trình bày chi tiết về kiến trúc hệ thống, Pipeline xử lý, kiến trúc MLP-Attention, cơ chế Gumbel-Softmax và quy trình tối ưu hóa hai giai đoạn. 
