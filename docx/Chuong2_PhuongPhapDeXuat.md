@@ -518,7 +518,7 @@ Toàn bộ quy trình huấn luyện CausalFlowNet được tóm tắt trong thu
 5. $\quad\quad$ Tính $X_{\text{masked}} = X_B \circ W^T$ (lọc biến cha)
 6. $\quad\quad$ $\hat{X} = \text{GatedResMLP}(X_{\text{masked}})$ (dự báo)
 7. $\quad\quad$ $\epsilon = X_B - \hat{X}$ (tính phần dư)
-8. $\quad\quad$ $\text{NLL} = -\text{mean}(\text{NSF.log\_prob}(\epsilon))$
+8. $\quad\quad$ $\text{NLL} = -\text{mean}(\log p_{\text{NSF}}(\epsilon))$
 9. $\quad\quad$ $L_{\text{HSIC}} = \lambda \cdot \text{mean}(\log(\text{HSIC}(X_{\text{masked}}, \epsilon)))$
 10. $\quad\quad$ $L_{\text{L1}} = \lambda_{\text{L1}} \|W_{\text{clean}}\|_1 / d$
 11. $\quad\quad$ $h = \text{Tr}(e^{W \circ W}) - d$
