@@ -1,5 +1,7 @@
 # CHƯƠNG 1: CƠ SỞ LÝ THUYẾT
 
+Chương này trình bày các nền tảng lý thuyết cần thiết để xây dựng và hiểu rõ mô hình CausalFlowNet. Nội dung bao quát từ lý thuyết đồ thị nhân quả và mô hình phương trình cấu trúc, các kỹ thuật học sâu hiện đại như Gated Residual MLP và Normalizing Flows, cho đến phương pháp kiểm định độc lập thống kê bằng HSIC và tối ưu hóa có ràng buộc bằng Augmented Lagrangian. Phần cuối chương giới thiệu các chỉ số định lượng được dùng để đánh giá chất lượng đồ thị nhân quả học được.
+
 ## 1.1. Đồ thị Nhân quả và Mô hình Phương trình Cấu trúc
 
 ### 1.1.1. Đồ thị Có hướng Không chu trình (DAG)
