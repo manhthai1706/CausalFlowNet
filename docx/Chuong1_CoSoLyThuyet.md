@@ -60,15 +60,15 @@ Trọng số được khởi tạo theo phương pháp **Orthogonal Initializati
 
 ### 1.3.1. Khái niệm Normalizing Flows
 
-**Normalizing Flows** là một họ mô hình xác suất sử dụng chuỗi các phép biến đổi khả nghịch (invertible transformations) để ánh xạ một phân phối đơn giản z (thường là Gauss) sang phân phối dữ liệu phức tạp x:
+**Normalizing Flows** là một họ mô hình xác suất sử dụng chuỗi các phép biến đổi khả nghịch (invertible transformations) để ánh xạ biến dữ liệu gốc $x$ thành một biến trong không gian ẩn $z$ có phân phối biết trước (thường là Gauss hoặc GMM):
 
-$$ x = f_K \circ f_{K-1} \circ \dots \circ f_1(z) $$
+$$ z = f_K \circ f_{K-1} \circ \dots \circ f_1(x) $$
 
-Xác suất log của x được tính thông qua định lý đổi biến:
+Xác suất log của dữ liệu quan sát $x$ được tính chuẩn xác thông qua định lý đổi biến, dựa trên phân phối ưu tiên $p(z)$ và đạo hàm của phép biến đổi:
 
-$$ \log p(x) = \log p(z) + \sum_{k=1}^K \log \left| \det \left( \frac{\partial f_k}{\partial z_{k-1}} \right) \right| $$
+$$ \log p(x) = \log p(z) + \sum_{k=1}^K \log \left| \det \left( \frac{\partial f_k}{\partial x_{k-1}} \right) \right| $$
 
-Số hạng **log |det J|** (log của định thức Jacobian) đo lường sự co giãn thể tích của phép biến đổi — về mặt trực quan, nếu phép biến đổi làm "nén" không gian thì log-prob tăng lên, và ngược lại. Điều này đảm bảo tổng xác suất luôn bảo toàn và phân phối học được có tính chuẩn tắc.
+Số hạng **$\log |\det J|$** (log của định thức ma trận Jacobian) đo lường sự thay đổi thể tích cục bộ của phép biến đổi. Về mặt trực quan, nếu phép biến đổi làm "nén" không gian thì mật độ xác suất tại đó tăng lên, và ngược lại. Điều này giúp CausalFlowNet đánh giá chính xác mật độ xác suất của từng nhiễu $\epsilon_i$ khi đưa chúng qua luồng Spline.
 
 ### 1.3.2. Neural Spline Flow với Rational-Quadratic Splines
 
