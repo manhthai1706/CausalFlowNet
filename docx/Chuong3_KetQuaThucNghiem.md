@@ -137,7 +137,7 @@ Các chỉ số được tham chiếu từ các công bố chính thức trên c
 
 ---
 
-## 3.5. Thảo luận và Đánh giá Chung
+## 3.5. Nhận định và Đánh giá
 
 ### 3.5.1. Các đóng góp và ưu điểm
 1.  **Tính ổn định cấu trúc:** Qua cả hai tập dữ liệu, mô hình duy trì được tỷ lệ dương tính giả (FPR) ở mức thấp, một yếu tố quan trọng trong tin sinh học để hạn chế các sai số hệ thống khi xây dựng giả thuyết nhân quả.
@@ -152,4 +152,4 @@ Các chỉ số được tham chiếu từ các công bố chính thức trên c
 
 ## 3.6. Tiểu kết Chương 3
 
-Thực nghiệm và so sánh đối chứng đã khẳng định CausalFlowNet là một công cụ khám phá nhân quả mạnh mẽ, có khả năng cạnh tranh trực tiếp và vượt trội hơn nhiều phương pháp hiện hữu trong các chỉ số cốt lõi như SID và SHD. Kết quả này là minh chứng vững chắc cho hiệu quả của việc kết hợp Normalizing Flows và tiêu chuẩn độc lập HSIC trong bài toán khám phá cấu trúc từ dữ liệu quan sát.
+Thực nghiệm và so sánh đối chứng đã cho thấy CausalFlowNet là một công cụ khám phá nhân quả có tiềm năng, thể hiện tính cạnh tranh cao và ưu thế ở các chỉ số cốt lõi như SID và SHD so với nhiều phương pháp hiện hữu. Kết quả này là minh chứng có giá trị cho hiệu quả của việc kết hợp Normalizing Flows và tiêu chuẩn độc lập HSIC trong bài toán khám phá cấu trúc từ dữ liệu quan sát.
