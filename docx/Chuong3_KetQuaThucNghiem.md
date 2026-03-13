@@ -49,15 +49,16 @@ Sau quá trình huấn luyện với chiến lược hai giai đoạn (Aggressiv
 ![So sánh đồ thị nhân quả Sachs](images/sachs_graph_comparison.png)
 *Hình 3.2: Trực quan hóa đồ thị nhân quả thực tế (Trái) và đồ thị phục hồi (Phải) trên tập Sachs*
 
-**Nhận xét:** Mô hình duy trì mức FPR cực thấp (0.06), cho thấy khả năng lọc nhiễu và tránh các kết nối giả định cực kỳ tốt. Mặc dù TPR đạt 0.44 (tìm được gần một nửa số cạnh chuẩn), nhưng các cạnh quan trọng nhất trong con đường truyền tin MAPK đã được phục hồi chính xác.
+**Nhận xét:** Mô hình duy trì mức FPR cực thấp (0.06). Tổng cộng, mô hình dự đoán được **14 cạnh**, trong đó có **8 cạnh chính xác (True Positives `[V]`)** và 6 cạnh sai hoặc bị nhận diện ngược hướng `[X]`. Mặc dù TPR đạt 0.44 (tìm được gần một nửa số cạnh chuẩn là 18 cạnh), các kết nối quan trọng nhất để kích hoạt tế bào đã được định vị thành công.
 
 ### 3.2.2. Phân tích các Cạnh Nhân quả Điển hình
 
-Mô hình đã phát hiện chính xác nhiều tương tác sinh học quan trọng, tiêu biểu là:
+Dựa trên kết quả xuất ra (log), mô hình đã phát hiện chính xác nhiều tương tác sinh học quan trọng `[V]`, tiêu biểu là:
 
--   **praf $\rightarrow$ pmek:** Trọng số $w = +0.239$, hệ số ATE đạt **+1.176**. Đây là kết nối cốt lõi trong chuỗi truyền tín hiệu tế bào, và giá trị ATE dương lớn phản ánh đúng tác động kích hoạt sinh học của Raf lên Mek.
+-   **praf $\rightarrow$ pmek:** Trọng số $w = +0.239$, hệ số ATE đạt **+1.176**. Đây là kết nối cốt lõi trong chuỗi truyền tín hiệu tế bào. ATE dương lớn phản ánh đúng tác động kích hoạt sinh học mạnh mẽ của Raf lên Mek.
 -   **plcg $\rightarrow$ PIP2:** Trọng số $w = -0.334$, ATE = **+0.964**.
 -   **PIP2 $\rightarrow$ PIP3:** Trọng số $w = +0.143$, ATE = **+0.734**.
+-   **PKC $\rightarrow$ P38:** Trọng số $w = +0.324$, ATE = **+0.714**.
 
 Mô hình cũng gặp thách thức ở một số cạnh đảo ngược (ví dụ: phát hiện nhầm hướng giữa PMEK và PRAF), điều này thường xảy ra do sự tương đương quan sát trong thống kê khi dữ liệu không có đủ nhiễu đặc trưng để phân biệt chiều qua Likelihood.
 
@@ -86,9 +87,16 @@ Trên tập dữ liệu mô phỏng SynTReN với quy mô lớn hơn (20 nút), 
 ![So sánh đồ thị nhân quả SynTReN](images/syntren_graph_comparison.png)
 *Hình 3.4: Kết quả phục hồi cấu trúc đồ thị nhân quả trên tập SynTReN*
 
+**Cấu trúc Mạng và Cơ chế Sinh học Mô phỏng Phục hồi được:**
+CausalFlowNet đã dò tìm ra một lượng lớn các tương tác cốt lõi trong đồ thị. Các mối quan hệ nhân quả nổi bật (đúng chuẩn `[V]`) với hệ số ATE phản ứng mô phỏng thực tế động học có thể kể đến:
+-   **Gene_9 $\rightarrow$ Gene_17:** ($w = +0.091$, ATE = **+0.322**)
+-   **Gene_10 $\rightarrow$ Gene_11:** ($w = +0.119$, ATE = **+0.381**)
+-   **Gene_14 $\rightarrow$ Gene_16:** ($w = -0.135$, ATE = **+0.522**)
+-   **Gene_18 $\rightarrow$ Gene_19:** ($w = +0.117$, ATE = **+0.555**)
+
 **Phân tích sâu:**
-- Với SynTReN, TPR tăng lên đáng kể (0.63) so với Sachs. Điều này cho thấy kiến trúc Gated-ResMLP rất mạnh trong việc học các hàm động học (Michaelis-Menten) vốn có cấu trúc toán học tường minh hơn dữ liệu sinh học thực tế.
-- Khả năng lọc cạnh giả (FPR = 0.08) vẫn được giữ vững ngay cả khi số lượng biến tăng lên, khẳng định vai trò của ràng buộc Augmented Lagrangian và hình phạt L1 trong việc duy trì tính thưa của đồ thị.
+- Mức độ nhạy bén thu hồi cấu trúc (TPR) tăng lên rất đáng kể **(0.63)** so với tập Sachs. Cấu trúc hàm cơ chế Gated-ResMLP đặc trách của hệ thống thể hiện sự ưu việt rõ ràng trong việc "học ngược" (reverse-engineering) các hàm động học tuyến tính giả lập như Michaelis-Menten hay Hill function (đặc trưng của SynTReN).
+- Khả năng lọc cạnh giả (FPR = 0.08) vẫn được giữ vững ở mức thấp ngay cả khi số lượng biến và độ phức tạp không gian lưới tăng mạnh. Mặc dù vậy, hệ số sai lệch SHD = 25 cho thấy vẫn còn tồn dư cục bộ các hiện tượng đoán ngược chiều (như `Gene_8 -> Gene_7 [X]` hoặc `Gene_19 -> Gene_18 [X]`). Điều này khẳng định vai trò sống còn của tập tham số L1 / HSIC trong việc triệt tiêu dần các lầm tưởng tương quan thống kê thành nhân quả.
 
 ---
 
