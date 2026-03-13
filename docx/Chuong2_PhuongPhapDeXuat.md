@@ -350,7 +350,7 @@ Bảng trên cho thấy phương pháp song song giảm thời gian tính toán 
 
 ## 2.5. Khối Tối ưu hóa — Augmented Lagrangian
 
-### 2.5.1. Phát biểu Bài toán Tối ưu
+### 2.5.1. Xây dựng Hàm Mục tiêu Tối ưu hóa
 
 Toàn bộ quá trình huấn luyện CausalFlowNet được định hình dưới góc nhìn của một hệ thống giải pháp tổng hòa cho bài toán tối ưu hóa có ràng buộc, bao gồm những thành phần sau trong hàm mục tiêu đánh giá:
 - **Chỉ số NLL (Âm log-likelihood):** Đánh giá chất lượng của luồng Neural Spline Flow trong việc mô phỏng mô hình hóa phân phối của nhiễu.
