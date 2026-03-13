@@ -30,9 +30,13 @@ Trong đó $W \in \mathbb{R}^{d \times d}$ là ma trận trọng số kề kích
 
 $$ X_i = f_i(PA_i, \epsilon_i), \quad \forall i = 1, \dots, d $$
 
-Trong đó $PA_i$ là tập hợp các biến cha (parents) của $X_i$ trong DAG, $f_i$ là hàm cấu trúc nhân quả, và $\epsilon_i$ là nhiễu độc lập.
+Trong đó $PA_i$ là tập hợp các biến cha (parents) của $X_i$ trong DAG, $f_i$ là hàm cơ chế nhân quả ngầm, và $\epsilon_i$ là các biến nhiễu ngoại cảnh độc lập tác động vào hệ thống.
 
-Trong CausalFlowNet, hàm cấu trúc $f_i$ được xấp xỉ bởi một mạng Perceptron Nhiều Lớp (MLP) dùng chung cho tất cả các nút. Phần dư sau khi trừ giá trị dự báo chính là phần nhiễu $\epsilon_i$, và tính độc lập của $\epsilon_i$ với các biến đầu vào là điều kiện cần để xác nhận cấu trúc nhân quả tìm được.
+Tuy nhiên để giải quyết triệt để tính bất khả định danh (unidentifiability) khi học cấu trúc phi tuyến, nghiên cứu này cụ thể hóa hệ thống SEM tổng quát thành khung **Mô hình Nhiễu Cộng (Additive Noise Models - ANM)**. Lúc này, phương trình cấu trúc sinh học bị chi phối cưỡng bức và tách rời khỏi nhiễu dưới dạng thành phần cộng định lượng:
+
+$$ X_i = f_i(PA_i) + \epsilon_i $$
+
+Với giả định cấu trúc ANM, trong CausalFlowNet, đại lượng đặc trưng $f_i(PA_i)$ sẽ được xấp xỉ học sâu bằng mô hình mạng Perceptron Nhiều Lớp (MLP) dùng chung biến điệu, và giá trị sai biệt sau dự báo chính là phần bù dư $\epsilon_i = X_i - f_i(PA_i)$. Khi đó tính độc lập giữa $\epsilon_i$ và các biến đầu vào $PA_i$ chính là chìa khóa chứng minh chiều nhân quả có cơ sở quy chiếu chính xác.
 
 ---
 
