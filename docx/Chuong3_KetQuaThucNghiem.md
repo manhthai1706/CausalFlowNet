@@ -47,8 +47,8 @@ Sau quá trình huấn luyện với chiến lược hai giai đoạn (Aggressiv
 | **SID** | **37** |
 | Số cạnh phát hiện | 14 / 18 |
 
-![Ma trận kề Sachs](images/sachs_adjacency_comparison.png)
-*Hình 3.1: Ma trận kề nhân quả ước tính trên tập dữ liệu Sachs*
+![So sánh ma trận kề Sachs](images/sachs_adjacency_comparison.png)
+*Hình 3.1: So sánh ma trận kề dự báo và ma trận kề chuẩn trên tập Sachs*
 
 ![Đồ thị nhân quả Sachs có ATE và Metrics](images/sachs_graph_comparison.png)
 *Hình 3.2: Đồ thị nhân quả khám phá được trên tập Sachs (Tích hợp chỉ số Metrics và giá trị ATE trên từng cạnh)*
@@ -87,8 +87,8 @@ Trên tập dữ liệu mô phỏng SynTReN với quy mô lớn hơn (20 nút), 
 | **SHD-c**| **35** |
 | **SID** | **166** |
 
-![Ma trận kề SynTReN](images/syntren_adjacency_comparison.png)
-*Hình 3.3: Ma trận kề nhân quả ước tính trên tập dữ liệu SynTReN (20 biến)*
+![So sánh ma trận kề SynTReN](images/syntren_adjacency_comparison.png)
+*Hình 3.3: So sánh ma trận kề trên tập dữ liệu mô phỏng SynTReN (20 biến)*
 
 ![Đồ thị nhân quả SynTReN có ATE và Metrics](images/syntren_graph_comparison.png)
 *Hình 3.4: Kết quả phục hồi cấu trúc đồ thị nhân quả trên tập SynTReN (Tích hợp chỉ số Metrics và giá trị ATE)*

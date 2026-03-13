@@ -135,15 +135,21 @@ def visualize_comparison(true_adj, est_adj, node_names, adj_weights, ate_matrix,
     Generate professional visualizations for SynTReN.
     Tạo hình ảnh chuyên nghiệp cho SynTReN.
     """
-    # 1. Adjacency Matrix Visualization / Trực quan hóa ma trận kề
-    plt.figure(figsize=(8, 7))
+    # 1. Adjacency Matrix Comparison (Heatmaps) / So sánh ma trận kề
+    plt.figure(figsize=(16, 7))
+    plt.subplot(1, 2, 1)
+    sns.heatmap(true_adj, annot=False, cbar=False, cmap="Blues", 
+                xticklabels=False, yticklabels=False)
+    plt.title("SynTReN Ground Truth Matrix")
+    
+    plt.subplot(1, 2, 2)
     sns.heatmap(est_adj, annot=False, cbar=False, cmap="Reds", 
                 xticklabels=False, yticklabels=False)
     plt.title("SynTReN Estimated Matrix")
     
     plt.tight_layout()
     plt.savefig("syntren_adjacency_comparison.png")
-    print(f"\n[Artifact] Estimated adjacency matrix saved to syntren_adjacency_comparison.png")
+    print(f"\n[Artifact] Adjacency comparison saved to syntren_adjacency_comparison.png")
     plt.close()
 
     # 2. Premium Causal Graph with ATE Labels

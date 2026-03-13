@@ -111,15 +111,21 @@ def visualize_comparison(true_adj, est_adj, node_names, adj_weights, ate_matrix,
     Generate professional visualizations using the unified visualize.py suite.
     Tạo hình ảnh chuyên nghiệp bằng bộ công cụ visualize.py thống nhất.
     """
-    # 1. Adjacency Matrix Visualization / Trực quan hóa ma trận kề
-    plt.figure(figsize=(8, 7))
+    # 1. Adjacency Matrix Comparison (Heatmaps) / So sánh ma trận kề (Bản đồ nhiệt)
+    plt.figure(figsize=(16, 7))
+    plt.subplot(1, 2, 1)
+    sns.heatmap(true_adj, annot=True, cbar=False, cmap="Blues", 
+                xticklabels=node_names, yticklabels=node_names)
+    plt.title("Ground Truth Adjacency Matrix\n(Ma trận kề thực tế)")
+    
+    plt.subplot(1, 2, 2)
     sns.heatmap(est_adj, annot=True, cbar=False, cmap="Reds", 
                 xticklabels=node_names, yticklabels=node_names)
     plt.title("Estimated Adjacency Matrix\n(Ma trận kề ước tính)")
     
     plt.tight_layout()
     plt.savefig("sachs_adjacency_comparison.png")
-    print(f"\n[Artifact] Estimated adjacency matrix saved to sachs_adjacency_comparison.png")
+    print(f"\n[Artifact] Adjacency comparison saved to sachs_adjacency_comparison.png")
     plt.close()
 
     # 2. Premium Causal Graph with ATE Labels and Metrics
