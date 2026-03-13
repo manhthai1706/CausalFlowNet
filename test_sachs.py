@@ -7,7 +7,7 @@ import seaborn as sns
 import networkx as nx
 from CausalFlowNet import CausalFlowNet
 from ultis.Evaluation import compute_metrics
-from ultis.visualize import plot_structure_comparison # Import premium comparison visualizer
+from ultis.visualize import plot_dag # Import premium visualizer / Nhập bộ vẽ hình cao cấp
 
 # Configuration
 CONFIG = {
@@ -94,46 +94,48 @@ def run_experiment():
     est_adj = (abs_weights > threshold).astype(int)
     metrics = compute_metrics(true_adj, est_adj)
     
-    display_results(model, X.cpu().numpy(), metrics, true_adj, est_adj, adj_weights, node_names)
+    # 6. Compute ATE Matrix for visualization / Tính toán ma trận ATE để trực quan hóa
+    ate_matrix = np.zeros((n_vars, n_vars))
+    for i in range(n_vars):
+        for j in range(n_vars):
+            if est_adj[i, j] == 1:
+                ate_matrix[i, j] = model.estimate_ate(X.cpu().numpy(), i, j)
     
-    # 6. Visual Comparison / So sánh bằng hình ảnh
-    visualize_comparison(true_adj, est_adj, node_names, adj_weights)
+    # 7. Visual Comparison / So sánh bằng hình ảnh
+    visualize_comparison(true_adj, est_adj, node_names, adj_weights, ate_matrix, metrics)
 
-def visualize_comparison(true_adj, est_adj, node_names, adj_weights):
+def visualize_comparison(true_adj, est_adj, node_names, adj_weights, ate_matrix, metrics):
     """
     Generate professional visualizations using the unified visualize.py suite.
     Tạo hình ảnh chuyên nghiệp bằng bộ công cụ visualize.py thống nhất.
     """
-    # 1. Adjacency Matrix Comparison (Heatmaps) / So sánh ma trận kề (Bản đồ nhiệt)
-    plt.figure(figsize=(16, 7))
-    plt.subplot(1, 2, 1)
-    sns.heatmap(true_adj, annot=True, cbar=False, cmap="Blues", 
-                xticklabels=node_names, yticklabels=node_names)
-    plt.title("Ground Truth Adjacency Matrix\n(Ma trận kề thực tế)")
-    
-    plt.subplot(1, 2, 2)
+    # 1. Adjacency Matrix Visualization / Trực quan hóa ma trận kề
+    plt.figure(figsize=(8, 7))
     sns.heatmap(est_adj, annot=True, cbar=False, cmap="Reds", 
                 xticklabels=node_names, yticklabels=node_names)
     plt.title("Estimated Adjacency Matrix\n(Ma trận kề ước tính)")
     
     plt.tight_layout()
     plt.savefig("sachs_adjacency_comparison.png")
-    print(f"\n[Artifact] Adjacency comparison saved to sachs_adjacency_comparison.png")
+    print(f"\n[Artifact] Estimated adjacency matrix saved to sachs_adjacency_comparison.png")
     plt.close()
 
-    # 2. Premium Causal Graph Comparison / So sánh đồ thị nhân quả cao cấp
-    # Using plot_structure_comparison to show GT and Discovery side-by-side
-    # Sử dụng plot_structure_comparison để hiển thị GT và Kết quả song song
-    plot_structure_comparison(
+    # 2. Premium Causal Graph with ATE Labels and Metrics
+    # We no longer use plot_structure_comparison to focus only on Discovered Graph
+    # Chúng ta không dùng plot_structure_comparison nữa để tập trung vào Đồ thị khám phá được
+    plot_dag(
         W_matrix=adj_weights, 
-        GT_matrix=true_adj, 
         labels=node_names, 
-        title="Sachs Dataset: Causal Discovery Analysis",
+        GT_matrix=true_adj, 
+        ate_matrix=ate_matrix,
+        metrics=metrics,
+        title="Sachs Dataset: Discovered Causal Structure (with ATE)",
         threshold=0.1, 
         save_path="sachs_graph_comparison.png",
-        figure_size=(18, 9)
+        figure_size=(14, 10),
+        node_size=2200
     )
-    print(f"[Artifact] Side-by-side graph comparison saved to sachs_graph_comparison.png")
+    print(f"[Artifact] Professional causal graph with ATE and Metrics saved to sachs_graph_comparison.png")
 
 def display_results(model, data, metrics, true_adj, est_adj, weights, node_names):
     print("\n" + "="*40)

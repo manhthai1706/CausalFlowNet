@@ -8,12 +8,14 @@ except ImportError:
     nx = None # Handle missing packages / Xử lý khi thiếu thư viện
     plt = None
 
-def plot_dag(W_matrix, labels=None, GT_matrix=None, title="CausalFlowNet Discovery Graph",
+def plot_dag(W_matrix, labels=None, GT_matrix=None, ate_matrix=None, metrics=None, title="CausalFlowNet Discovery Graph",
              threshold=0.1, ax=None, save_path=None, node_size=2000,
              font_size=10, figure_size=(12, 9)):
     """
     Render a weighted causal DAG as a directed graph. / Vẽ đồ thị DAG nhân quả có trọng số.
     Supports comparison with Ground Truth if GT_matrix is provided. / Hỗ trợ so sánh với nhãn thực tế (Ground Truth).
+    Also supports displaying ATE labels on edges if ate_matrix is provided. / Hỗ trợ hiển thị nhãn ATE nếu có ate_matrix.
+    Display performance metrics (TPR, FPR, etc.) if metrics dict is provided. / Hiển thị các chỉ số hiệu năng nếu có metrics.
     """
     if nx is None or plt is None:
         raise ImportError("Install required packages: pip install networkx matplotlib")
@@ -109,6 +111,35 @@ def plot_dag(W_matrix, labels=None, GT_matrix=None, title="CausalFlowNet Discove
                                width=2.5,
                                connectionstyle="arc3,rad=0.1", # Slight curve for better visibility / Bo cong nhẹ để dễ nhìn
                                node_size=node_size, alpha=0.9)
+    
+    # NEW: Draw ATE labels on edges / MỚI: Vẽ nhãn ATE trên các cạnh
+    if ate_matrix is not None:
+        edge_labels = {}
+        # Need to map back labels to indices to access ate_matrix
+        label_to_idx = {label: i for i, label in enumerate(labels)}
+        for u, v in edges:
+            u_idx = label_to_idx[u]
+            v_idx = label_to_idx[v]
+            ate_val = ate_matrix[u_idx, v_idx]
+            if abs(ate_val) > 0.001:
+                edge_labels[(u, v)] = f"{ate_val:+.2f}"
+        
+        nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, ax=ax,
+                                     font_size=font_size-2, font_color="#154360",
+                                     font_weight='bold', label_pos=0.6,
+                                     rotate=True, clip_on=False)
+
+    # NEW: Display metrics on the plot / MỚI: Hiển thị chỉ số hiệu năng trên hình
+    if metrics:
+        metrics_text = (
+            f"TPR: {metrics.get('tpr', 0):.2f}\n"
+            f"FPR: {metrics.get('fpr', 0):.2f}\n"
+            f"SHD: {metrics.get('shd', 0)}\n"
+            f"SID: {metrics.get('sid', 0)}"
+        )
+        ax.text(0.02, 0.98, metrics_text, transform=ax.transAxes, 
+                fontsize=font_size + 2, fontweight='bold', verticalalignment='top',
+                bbox=dict(boxstyle='round,pad=0.5', facecolor='white', alpha=0.8, edgecolor='#2e86c1'))
 
     # Formatting / Định dạng hình ảnh
     ax.set_title(title, fontsize=18, fontweight='bold', pad=30)

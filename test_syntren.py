@@ -85,7 +85,7 @@ def generate_complex_regulatory_data(N=2000):
     return torch.tensor(data, dtype=torch.float32, device=device), true_adj
 
 def run_experiment():
-    print("=== CausalFlowNet V2 Experiment: Complex Regulatory (SynTReN-like) ===")
+    print("=== CausalFlowNet Experiment: Complex Regulatory (SynTReN-like) ===")
     set_seed(CONFIG['seed'])
     
     # 1. Generate Data
@@ -120,43 +120,46 @@ def run_experiment():
     # 5. Display Results / Hiển thị kết quả
     display_results(model, X.cpu().numpy(), metrics, true_adj, est_adj, adj_weights, node_names, threshold)
     
-    # 6. Visual Comparison / So sánh bằng hình ảnh
-    visualize_comparison(true_adj, est_adj, node_names, adj_weights)
+    # 6. Compute ATE Matrix for visualization / Tính toán ma trận ATE để trực quan hóa
+    ate_matrix = np.zeros((n_vars, n_vars))
+    for i in range(n_vars):
+        for j in range(n_vars):
+            if est_adj[i, j] == 1:
+                ate_matrix[i, j] = model.estimate_ate(X.cpu().numpy(), i, j)
+    
+    # 7. Visual Comparison / So sánh bằng hình ảnh
+    visualize_comparison(true_adj, est_adj, node_names, adj_weights, ate_matrix, metrics)
 
-def visualize_comparison(true_adj, est_adj, node_names, adj_weights):
+def visualize_comparison(true_adj, est_adj, node_names, adj_weights, ate_matrix, metrics):
     """
     Generate professional visualizations for SynTReN.
     Tạo hình ảnh chuyên nghiệp cho SynTReN.
     """
-    # 1. Adjacency Matrix Comparison (Heatmaps)
-    plt.figure(figsize=(16, 7))
-    plt.subplot(1, 2, 1)
-    sns.heatmap(true_adj, annot=False, cbar=False, cmap="Blues", 
-                xticklabels=False, yticklabels=False)
-    plt.title("SynTReN Ground Truth Matrix")
-    
-    plt.subplot(1, 2, 2)
+    # 1. Adjacency Matrix Visualization / Trực quan hóa ma trận kề
+    plt.figure(figsize=(8, 7))
     sns.heatmap(est_adj, annot=False, cbar=False, cmap="Reds", 
                 xticklabels=False, yticklabels=False)
     plt.title("SynTReN Estimated Matrix")
     
     plt.tight_layout()
     plt.savefig("syntren_adjacency_comparison.png")
-    print(f"\n[Artifact] Adjacency comparison saved to syntren_adjacency_comparison.png")
+    print(f"\n[Artifact] Estimated adjacency matrix saved to syntren_adjacency_comparison.png")
     plt.close()
 
-    # 2. Premium Causal Graph Comparison
+    # 2. Premium Causal Graph with ATE Labels
     plot_dag(
         W_matrix=adj_weights, 
         labels=node_names, 
         GT_matrix=true_adj, 
-        title="SynTReN-20 Discovery: CausalFlowNet vs Ground Truth",
+        ate_matrix=ate_matrix,
+        metrics=metrics,
+        title="SynTReN-20 Discovery",
         threshold=0.08, # Discovery threshold
         save_path="syntren_graph_comparison.png",
         figure_size=(16, 12),
         node_size=1200
     )
-    print(f"[Artifact] Premium graph comparison saved to syntren_graph_comparison.png")
+    print(f"[Artifact] Professional graph with ATE labels and Metrics saved to syntren_graph_comparison.png")
 
 def display_results(model, data, metrics, true_adj, est_adj, weights, node_names, threshold):
     n_vars = true_adj.shape[0]

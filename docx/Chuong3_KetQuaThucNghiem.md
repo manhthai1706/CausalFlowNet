@@ -43,11 +43,11 @@ Sau quá trình huấn luyện với chiến lược hai giai đoạn (Aggressiv
 | **SID** | **37** |
 | Số cạnh phát hiện | 14 / 18 |
 
-![So sánh ma trận kề Sachs](images/sachs_adjacency_comparison.png)
-*Hình 3.1: So sánh ma trận kề dự báo và ma trận kề chuẩn trên tập Sachs*
+![Ma trận kề Sachs](images/sachs_adjacency_comparison.png)
+*Hình 3.1: Ma trận kề nhân quả ước tính trên tập dữ liệu Sachs*
 
-![So sánh đồ thị nhân quả Sachs](images/sachs_graph_comparison.png)
-*Hình 3.2: Trực quan hóa đồ thị nhân quả thực tế (Trái) và đồ thị phục hồi (Phải) trên tập Sachs*
+![Đồ thị nhân quả Sachs có ATE và Metrics](images/sachs_graph_comparison.png)
+*Hình 3.2: Đồ thị nhân quả khám phá được trên tập Sachs (Tích hợp chỉ số Metrics và giá trị ATE trên từng cạnh)*
 
 **Nhận xét:** Mô hình duy trì mức FPR cực thấp (0.06). Tổng cộng, mô hình dự đoán được **14 cạnh**, trong đó có **8 cạnh chính xác (True Positives `[V]`)** và 6 cạnh sai hoặc bị nhận diện ngược hướng `[X]`. Mặc dù TPR đạt 0.44 (tìm được gần một nửa số cạnh chuẩn là 18 cạnh), các kết nối quan trọng nhất để kích hoạt tế bào đã được định vị thành công.
 
@@ -81,11 +81,11 @@ Trên tập dữ liệu mô phỏng SynTReN với quy mô lớn hơn (20 nút), 
 | **SHD** | **25** |
 | **SID** | **166** |
 
-![So sánh ma trận kề SynTReN](images/syntren_adjacency_comparison.png)
-*Hình 3.3: So sánh ma trận kề trên tập dữ liệu mô phỏng SynTReN (20 biến)*
+![Ma trận kề SynTReN](images/syntren_adjacency_comparison.png)
+*Hình 3.3: Ma trận kề nhân quả ước tính trên tập dữ liệu SynTReN (20 biến)*
 
-![So sánh đồ thị nhân quả SynTReN](images/syntren_graph_comparison.png)
-*Hình 3.4: Kết quả phục hồi cấu trúc đồ thị nhân quả trên tập SynTReN*
+![Đồ thị nhân quả SynTReN có ATE và Metrics](images/syntren_graph_comparison.png)
+*Hình 3.4: Kết quả phục hồi cấu trúc đồ thị nhân quả trên tập SynTReN (Tích hợp chỉ số Metrics và giá trị ATE)*
 
 **Cấu trúc Mạng và Cơ chế Sinh học Mô phỏng Phục hồi được:**
 CausalFlowNet đã dò tìm ra một lượng lớn các tương tác cốt lõi trong đồ thị. Các mối quan hệ nhân quả nổi bật (đúng chuẩn `[V]`) với hệ số ATE phản ứng mô phỏng thực tế động học có thể kể đến:
