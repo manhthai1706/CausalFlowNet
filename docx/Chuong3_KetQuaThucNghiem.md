@@ -129,20 +129,20 @@ Các chỉ số được tham chiếu từ các công bố chính thức trên c
 
 ### 3.4.2. Phân tích kết quả đối chứng
 
-1.  **Về khả năng suy luận can thiệp (SID):** Trên tập dữ liệu thực tế Sachs, CausalFlowNet đạt chỉ số **SID = 37**, đây là mức thấp nhất trong bảng so sánh, vượt qua các phương pháp mạnh như GraN-DAG (48) hay CAM (51). Điều này khẳng định cấu trúc Flow-based kết hợp với cơ chế HSIC giúp mô hình nắm bắt hướng nhân quả chính xác dưới góc độ can thiệp.
+1.  **Về khả năng suy luận can thiệp (SID):** Trên tập dữ liệu thực tế Sachs, CausalFlowNet đạt chỉ số **SID = 37**, nằm trong nhóm các phương pháp có sai số can thiệp thấp (tương đương với kết quả của GSF và GES). Kết quả này cho thấy cấu trúc Flow-based kết hợp với cơ chế HSIC có khả năng nắm bắt hướng nhân quả khá chính xác dưới góc độ can thiệp, thể hiện sự cải thiện so với các phương pháp như GraN-DAG (48) hay CAM (51).
 
-2.  **Về độ chính xác cấu trúc (SHD):** Trên tập SynTReN (20 biến), mô hình của chúng tôi đạt **SHD = 25.0**, tốt nhất trong số các phương pháp được liệt kê (thậm chí vượt qua GSF với mức 27.8). Điều này cho thấy khả năng phục hồi khung xương (skeleton) và hướng cạnh của CausalFlowNet rất mạnh mẽ trong môi trường phi tuyến tính phức tạp.
+2.  **Về độ chính xác cấu trúc (SHD):** Trên tập SynTReN (20 biến), mô hình đạt **SHD = 25.0**, kết quả này nằm trong nhóm dẫn đầu về độ chính xác cấu trúc so với các phương pháp được liệt kê. Điều này cho thấy khả năng phục hồi khung xương (skeleton) và hướng cạnh của CausalFlowNet có tính ổn định cao trong môi trường phi tuyến tính phức tạp của mạng lưới điều hòa gen.
 
-3.  **Tính ổn định:** Trong khi các phương pháp truyền thống như GES gặp khó khăn lớn trên SynTReN (SHD lên tới 167.5), CausalFlowNet vẫn duy trì được hiệu năng ổn định nhờ vào việc không giả định các dạng hàm cố định mà tự học qua các Spline Flow.
+3.  **Khả năng thích ứng:** Trong khi một số phương pháp truyền thống gặp khó khăn khi độ phức tạp của dữ liệu tăng lên (như trường hợp của GES trên SynTReN), CausalFlowNet vẫn duy trì được hiệu năng khả quan nhờ vào linh hoạt của các Spline Flow trong việc mô hình hóa các phân phối phần dư phi tuyến.
 
 ---
 
 ## 3.5. Thảo luận và Đánh giá Chung
 
-### 3.5.1. Ưu điểm nổi bật
-1.  **Tính ổn định:** Qua cả hai tập dữ liệu, mô hình luôn giữ được tỷ lệ dương tính giả (FPR) thấp, điều này cực kỳ quan trọng trong tin sinh học để tránh đưa ra các giả thuyết sai lầm.
-2.  **Khả năng mô hình hóa phi tuyến:** Việc sử dụng Neural Spline Flow kết hợp với Gated-ResMLP đã giúp mô hình vượt qua các rào cản về tính phi tuyến của dữ liệu sinh học.
-3.  **Lợi thế về SID và SHD:** So với các nghiên cứu SOTA, mô hình thể hiện ưu thế vượt trội về khả năng suy luận nhân quả và độ chính xác cấu trúc tổng thể.
+### 3.5.1. Các đóng góp và ưu điểm
+1.  **Tính ổn định cấu trúc:** Qua cả hai tập dữ liệu, mô hình duy trì được tỷ lệ dương tính giả (FPR) ở mức thấp, một yếu tố quan trọng trong tin sinh học để hạn chế các sai số hệ thống khi xây dựng giả thuyết nhân quả.
+2.  **Khả năng xử lý dữ liệu phi tuyến:** Việc kết hợp Neural Spline Flow và Gated-ResMLP cung cấp một hướng tiếp cận triển vọng trong việc học các cơ chế nhân quả mà không cần giả định trước dạng hàm tuyến tính.
+3.  **Hiệu năng cạnh tranh:** Các kết quả về SID và SHD cho thấy mô hình hoàn toàn có khả năng đồng hành và bổ trợ cho các phương pháp SOTA hiện nay trong việc khám phá cấu trúc từ dữ liệu thực tiễn.
 
 ### 3.5.2. Hạn chế
 - **Độ nhạy hướng:** Ở một số cặp biến có tương quan cực mạnh, mô hình vẫn còn nhầm lẫn về chiều nhân quả trong lớp tương đương Markov, dẫn đến chỉ số SHD-c đôi khi cao hơn GraN-DAG một chút.
