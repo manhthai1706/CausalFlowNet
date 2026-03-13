@@ -470,7 +470,7 @@ Toàn bộ quy trình huấn luyện CausalFlowNet được tóm tắt trong thu
 16. $\quad$ Đánh giá $h(W)$ trên 1000 mẫu
 17. $\quad$ $\alpha \leftarrow \alpha + \rho \cdot h(W)$, $\rho \leftarrow \min(\gamma \rho, \rho_{\text{max}})$
 18. **end for**
-19. Cắt ngưỡng: $\hat{W}_{ij} = \mathbf{1}[|W_{ij}| > \tau]$
+19. Cắt ngưỡng: $\hat{W}[i,j] = \mathbf{1}[|W[i,j]| > \tau]$
 20. **return** $\hat{W}$
 
 ---
