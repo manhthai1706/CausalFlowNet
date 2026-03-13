@@ -83,6 +83,8 @@ flowchart TB
     W -->|"Cắt ngưỡng τ"| DAG
 ```
 
+*Hình 2.1: Sơ đồ kiến trúc tổng quan của hệ thống CausalFlowNet*
+
 ### 2.1.3. Mô tả Dòng Dữ liệu
 
 Quy trình xử lý dữ liệu qua CausalFlowNet diễn ra theo trình tự sau:
@@ -147,6 +149,8 @@ flowchart LR
     MUL --> OUT_LIN --> ADD
     IN -->|"Kết nối tắt"| ADD --> OUT
 ```
+
+*Hình 2.2: Luồng luân chuyển tín hiệu qua khối Gated Residual Block*
 
 Chi tiết từng bước:
 
@@ -233,6 +237,8 @@ flowchart LR
     LP --> LOGP
     LD --> LOGP
 ```
+
+*Hình 2.3: Kiến trúc biến đổi của luồng độc lập Neural Spline Flow*
 
 **Thành phần 1 – Spline Coupling Layers:**
 
@@ -321,6 +327,8 @@ flowchart LR
     CENTER --> COV --> HSIC_OUT
 ```
 
+*Hình 2.4: Cơ chế tính toán ma trận hiệp phương sai HSIC song song đa luồng*
+
 Quy trình xử lý chi tiết:
 
 **Bước 1 – Ánh xạ vào không gian Fourier:**
@@ -392,6 +400,8 @@ flowchart TB
     CHECK -->|"Chưa"| INNER
     CHECK -->|"Rồi"| DONE
 ```
+
+*Hình 2.5: Lưu đồ vòng lặp huấn luyện Augmented Lagrangian kép (Dual-loop)*
 
 **Vòng lặp trong (Inner Loop):** Với $\alpha$ và $\rho$ cố định, tối ưu hóa $L_{\text{aug}}$ bằng Adam optimizer. Mỗi bước bao gồm:
 - Lấy mẫu mini-batch ngẫu nhiên kích thước $B$ (mặc định 512).
@@ -538,6 +548,8 @@ graph TB
     MAIN -.->|"Đánh giá"| EVAL_FILE
     MAIN -.->|"Trực quan"| VIS_FILE
 ```
+
+*Hình 2.6: Sơ đồ tổ chức mã nguồn của hệ thống máy học CausalFlowNet*
 
 | Thư mục | File | Chức năng |
 |---|---|---|
