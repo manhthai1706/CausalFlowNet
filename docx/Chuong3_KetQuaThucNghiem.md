@@ -24,7 +24,9 @@ Chương này tập trung trình bày và phân tích các kết quả thực ng
 Hiệu năng của mô hình được định lượng qua các bộ chỉ số tiêu chuẩn:
 - **TPR (True Positive Rate):** Tỷ lệ các cạnh thực được mô hình tìm thấy (Càng cao càng tốt).
 - **FPR (False Positive Rate):** Tỷ lệ các cạnh bị mô hình báo nhầm (Càng thấp càng tốt).
+- **FDR (False Discovery Rate):** Tỷ lệ các cạnh dự báo là sai trong tổng số cạnh tìm được (Càng thấp càng tốt).
 - **SHD (Structural Hamming Distance):** Tổng số lỗi cấu trúc (thêm, xóa, đảo cạnh).
+- **SHD-c (SHD for CPDAG):** Khoảng cách Hamming tính trên lớp tương đương Markov (CPDAG). Giúp đánh giá cấu trúc bỏ qua các hướng cạnh không thể xác định bằng thống kê quan sát.
 - **SID (Structural Intervention Distance):** Sai số dưới góc nhìn can thiệp nhân quả (Chỉ số quan trọng nhất cho mục tiêu suy luận).
 
 ---
@@ -39,7 +41,9 @@ Sau quá trình huấn luyện với chiến lược hai giai đoạn (Aggressiv
 | :--- | :---: |
 | **TPR** | **0.44** |
 | **FPR** | **0.06** |
+| **FDR** | **0.43** |
 | **SHD** | **12** |
+| **SHD-c**| **16** |
 | **SID** | **37** |
 | Số cạnh phát hiện | 14 / 18 |
 
@@ -78,7 +82,9 @@ Trên tập dữ liệu mô phỏng SynTReN với quy mô lớn hơn (20 nút), 
 | :--- | :---: |
 | **TPR** | **0.63** |
 | **FPR** | **0.08** |
+| **FDR** | **0.65** |
 | **SHD** | **25** |
+| **SHD-c**| **35** |
 | **SID** | **166** |
 
 ![Ma trận kề SynTReN](images/syntren_adjacency_comparison.png)

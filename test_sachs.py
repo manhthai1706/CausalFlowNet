@@ -94,6 +94,8 @@ def run_experiment():
     est_adj = (abs_weights > threshold).astype(int)
     metrics = compute_metrics(true_adj, est_adj)
     
+    display_results(model, X.cpu().numpy(), metrics, true_adj, est_adj, adj_weights, node_names)
+
     # 6. Compute ATE Matrix for visualization / Tính toán ma trận ATE để trực quan hóa
     ate_matrix = np.zeros((n_vars, n_vars))
     for i in range(n_vars):
@@ -141,7 +143,8 @@ def display_results(model, data, metrics, true_adj, est_adj, weights, node_names
     print("\n" + "="*40)
     print("           EXPERIMENT SUMMARY")
     print("="*40)
-    print(f"TPR: {metrics['tpr']:.2f} | FPR: {metrics['fpr']:.2f} | SHD: {metrics['shd']} | SID: {metrics['sid']}")
+    print(f"TPR: {metrics['tpr']:.2f} | FPR: {metrics['fpr']:.2f} | FDR: {metrics['fdr']:.2f}")
+    print(f"SHD: {metrics['shd']} | SHD-c: {metrics['shd_c']} | SID: {metrics['sid']}")
     print(f"Edges: True={int(np.sum(true_adj))}, Estimated={int(np.sum(est_adj))}")
     print("="*40)
     

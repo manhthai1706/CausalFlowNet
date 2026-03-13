@@ -134,7 +134,9 @@ def plot_dag(W_matrix, labels=None, GT_matrix=None, ate_matrix=None, metrics=Non
         metrics_text = (
             f"TPR: {metrics.get('tpr', 0):.2f}\n"
             f"FPR: {metrics.get('fpr', 0):.2f}\n"
+            f"FDR: {metrics.get('fdr', 0):.2f}\n"
             f"SHD: {metrics.get('shd', 0)}\n"
+            f"SHD-c: {metrics.get('shd_c', 0)}\n"
             f"SID: {metrics.get('sid', 0)}"
         )
         ax.text(0.02, 0.98, metrics_text, transform=ax.transAxes, 
