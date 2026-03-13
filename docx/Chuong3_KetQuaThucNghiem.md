@@ -43,6 +43,12 @@ Sau quá trình huấn luyện với chiến lược hai giai đoạn (Aggressiv
 | **SID** | **37** |
 | Số cạnh phát hiện | 14 / 18 |
 
+![So sánh ma trận kề Sachs](images/sachs_adjacency_comparison.png)
+*Hình 3.1: So sánh ma trận kề dự báo và ma trận kề chuẩn trên tập Sachs*
+
+![So sánh đồ thị nhân quả Sachs](images/sachs_graph_comparison.png)
+*Hình 3.2: Trực quan hóa đồ thị nhân quả thực tế (Trái) và đồ thị phục hồi (Phải) trên tập Sachs*
+
 **Nhận xét:** Mô hình duy trì mức FPR cực thấp (0.06), cho thấy khả năng lọc nhiễu và tránh các kết nối giả định cực kỳ tốt. Mặc dù TPR đạt 0.44 (tìm được gần một nửa số cạnh chuẩn), nhưng các cạnh quan trọng nhất trong con đường truyền tin MAPK đã được phục hồi chính xác.
 
 ### 3.2.2. Phân tích các Cạnh Nhân quả Điển hình
@@ -73,6 +79,12 @@ Trên tập dữ liệu mô phỏng SynTReN với quy mô lớn hơn (20 nút), 
 | **FPR** | **0.08** |
 | **SHD** | **25** |
 | **SID** | **166** |
+
+![So sánh ma trận kề SynTReN](images/syntren_adjacency_comparison.png)
+*Hình 3.3: So sánh ma trận kề trên tập dữ liệu mô phỏng SynTReN (20 biến)*
+
+![So sánh đồ thị nhân quả SynTReN](images/syntren_graph_comparison.png)
+*Hình 3.4: Kết quả phục hồi cấu trúc đồ thị nhân quả trên tập SynTReN*
 
 **Phân tích sâu:**
 - Với SynTReN, TPR tăng lên đáng kể (0.63) so với Sachs. Điều này cho thấy kiến trúc Gated-ResMLP rất mạnh trong việc học các hàm động học (Michaelis-Menten) vốn có cấu trúc toán học tường minh hơn dữ liệu sinh học thực tế.
