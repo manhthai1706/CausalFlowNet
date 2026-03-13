@@ -83,7 +83,7 @@ flowchart TB
     W -->|"Cắt ngưỡng τ"| DAG
 ```
 
-*Hình 2.1: Sơ đồ kiến trúc tổng quan của hệ thống CausalFlowNet*
+*Hình 2.1: Sơ đồ kiến trúc tổng quan của mô hình CausalFlowNet*
 
 ### 2.1.3. Mô tả Dòng Dữ liệu
 
@@ -549,7 +549,7 @@ graph TB
     MAIN -.->|"Trực quan"| VIS_FILE
 ```
 
-*Hình 2.6: Sơ đồ tổ chức mã nguồn của hệ thống máy học CausalFlowNet*
+*Hình 2.6: Sơ đồ tổ chức mã nguồn của mô hình CausalFlowNet*
 
 | Thư mục | File | Chức năng |
 |---|---|---|
