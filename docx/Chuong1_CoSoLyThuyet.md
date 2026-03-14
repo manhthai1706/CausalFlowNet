@@ -146,14 +146,20 @@ Với $\gamma$ là hệ số tăng trưởng và $\rho_{\text{max}}$ là giá tr
 
 Hai chỉ số cơ bản để đánh giá chất lượng đồ thị nhân quả được phục hồi:
 
-- **TPR (True Positive Rate)** = TP / (TP + FN): Tỷ lệ các cạnh thực sự tồn tại mà mô hình phát hiện đúng. TPR cao cho thấy mô hình không bỏ sót các mối quan hệ nhân quả quan trọng.
-- **FPR (False Positive Rate)** = FP / (FP + TN): Tỷ lệ các cạnh không tồn tại nhưng bị mô hình phát hiện nhầm. FPR thấp cho thấy mô hình ít tạo ra cạnh giả.
+- TPR (True Positive Rate) = TP / (TP + FN): Tỷ lệ các cạnh thực sự tồn tại mà mô hình phát hiện đúng. TPR cao cho thấy mô hình không bỏ sót các mối quan hệ nhân quả quan trọng.
+- FPR (False Positive Rate) = FP / (FP + TN): Tỷ lệ các cạnh không tồn tại nhưng bị mô hình phát hiện nhầm. FPR thấp cho thấy mô hình ít tạo ra cạnh giả.
 
-### 1.6.2. Khoảng cách Hamming Cấu trúc (SHD)
+### 1.6.2. Tỷ lệ Khám phá sai (FDR)
+
+**False Discovery Rate (FDR)** = FP / (TP + FP) là tỷ lệ giữa số cạnh bị dự báo sai trên tổng số cạnh mà mô hình tìm được. Trong tin sinh học, FDR thấp là chỉ số quan trọng để đảm bảo độ tin cậy của các phát hiện mới, giúp tránh lãng phí nguồn lực vào các kiểm chứng thực nghiệm sai lầm.
+
+### 1.6.3. Khoảng cách Hamming Cấu trúc (SHD và SHD-c)
 
 **Structural Hamming Distance (SHD)** đếm số lượng chỉnh sửa tối thiểu cần thiết để biến đồ thị ước tính thành đồ thị thực tế. Các chỉnh sửa bao gồm thêm cạnh, xóa cạnh hoặc đảo chiều cạnh. SHD = 0 có nghĩa là mô hình phục hồi hoàn toàn chính xác cấu trúc đồ thị.
 
-### 1.6.3. Khoảng cách Can thiệp Cấu trúc (SID)
+**SHD-c (SHD for CPDAG)**: Tính toán SHD dựa trên lớp tương đương Markov (CPDAG). Do dữ liệu quan sát đôi khi không đủ thông tin để phân biệt một số chiều cạnh nhất định, SHD-c cung cấp cái nhìn công bằng hơn bằng cách đánh giá mức độ tương đương về cấu trúc bỏ qua các hướng cạnh không thể xác định bằng thống kê.
+
+### 1.6.4. Khoảng cách Can thiệp Cấu trúc (SID)
 
 **Structural Intervention Distance (SID)** (Peters & Bühlmann, 2015) đo lường sự khác biệt giữa hai DAG dưới góc độ **can thiệp nhân quả**. SID đếm số cặp (i, j) mà quan hệ nhân quả "j có phải là hậu duệ của i không?" bị phán đoán sai. SID phản ánh trực tiếp chất lượng mô hình khi được dùng để trả lời các câu hỏi can thiệp (do-calculus), đây là mục tiêu ứng dụng cuối cùng của khám phá nhân quả.
 
