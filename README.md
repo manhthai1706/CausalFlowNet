@@ -1,103 +1,96 @@
-# CausalFlowNet: Nonlinear Causal Structure Discovery using Normalizing Flows
+# CausalFlowNet: Một nghiên cứu nhỏ về khám phá cấu trúc nhân quả phi tuyến
 
 <p align="center">
   <img src="docx/images/sachs_graph_comparison.png" width="800" alt="CausalFlowNet Sachs Discovery Result">
 </p>
 
-## 🌟 Overview / Tổng quan
-**CausalFlowNet** is a state-of-the-art research framework designed to discover complex, non-linear causal relationships from observational data. By combining the representative power of **Normalizing Flows** with **Gated Residual Networks**, it effectively models non-Gaussian noise and identifies causal structures in high-dimensional biological and synthetic datasets.
+## 🌟 Giới thiệu / Introduction
+**CausalFlowNet** là đồ án/dự án cá nhân của tôi nhằm tìm hiểu và thực nghiệm các phương pháp khám phá quan hệ nhân quả (Causal Discovery) trong môi trường dữ liệu phi tuyến tính. Dự án này kết hợp ý tưởng từ **Normalizing Flows** và **Mạng Neural** để thử nghiệm khả năng mô hình hóa nhiễu và xác định cấu trúc đồ thị nhân quả từ dữ liệu quan sát.
 
-**CausalFlowNet** là một khung nghiên cứu tiên tiến được thiết kế để khám phá các mối quan hệ nhân quả phi tuyến tính phức tạp từ dữ liệu quan sát. Bằng cách kết hợp sức mạnh biểu diễn của **Normalizing Flows** với **Mạng Residual có cổng**, mô hình có khả năng mô phỏng nhiễu phi chuẩn (non-Gaussian) và xác định cấu trúc nhân quả trong các tập dữ liệu sinh học và dữ liệu mô phỏng cao chiều.
-
----
-
-## 🚀 Key Features / Các tính năng chính
-
-*   **📈 Neural Spline Flows (NSF)**: Leveraging Rational-Quadratic Splines to learn exact noise density without restrictive Gaussian assumptions.
-*   **🧠 Gated Residual MLP**: A sophisticated structural equation modeler that uses Gating mechanisms to capture context-dependent interactions.
-*   **⚡ Parallel Fast HSIC**: High-speed independence testing using Random Fourier Features (RFF), enabling simultaneous structural verification across all variables.
-*   **⚖️ Augmented Lagrangian Optimization**: A robust continuous optimization framework that enforces Directed Acyclic Graph (DAG) constraints.
-*   **🧪 Causal Reasoning Suite**: Integrated tools for **ATE (Average Treatment Effect)** estimation and **Causal Clustering** based on inherited noise patterns.
+**CausalFlowNet** is my personal research project/thesis aimed at exploring and experimenting with causal discovery methods in nonlinear settings. This project combines ideas from **Normalizing Flows** and **Neural Networks** to test the ability to model noise and identify causal structures from observational data.
 
 ---
 
-## 🏗️ Architecture / Kiến trúc
+## 🚀 Các hướng tiếp cận chính / Key Approaches
 
-CausalFlowNet operates through a unified end-to-end differentiable pipeline:
+Trong dự án này, tôi đã thử nghiệm và tích hợp một số kỹ thuật sau:
+*   **Neural Spline Flows (NSF)**: Sử dụng để thử nghiệm việc học mật độ nhiễu mà không cần giả định phân phối Gauss cứng nhắc.
+*   **Gated Residual MLP**: Một cấu trúc mạng nơ-ron đơn giản có thêm cơ chế cổng (Gating) để xử lý các tương tác phi tuyến.
+*   **Parallel Fast HSIC**: Triển khai kiểm định độc lập thống kê song song bằng Random Fourier Features nhằm tối ưu tốc độ tính toán.
+*   **Augmented Lagrangian**: Sử dụng khung tối ưu hóa liên tục để áp đặt ràng buộc đồ thị không chu trình (DAG).
+*   **Ước lượng ATE**: Thử nghiệm tính toán hiệu ứng can thiệp trung bình dựa trên giả lập do-calculus.
+
+---
+
+## 🏗️ Kiến trúc mô hình / Architecture
+
+Mô hình hoạt động theo một quy trình (pipeline) liên tục để tối ưu hóa đồng thời cấu trúc và các hàm cơ chế:
 
 ```mermaid
 graph LR
-    X[Observation X] --> MLP[Gated-ResMLP]
-    W[Adjacency W] --> MLP
-    MLP --> Eps[Residual/Noise ε]
+    X[Dữ liệu X] --> MLP[Gated-ResMLP]
+    W[Ma trận kề W] --> MLP
+    MLP --> Eps[Nhiễu tồn dư ε]
     Eps --> NSF[Neural Spline Flow]
     Eps --> HSIC[Parallel HSIC]
-    NSF --> NLL[Negative Log-Likelihood]
-    W --> DAG[Acyclicity Constraint]
+    NSF --> NLL[Âm Log-Likelihood]
+    W --> DAG[Ràng buộc Acyclicity]
     
-    NLL & HSIC & DAG --> Loss[Total Loss]
-    Loss -->|Backprop| W & MLP & NSF
+    NLL & HSIC & DAG --> Loss[Tổng hàm mất mát]
+    Loss -->|Cập nhật| W & MLP & NSF
 ```
 
 ---
 
-## 📊 Benchmark Results / Kết quả thực nghiệm
+## 📊 Kết quả thực nghiệm / Experimental Results
 
-Results achieved on standard biological and synthetic benchmarks:
+Dưới đây là một số kết quả tôi đạt được khi chạy thử trên các tập dữ liệu benchmark (Sachs và SynTReN-20):
 
-| Dataset | TPR | FPR | FDR | SHD | SHD-c | SID |
+| Website/Dataset | TPR | FPR | FDR | SHD | SHD-c | SID |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Sachs** (11 nodes) | 0.44 | 0.06 | 0.43 | 12 | 16 | **37** |
 | **SynTReN** (20 nodes) | 0.63 | 0.08 | 0.65 | 25 | 35 | 166 |
 
-*Note: CausalFlowNet demonstrates highly competitive **SID** performance, which is crucial for interventional reasoning.*
+*Lưu ý: Các kết quả này phản ánh quá trình thực nghiệm cá nhân và có thể thay đổi tùy theo cách tinh chỉnh siêu tham số.*
 
 ---
 
-## 📦 Project Structure / Cấu trúc dự án
+## 📦 Cấu trúc thư mục / Structure
 
 ```text
-├── core/               # Optimization & HSIC logic
-│   ├── HSIC.py         # Parallel Fast HSIC with RFF
-│   └── Optimization.py # Acyclicity (Notears) & ALM
-├── modules/            # Neural components
-│   ├── MLP.py          # Gated Residual MLP
-│   └── Flow.py         # NSF & GMM Prior implementation
-├── ultis/              # Evaluation & Visualization
-│   ├── Evaluation.py   # Metrics (TPR, SHD, SID, etc.)
-│   └── visualize.py    # Premium DAG visualization suite
-├── docx/               # Scientific Documentation (Vietnamse)
-├── CausalFlowNet.py    # Main Model Engine
-├── test_sachs.py       # Real-world protein dataset test
-└── test_syntren.py     # Complex regulatory network test
+├── core/               # logic tối ưu hóa & HSIC
+├── modules/            # Các khối mạng Neural (MLP, Flow)
+├── ultis/              # Công cụ đánh giá & Trực quan hóa
+├── docx/               # Tài liệu thuyết minh (Tiếng Việt)
+├── CausalFlowNet.py    # Lõi mô hình chính
+├── test_sachs.py       # Thực nghiệm trên tập protein Sachs
+└── test_syntren.py     # Thực nghiệm trên tập gene SynTReN
 ```
 
 ---
 
-## 🛠️ Getting Started / Hướng dẫn sử dụng
+## 🛠️ Cách sử dụng / Usage
 
-### 1. Installation
-Ensure you have Python 3.8+ and PyTorch installed:
+1. Cài đặt các thư viện cần thiết:
 ```bash
 pip install torch numpy pandas networkx matplotlib seaborn scikit-learn
 ```
 
-### 2. Run Experiments
-Execute the benchmark scripts to replicate the results and generate visualizations:
+2. Chạy thử các kịch bản thực nghiệm:
 ```bash
-# Run Protein-signaling network discovery
+# Thử nghiệm trên tập Sachs
 python test_sachs.py
 
-# Run Synthetic gene regulatory discovery
+# Thử nghiệm trên tập SynTReN
 python test_syntren.py
 ```
 
 ---
 
-## 📜 Acknowledgements / Ghi nhận
-This research was conducted at **Lac Hong University (LHU)**. We would like to thank **Tran Thanh Phuong, PhD.** for the expert guidance throughout the development of this project.
+## 📜 Ghi nhận / Acknowledgements
+Dự án này là một phần trong quá trình học tập và nghiên cứu của tôi tại **Trường Đại học Lạc Hồng (LHU)**. Tôi xin gửi lời cảm ơn đến giảng viên hướng dẫn của tôi nhằm hoàn thành nghiên cứu này.
 
-Nghiên cứu này được thực hiện tại **Trường Đại học Lạc Hồng**. Chúng tôi xin gửi lời cảm ơn sâu sắc đến **TS. Trần Thanh Phương** vì sự hướng dẫn tận tình trong suốt quá trình phát triển dự án.
+This project is part of my learning and research journey at **Lac Hong University**. I would like to thank my supervisor for their support in completing this research.
 
 ---
 **Copyright (c) 2026 ManhThai | Licensed under MIT License**
