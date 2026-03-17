@@ -31,7 +31,6 @@ ENV/
 
 # Artifacts & Temporary Files
 /tmp/
-*.png
 *.webp
 *.csv
 !datasets/**/*.csv
