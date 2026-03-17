@@ -1,9 +1,5 @@
 # CausalFlowNet: A Personal Study on Nonlinear Causal Discovery
 
-<p align="center">
-  <img src="sachs_graph_comparison.png" width="800" alt="CausalFlowNet Sachs Discovery Result">
-</p>
-
 ## 🌟 Introduction
 **CausalFlowNet** is a personal research project aimed at exploring and experimenting with causal discovery methods in nonlinear settings. This project combines ideas from **Normalizing Flows** and **Neural Networks** to test the ability to model noise and identify causal structures from observational data.
 
