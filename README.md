@@ -1,6 +1,8 @@
 # CausalFlowNet: Một nghiên cứu nhỏ về khám phá cấu trúc nhân quả phi tuyến
 
-
+<p align="center">
+  <img src="sachs_graph_comparison.png" width="800" alt="CausalFlowNet Sachs Discovery Result">
+</p>
 
 ## 🌟 Giới thiệu / Introduction
 **CausalFlowNet** là đồ án/dự án cá nhân của tôi nhằm tìm hiểu và thực nghiệm các phương pháp khám phá quan hệ nhân quả (Causal Discovery) trong môi trường dữ liệu phi tuyến tính. Dự án này kết hợp ý tưởng từ **Normalizing Flows** và **Mạng Neural** để thử nghiệm khả năng mô hình hóa nhiễu và xác định cấu trúc đồ thị nhân quả từ dữ liệu quan sát.
@@ -48,6 +50,23 @@ Dưới đây là một số kết quả tôi đạt được khi chạy thử t
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Sachs** (11 nodes) | 0.44 | 0.06 | 0.43 | 12 | 16 | **37** |
 | **SynTReN** (20 nodes) | 0.63 | 0.08 | 0.65 | 25 | 35 | 166 |
+
+### Visual Comparisons / Trực quan hóa kết quả
+
+#### 1. Sachs Dataset (Protein Signaling Network)
+<p align="center">
+  <img src="sachs_graph_comparison.png" width="45%" />
+  <img src="sachs_adjacency_comparison.png" width="45%" />
+  <br><i>Đồ thị nhân quả và Ma trận kề (Sachs)</i>
+</p>
+
+#### 2. SynTReN Dataset (Synthetic Regulatory Network)
+<p align="center">
+  <img src="syntren_graph_comparison.png" width="45%" />
+  <img src="syntren_adjacency_comparison.png" width="45%" />
+  <br><i>Đồ thị nhân quả và Ma trận kề (SynTReN)</i>
+</p>
+
 
 *Lưu ý: Các kết quả này phản ánh quá trình thực nghiệm cá nhân và có thể thay đổi tùy theo cách tinh chỉnh siêu tham số.*
 
