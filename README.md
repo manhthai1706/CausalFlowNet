@@ -1,8 +1,6 @@
 # CausalFlowNet: Một nghiên cứu nhỏ về khám phá cấu trúc nhân quả phi tuyến
 
-<p align="center">
-  <img src="docx/images/sachs_graph_comparison.png" width="800" alt="CausalFlowNet Sachs Discovery Result">
-</p>
+
 
 ## 🌟 Giới thiệu / Introduction
 **CausalFlowNet** là đồ án/dự án cá nhân của tôi nhằm tìm hiểu và thực nghiệm các phương pháp khám phá quan hệ nhân quả (Causal Discovery) trong môi trường dữ liệu phi tuyến tính. Dự án này kết hợp ý tưởng từ **Normalizing Flows** và **Mạng Neural** để thử nghiệm khả năng mô hình hóa nhiễu và xác định cấu trúc đồ thị nhân quả từ dữ liệu quan sát.
@@ -61,7 +59,7 @@ Dưới đây là một số kết quả tôi đạt được khi chạy thử t
 ├── core/               # logic tối ưu hóa & HSIC
 ├── modules/            # Các khối mạng Neural (MLP, Flow)
 ├── ultis/              # Công cụ đánh giá & Trực quan hóa
-├── docx/               # Tài liệu thuyết minh (Tiếng Việt)
+
 ├── CausalFlowNet.py    # Lõi mô hình chính
 ├── test_sachs.py       # Thực nghiệm trên tập protein Sachs
 └── test_syntren.py     # Thực nghiệm trên tập gene SynTReN
