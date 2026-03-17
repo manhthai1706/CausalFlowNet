@@ -1,103 +1,102 @@
-# CausalFlowNet: Một nghiên cứu nhỏ về khám phá cấu trúc nhân quả phi tuyến
-## 🌟 Giới thiệu / Introduction
-**CausalFlowNet** là đồ án/dự án cá nhân của tôi nhằm tìm hiểu và thực nghiệm các phương pháp khám phá quan hệ nhân quả (Causal Discovery) trong môi trường dữ liệu phi tuyến tính. Dự án này kết hợp ý tưởng từ **Normalizing Flows** và **Mạng Neural** để thử nghiệm khả năng mô hình hóa nhiễu và xác định cấu trúc đồ thị nhân quả từ dữ liệu quan sát.
+# CausalFlowNet: A Personal Study on Nonlinear Causal Discovery
 
-**CausalFlowNet** is my personal research project/thesis aimed at exploring and experimenting with causal discovery methods in nonlinear settings. This project combines ideas from **Normalizing Flows** and **Neural Networks** to test the ability to model noise and identify causal structures from observational data.
+<p align="center">
+  <img src="sachs_graph_comparison.png" width="800" alt="CausalFlowNet Sachs Discovery Result">
+</p>
 
----
-
-## 🚀 Các hướng tiếp cận chính / Key Approaches
-
-Trong dự án này, tôi đã thử nghiệm và tích hợp một số kỹ thuật sau:
-*   **Neural Spline Flows (NSF)**: Sử dụng để thử nghiệm việc học mật độ nhiễu mà không cần giả định phân phối Gauss cứng nhắc.
-*   **Gated Residual MLP**: Một cấu trúc mạng nơ-ron đơn giản có thêm cơ chế cổng (Gating) để xử lý các tương tác phi tuyến.
-*   **Parallel Fast HSIC**: Triển khai kiểm định độc lập thống kê song song bằng Random Fourier Features nhằm tối ưu tốc độ tính toán.
-*   **Augmented Lagrangian**: Sử dụng khung tối ưu hóa liên tục để áp đặt ràng buộc đồ thị không chu trình (DAG).
-*   **Ước lượng ATE**: Thử nghiệm tính toán hiệu ứng can thiệp trung bình dựa trên giả lập do-calculus.
+## 🌟 Introduction
+**CausalFlowNet** is a personal research project aimed at exploring and experimenting with causal discovery methods in nonlinear settings. This project combines ideas from **Normalizing Flows** and **Neural Networks** to test the ability to model noise and identify causal structures from observational data.
 
 ---
 
-## 🏗️ Kiến trúc mô hình / Architecture
+## 🚀 Key Approaches
 
-Mô hình hoạt động theo một quy trình (pipeline) liên tục để tối ưu hóa đồng thời cấu trúc và các hàm cơ chế:
+In this project, I have experimented with and integrated several techniques:
+*   **Neural Spline Flows (NSF)**: Used to experiment with learning noise density without rigid Gaussian assumptions.
+*   **Gated Residual MLP**: A neural network structure with a gating mechanism to handle nonlinear interactions.
+*   **Parallel Fast HSIC**: Implementation of parallel statistical independence testing using Random Fourier Features (RFF) to optimize computation speed.
+*   **Augmented Lagrangian**: A continuous optimization framework used to enforce Directed Acyclic Graph (DAG) constraints.
+*   **ATE Estimation**: Initial experiments in calculating Average Treatment Effects based on do-calculus simulations.
+
+---
+
+## 🏗️ Architecture
+
+The model operates through an end-to-end differentiable pipeline to simultaneously optimize both the graph structure and the mechanism functions:
 
 ```mermaid
 graph LR
-    X[Dữ liệu X] --> MLP[Gated-ResMLP]
-    W[Ma trận kề W] --> MLP
-    MLP --> Eps[Nhiễu tồn dư ε]
+    X[Data X] --> MLP[Gated-ResMLP]
+    W[Adjacency W] --> MLP
+    MLP --> Eps[Residual/Noise ε]
     Eps --> NSF[Neural Spline Flow]
     Eps --> HSIC[Parallel HSIC]
-    NSF --> NLL[Âm Log-Likelihood]
-    W --> DAG[Ràng buộc Acyclicity]
+    NSF --> NLL[Negative Log-Likelihood]
+    W --> DAG[Acyclicity Constraint]
     
-    NLL & HSIC & DAG --> Loss[Tổng hàm mất mát]
-    Loss -->|Cập nhật| W & MLP & NSF
+    NLL & HSIC & DAG --> Loss[Total Loss]
+    Loss -->|Update| W & MLP & NSF
 ```
 
 ---
 
-## 📊 Kết quả thực nghiệm / Experimental Results
+## 📊 Experimental Results
 
-Dưới đây là một số kết quả tôi đạt được khi chạy thử trên các tập dữ liệu benchmark (Sachs và SynTReN-20):
+Here are the results achieved during testing on standard benchmarks (Sachs and SynTReN-20):
 
-| Website/Dataset | TPR | FPR | FDR | SHD | SHD-c | SID |
+| Dataset | TPR | FPR | FDR | SHD | SHD-c | SID |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Sachs** (11 nodes) | 0.44 | 0.06 | 0.43 | 12 | 16 | **37** |
 | **SynTReN** (20 nodes) | 0.63 | 0.08 | 0.65 | 25 | 35 | 166 |
 
-### Visual Comparisons / Trực quan hóa kết quả
+### Visual Comparisons
 
 #### 1. Sachs Dataset (Protein Signaling Network)
 <p align="center">
   <img src="sachs_graph_comparison.png" width="45%" />
   <img src="sachs_adjacency_comparison.png" width="45%" />
-  <br><i>Đồ thị nhân quả và Ma trận kề (Sachs)</i>
+  <br><i>Causal Graph and Adjacency Matrix (Sachs)</i>
 </p>
 
 #### 2. SynTReN Dataset (Synthetic Regulatory Network)
 <p align="center">
   <img src="syntren_graph_comparison.png" width="45%" />
   <img src="syntren_adjacency_comparison.png" width="45%" />
-  <br><i>Đồ thị nhân quả và Ma trận kề (SynTReN)</i>
+  <br><i>Causal Graph and Adjacency Matrix (SynTReN)</i>
 </p>
 
-
-*Lưu ý: Các kết quả này phản ánh quá trình thực nghiệm cá nhân và có thể thay đổi tùy theo cách tinh chỉnh siêu tham số.*
+*Note: These results reflect personal experimentation and may vary depending on hyperparameter tuning.*
 
 ---
 
-## 📦 Cấu trúc thư mục / Structure
+## 📦 Structure
 
 ```text
-├── core/               # logic tối ưu hóa & HSIC
-├── modules/            # Các khối mạng Neural (MLP, Flow)
-├── ultis/              # Công cụ đánh giá & Trực quan hóa
-
-├── CausalFlowNet.py    # Lõi mô hình chính
-├── test_sachs.py       # Thực nghiệm trên tập protein Sachs
-└── test_syntren.py     # Thực nghiệm trên tập gene SynTReN
+├── core/               # Optimization & HSIC logic
+├── modules/            # Neural network blocks (MLP, Flow)
+├── ultis/              # Evaluation & Visualization tools
+├── CausalFlowNet.py    # Main model engine
+├── test_sachs.py       # Experiment on Sachs protein dataset
+└── test_syntren.py     # Experiment on SynTReN gene dataset
 ```
 
 ---
 
-## 🛠️ Cách sử dụng / Usage
+## 🛠️ Usage
 
-1. Cài đặt các thư viện cần thiết:
+1. Install requirements:
 ```bash
 pip install torch numpy pandas networkx matplotlib seaborn scikit-learn
 ```
 
-2. Chạy thử các kịch bản thực nghiệm:
+2. Run testing scripts:
 ```bash
-# Thử nghiệm trên tập Sachs
+# Test on Sachs dataset
 python test_sachs.py
 
-# Thử nghiệm trên tập SynTReN
+# Test on SynTReN dataset
 python test_syntren.py
 ```
-
-
 
 ---
 **Copyright (c) 2026 ManhThai | Licensed under MIT License**
