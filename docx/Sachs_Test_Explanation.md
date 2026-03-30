@@ -1,21 +1,25 @@
-# Giải thích Thực nghiệm: Tập dữ liệu Sachs (test_sachs.py)
+# Giải thích: Thực nghiệm trên tập Sachs (test_sachs.py)
 
-Tệp này thực hiện việc huấn luyện và đánh giá mô hình CausalFlowNet trên tập dữ liệu Protein thực tế từ Sachs et al. (2005).
+Tập dữ liệu Sachs là một bộ dữ liệu sinh học thực tế đo lường nồng độ protein trong các tế bào đơn lẻ. Việc lựa chọn tham số trong `test_sachs.py` được tinh chỉnh để phù hợp với tính chất nhiễu và phức tạp của dữ liệu sinh học.
 
-## 1. Tại sao chọn các tham số này?
+## Các tham số quan trọng và Lý do chọn (Rationale)
 
-Trong `test_sachs.py`, cấu hình được thiết lập như sau:
+### 1. `n_clusters`: 5
+- **Lý do**: Tập dữ liệu Sachs bao gồm dữ liệu từ nhiều điều kiện can thiệp khác nhau (interventions). Việc chọn 5 cụm (clusters) giúp mô hình GMM Prior bắt được các "phân tầng" hoặc trạng thái tế bào khác nhau, từ đó mô hình hóa nhiễu chính xác hơn cho từng nhóm.
 
-- **`n_clusters: 5`**: 
-    - *Lý do*: Tập dữ liệu Sachs bao gồm các phép đo tế bào đơn dưới các điều kiện thí nghiệm khác nhau (can thiệp bằng các chất ức chế/kích thích). Do đó, nhiễu thực tế không đồng nhất mà bao gồm nhiều "ngữ cảnh" khác nhau. Việc chọn 5 cụm giúp GMM Prior của Flow bắt được các trạng thái sinh lý khác nhau này.
-- **`flow_bins: 12`**: 
-    - *Lý do*: Dữ liệu sinh học thực tế rất nhiễu và có phân phối phi chuẩn phức tạp xấp xỉ các đường cong hữu tỷ bậc hai. 12 thùng (bins) cung cấp đủ độ phân giải để Spline Flow "khớp" được chính xác hình dạng của nhiễu.
-- **`lda_hsic: 0.03`**: 
-    - *Lý do*: Một giá trị trung bình giúp cân bằng giữa việc tối ưu hóa khả năng hợp lý (Likelihood) và việc đảm bảo tính độc lập. Nếu đặt quá cao, mô hình sẽ khó hội tụ; nếu quá thấp, mô hình sẽ dễ nhầm lẫn hướng nhân quả.
-- **`stage1_epochs: 30` / `stage2_epochs: 20`**: 
-    - *Lý do*: Với 11 nút, đồ thị Sachs không quá lớn. Số lượng vòng lặp này đủ để mô hình hoàn thành quá trình "Khám phá" (Stage 1) và "Tinh chỉnh" (Stage 2) mà không bị Overfitting.
-- **`l1_stage2: 0.012`**: 
-    - *Lý do*: Ở giai đoạn 2, chúng ta tăng hình phạt L1 (từ 0.001 lên 0.012) để triệt tiêu các cạnh yếu và nhiễu, giúp đồ thị cuối cùng sạch và rõ ràng hơn.
+### 2. `flow_bins`: 12
+- **Lý do**: Dữ liệu sinh học thực tế thường không tuân theo phân phối Gauss và có các đặc trưng phi tuyến mạnh. Việc tăng số lượng thùng (bins) lên 12 giúp hàm Spline có độ phân giải cao hơn để khớp chính xác với các phân phối nhiễu phức tạp.
 
-## 2. Kết quả kỳ vọng
-Với bộ tham số này, mô hình hướng tới việc đạt được chỉ số **SID thấp** (Structural Intervention Distance), vì SID phản ánh chính xác khả năng của mô hình trong việc trả lời các câu hỏi về can thiệp protein trong y sinh.
+### 3. `lda_hsic`: 0.03
+- **Lý do**: Một giá trị vừa đủ (0.03) để ép buộc tính độc lập giữa nhiễu và biến cha mà không làm lấn át hàm mục tiêu Likelihood. Điều này cực kỳ quan trọng để xác định đúng hướng của dòng tín hiệu protein.
+
+### 4. `stage1_epochs`: 30 & `stage2_epochs`: 20
+- **Lý do**: Giai đoạn 1 (Discovery) cần đủ thời gian để các cạnh tiềm năng lộ diện dưới ràng buộc L1 thấp. Giai đoạn 2 (Refinement) tập trung vào việc tinh chỉnh trọng số và loại bỏ cạnh giả dựa trên ràng buộc L1 mạnh hơn và điều kiện DAG.
+
+### 5. `l1_stage1`: 0.001 & `l1_stage2`: 0.012
+- **Lý do**: 
+  - Giai đoạn 1 dùng `0.001` (rất thấp) để cho phép mô hình tự do khám phá tất cả các kết nối có thể có.
+  - Giai đoạn 2 tăng lên `0.012` (mạnh hơn 12 lần) để thực hiện "cắt tỉa" (pruning) các cạnh yếu, giữ lại cấu trúc đồ thị tối giản và chính xác nhất.
+
+### 6. `threshold`: 0.05
+- **Lý do**: Sau khi huấn luyện, các cạnh có trọng số tuyệt đối dưới 0.05 sẽ bị loại bỏ hoàn toàn. Ngưỡng này giúp cân bằng giữa việc giữ lại các tương tác sinh học thực sự và loại bỏ nhiễu đồ thị.

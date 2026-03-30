@@ -1,21 +1,26 @@
-# Giải thích Thực nghiệm: Tập dữ liệu SynTReN (test_syntren.py)
+# Giải thích: Thực nghiệm trên tập SynTReN (test_syntren.py)
 
-Tệp này thực hiện việc đánh giá trên dữ liệu mô phỏng mạng điều hòa gene (Gene Regulatory Network) với 20 nút.
+SynTReN là trình mô phỏng mạng điều hòa gen. Trong thực nghiệm này, chúng ta sử dụng cấu hình 20 nút (n_vars=20), đòi hỏi các tham số mạnh mẽ hơn so với các tập dữ liệu nhỏ.
 
-## 1. Tại sao chọn các tham số này?
+## Các tham số quan trọng và Lý do chọn (Rationale)
 
-Trong `test_syntren.py`, các tham số được tối ưu hóa cho cấu trúc đồ thị lớn hơn:
+### 1. `n_vars`: 20 & `N`: 2000
+- **Lý do**: Tăng số lượng nút lên 20 để kiểm tra khả năng mở rộng (scalability) của mô hình. Với 2000 mẫu dữ liệu, mô hình có đủ thông tin để học các tương tác đa biến mà không bị quá khớp (overfitting).
 
-- **`n_vars: 20`**: 
-    - *Lý do*: Đây là ngưỡng thử nghiệm độ phức tạp trung bình của mô hình. 20 nút tạo ra không gian tìm kiếm đồ thị rộng hơn nhiều so với 11 nút của tập Sachs.
-- **`n_clusters: 4`**: 
-    - *Lý do*: Dữ liệu mô phỏng từ SynTReN thường có các ngữ cảnh ít đa dạng hơn dữ liệu thực tế từ tế bào sống, nên 4 cụm là đủ để mô hình hóa cấu trúc nhiễu giả lập.
-- **`lda_hsic: 0.05`**: 
-    - *Lý do*: Chúng ta tăng hình phạt độc lập (lda_hsic) lên cao hơn so với tập Sachs. Điều này rất quan trọng khi số lượng nút tăng lên, giúp mô hình khắt khe hơn trong việc loại bỏ các cạnh giả (False Positives) do tương quan ngẫu nhiên.
-- **`stage1_epochs: 40` / `stage2_epochs: 25`**: 
-    - *Lý do*: Do số nút tăng lên 20, mô hình cần nhiều thời gian hơn để các tham số ma trận kề $W$ hội tụ và để ràng buộc Acyclicity (đồ thị không chu trình) được thực hiện triệt để.
-- **`flow_bins: 10`**: 
-    - *Lý do*: Nhiễu trong SynTReN thường tuân theo các quy luật toán học (log-normal hoặc gauss), nên 10 thùng là đủ để mô hình hóa mà vẫn đảm bảo tốc độ tính toán.
+### 2. `n_clusters`: 4
+- **Lý do**: Mặc dù SynTReN là dữ liệu giả lập, nhưng cấu trúc mạng gen thường có các nhóm gen hoạt động đồng bộ. Việc chọn 4 cụm giúp mô hình hóa các trạng thái biểu hiện gen ngầm định bên trong mạng lưới.
 
-## 2. Điểm khác biệt so với tập Sachs
-Điểm mấu chốt của cấu hình này là sự **"Khắt khe"**. Khi mạng lưới càng lớn, nguy cơ xuất hiện vòng lặp (Cycles) và cạnh giả càng cao. Do đó, các tham số về Epoch và lda_hsic đều được đẩy cao hơn để đảm bảo tính ổn định của cấu trúc DAG cuối cùng.
+### 3. `flow_bins`: 10
+- **Lý do**: Một giá trị trung bình (10) đủ để NSF mô hình hóa các phân phối nhiễu phi tuyến sinh ra từ các hàm Hill và Michaelis-Menten trong trình mô phỏng SynTReN.
+
+### 4. `lda_hsic`: 0.05
+- **Lý do**: Đối với mạng lưới 20 nút, nguy cơ nhầm lẫn hướng cạnh tăng cao. Vì vậy, trọng số HSIC được tăng lên 0.05 (so với 0.03 ở Sachs) để áp đặt điều kiện độc lập khắt khe hơn, giúp xác định hướng nhân quả chính xác hơn trong mạng gen phức tạp.
+
+### 5. `stage1_epochs`: 40 & `stage2_epochs`: 25
+- **Lý do**: Do số lượng nút tăng (20 nodes), không gian tìm kiếm đồ thị rộng hơn nhiều. Chúng ta tăng số lượng vòng lặp (epochs) ở cả hai giai đoạn để đảm bảo thuật toán Augmented Lagrangian có đủ thời gian để hội tụ về một DAG hợp lệ.
+
+### 6. `l1_stage1`: 0.001 & `l1_stage2`: 0.012
+- **Lý do**: Giữ nguyên chiến lược "Khám phá - Tinh chỉnh". Mức L1 mạnh ở giai đoạn 2 là cần thiết để loại bỏ các cạnh giả sinh ra do độ tương quan cao giữa các dòng gen trong mạng lưới lớn.
+
+---
+**Kết luận**: Các tham số được lựa chọn dựa trên nguyên tắc cân bằng giữa khả năng biểu thị (Expressivity) và tính thưa của đồ thị (Sparsity), đồng thời tận dụng lợi thế của NSF và HSIC để xử lý các đặc trưng riêng biệt của từng loại dữ liệu.
