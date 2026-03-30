@@ -27,7 +27,7 @@ Dựa trên bảng so sánh hiệu năng, chúng tôi đưa ra một số nhận
 ### 3.5.2. Trên tập dữ liệu mô phỏng SynTReN
 Trên mạng lưới điều hòa gen mô phỏng phức tạp với 20 nút, mô hình duy trì hiệu năng thực nghiệm ở mức khả quan:
 1.  **Về độ chính xác cấu trúc (SHD):** CausalFlowNet đạt SHD = 25.0, một con số khá cạnh tranh khi đặt cạnh các kết quả như GraN-DAG (34.0) hay CAM (40.5). Việc duy trì được số lỗi cạnh thấp cho thấy sự đóng góp nhất định của kiến trúc Gated-ResMLP và ràng buộc phi chu trình liên tục trong không gian đồ thị phi tuyến tính.
-2.  **Về khả năng suy luận can thiệp (SID):** Với SID = 166.0, mô hình đạt kết quả nằm trong phạm vi tương đồng với GraN-DAG (161.7). Mặc dù SID trên tập SynTReN thường cao do độ phức tạp của đồ thị 20 nút, nhưng sự phối hợp giữa chỉ số SHD thấp và SID ổn định cho thấy CausalFlowNet là một hướng tiếp cận có tiềm năng cho bài toán khám phá mạng lưới gen quy mô vừa.
+2.  **Về khả năng suy luận can thiệp (SID):** Với SID = 166.0, mô hình đạt kết quả nằm trong phạm vi tương đồng với GraN-DAG (161.7). Mặc dù SID trên tập SynTReN thường cao do độ phức tạp của đồ thị 20 nút, nhưng sự phối hợp giữa chỉ số SHD thấp và SID ổn định đã phần nào minh chứng cho tính khả thi và hiệu quả bước đầu của mô hình đề xuất trong việc xử lý các bài toán khám phá cấu trúc nhân quả phức tạp.
 
 ---
 **Ghi chú:**
