@@ -16,12 +16,25 @@ The identification of Directed Acyclic Graphs (DAGs) from observational data is 
 
 ## II. Proposed Architecture
 
-The CausalFlowNet framework is composed of four highly integrated components designed to be trained end-to-end:
+The CausalFlowNet framework is composed of four highly integrated components designed to be trained end-to-end, formulating a continuous constrained optimization problem:
 
-1. **Nonlinear Mechanism Modeler (Gated-ResMLP):** Models the structural equation function $f_i(PA_i)$ utilizing an advanced gating mechanism to handle diverse causal dependencies.
-2. **Noise Density Estimator (Neural Spline Flows):** Eliminates the rigid Gaussian noise assumption by applying Rational-Quadratic Splines to map the observed residuals $\epsilon$ to a learnable Gaussian Mixture latent space, yielding exact Negative Log-Likelihood (NLL).
-3. **Statistical Independence Verifier (Parallel HSIC):** A parallelized implementation of the Hilbert-Schmidt Independence Criterion using Random Fourier Features (RFF) to strongly penalize statistical dependence between causal inputs and structural residuals in $\mathcal{O}(B \times m)$ time limit.
-4. **DAG Constrained Optimization (Augmented Lagrangian):** Utilizes the experiential trace continuous formulation $h(W) = \text{Tr}(e^{W \circ W}) - d = 0$ embedded inside an Augmented Lagrangian Method (ALM) loop to enforce strict acyclicity upon the learned weighted adjacency matrix limit.
+1. **Nonlinear Mechanism Modeler (Gated-ResMLP):**
+   Assuming an Additive Noise Model (ANM), the structural equation is defined as:
+   $$X_i = f_i(PA_i) + \epsilon_i$$
+   where $PA_i$ denotes the parents of node $i$ derived from the adjacency matrix $W$, and $f_i$ is approximated using a Gated Residual MLP capable of capturing complex nonlinear interactions.
+
+2. **Noise Density Estimator (Neural Spline Flows):**
+   To relax traditional Gaussian assumptions, Neural Spline Flows (NSF) $f_{\phi}$ map the empirical residuals $\epsilon_i$ into a latent space $z_i$ subject to a Gaussian Mixture Prior. The exact Negative Log-Likelihood (NLL) is computed via the change of variables formula:
+   $$\mathcal{L}_{\text{NLL}}(W, \theta) = - \sum_{i=1}^{d} \left( \log p_Z(f_{\phi}(\epsilon_i)) + \log \left| \det \frac{\partial f_{\phi}(\epsilon_i)}{\partial \epsilon_i} \right| \right)$$
+
+3. **Statistical Independence Verifier (Parallel HSIC):**
+   By the principle of causal sufficiency, the residuals $\epsilon_i$ must remain statistically independent of their putative causes $PA_i$. We impose a Hilbert-Schmidt Independence Criterion (HSIC) penalty, accelerated in $\mathcal{O}(B \times m)$ via Random Fourier Features (RFF) $\Phi(\cdot)$:
+   $$\mathcal{L}_{\text{HSIC}}(W) = \sum_{i=1}^{d} \left\| \Sigma_{\Phi(PA_i)\Phi(\epsilon_i)} \right\|_F^2$$
+
+4. **DAG Constrained Optimization (Augmented Lagrangian):**
+   To strictly enforce Directed Acyclic Graph (DAG) structures over the continuous weights $W$, the experiential trace formulation $h(W) = \text{Tr}(e^{W \circ W}) - d = 0$ is deeply embedded within an Augmented Lagrangian Method (ALM):
+   $$\min_{W, \theta, \phi} \mathcal{L}_{\text{Total}} \quad \text{subject to} \quad h(W) = 0$$
+   $$\mathcal{L}_{\text{Aug}} = \underbrace{\mathcal{L}_{\text{NLL}} + \lambda_1 \mathcal{L}_{\text{HSIC}} + \lambda_2 \|W\|_1}_{\mathcal{L}_{\text{Total}}} + \alpha h(W) + \frac{\rho}{2} |h(W)|^2$$
 
 ```mermaid
 graph LR
