@@ -1,9 +1,5 @@
 # CausalFlowNet: A Nonlinear Causal Discovery Framework via Normalizing Flows and Parallel Independence Testing
 
-<p align="center">
-  <img src="sachs_graph_comparison.png" width="800" alt="CausalFlowNet Sachs Discovery Result">
-</p>
-
 ## Abstract
 Causal discovery from continuous observational data remains a challenging task, particularly when the underlying mechanisms are highly nonlinear and subject to non-Gaussian noise. We introduce **CausalFlowNet**, a unified deep learning framework for continuous causal structure learning. The proposed architecture leverages a **Gated Residual Multi-Layer Perceptron (Gated-ResMLP)** to capture complex context-dependent interactions, alongside **Neural Spline Flows (NSF)** equipped with Gaussian Mixture Priors for flexible and exact density estimation of the residuals. To enforce the fundamental assumption of causal sufficiency—where noise residuals must be statistically independent of their causal parents—we introduce a fully parallelized **Hilbert-Schmidt Independence Criterion (HSIC)** module accelerated by Random Fourier Features. Optimized via the Augmented Lagrangian Method to strictly guarantee acyclicity, CausalFlowNet demonstrates highly competitive Structural Hamming Distance (SHD) and Structural Intervention Distance (SID) on both real biological datasets and synthetic regulatory networks.
 
@@ -20,21 +16,37 @@ The CausalFlowNet framework is composed of four highly integrated components des
 
 1. **Nonlinear Mechanism Modeler (Gated-ResMLP):**
    Assuming an Additive Noise Model (ANM), the structural equation is defined as:
-   $$X_i = f_i(PA_i) + \epsilon_i$$
+
+   $$
+   X_i = f_i(PA_i) + \epsilon_i
+   $$
+
    where $PA_i$ denotes the parents of node $i$ derived from the adjacency matrix $W$, and $f_i$ is approximated using a Gated Residual MLP capable of capturing complex nonlinear interactions.
 
 2. **Noise Density Estimator (Neural Spline Flows):**
    To relax traditional Gaussian assumptions, Neural Spline Flows (NSF) $f_{\phi}$ map the empirical residuals $\epsilon_i$ into a latent space $z_i$ subject to a Gaussian Mixture Prior. The exact Negative Log-Likelihood (NLL) is computed via the change of variables formula:
-   $$\mathcal{L}_{\text{NLL}}(W, \theta) = - \sum_{i=1}^{d} \left( \log p_Z(f_{\phi}(\epsilon_i)) + \log \left| \det \frac{\partial f_{\phi}(\epsilon_i)}{\partial \epsilon_i} \right| \right)$$
+
+   $$
+   \mathcal{L}_{\text{NLL}}(W, \theta) = - \sum_{i=1}^{d} \left( \log p_Z(f_{\phi}(\epsilon_i)) + \log \left| \det \frac{\partial f_{\phi}(\epsilon_i)}{\partial \epsilon_i} \right| \right)
+   $$
 
 3. **Statistical Independence Verifier (Parallel HSIC):**
    By the principle of causal sufficiency, the residuals $\epsilon_i$ must remain statistically independent of their putative causes $PA_i$. We impose a Hilbert-Schmidt Independence Criterion (HSIC) penalty, accelerated in $\mathcal{O}(B \times m)$ via Random Fourier Features (RFF) $\Phi(\cdot)$:
-   $$\mathcal{L}_{\text{HSIC}}(W) = \sum_{i=1}^{d} \left\| \Sigma_{\Phi(PA_i)\Phi(\epsilon_i)} \right\|_F^2$$
+
+   $$
+   \mathcal{L}_{\text{HSIC}}(W) = \sum_{i=1}^{d} \left\| \Sigma_{\Phi(PA_i)\Phi(\epsilon_i)} \right\|_F^2
+   $$
 
 4. **DAG Constrained Optimization (Augmented Lagrangian):**
    To strictly enforce Directed Acyclic Graph (DAG) structures over the continuous weights $W$, the experiential trace formulation $h(W) = \text{Tr}(e^{W \circ W}) - d = 0$ is deeply embedded within an Augmented Lagrangian Method (ALM):
-   $$\min_{W, \theta, \phi} \mathcal{L}_{\text{Total}} \quad \text{subject to} \quad h(W) = 0$$
-   $$\mathcal{L}_{\text{Aug}} = \underbrace{\mathcal{L}_{\text{NLL}} + \lambda_1 \mathcal{L}_{\text{HSIC}} + \lambda_2 \|W\|_1}_{\mathcal{L}_{\text{Total}}} + \alpha h(W) + \frac{\rho}{2} |h(W)|^2$$
+
+   $$
+   \min_{W, \theta, \phi} \mathcal{L}_{\text{Total}} \quad \text{subject to} \quad h(W) = 0
+   $$
+
+   $$
+   \mathcal{L}_{\text{Aug}} = \underbrace{\mathcal{L}_{\text{NLL}} + \lambda_1 \mathcal{L}_{\text{HSIC}} + \lambda_2 \|W\|_1}_{\mathcal{L}_{\text{Total}}} + \alpha h(W) + \frac{\rho}{2} |h(W)|^2
+   $$
 
 ```mermaid
 graph LR
