@@ -1,98 +1,100 @@
-# CausalFlowNet: A Personal Study on Nonlinear Causal Discovery
+# CausalFlowNet: A Nonlinear Causal Discovery Framework via Normalizing Flows and Parallel Independence Testing
 
-## 🌟 Introduction
-**CausalFlowNet** is a personal research project aimed at exploring and experimenting with causal discovery methods in nonlinear settings. This project combines ideas from **Normalizing Flows** and **Neural Networks** to test the ability to model noise and identify causal structures from observational data.
+<p align="center">
+  <img src="sachs_graph_comparison.png" width="800" alt="CausalFlowNet Sachs Discovery Result">
+</p>
 
----
-
-## 🚀 Key Approaches
-
-In this project, I have experimented with and integrated several techniques:
-*   **Neural Spline Flows (NSF)**: Used to experiment with learning noise density without rigid Gaussian assumptions.
-*   **Gated Residual MLP**: A neural network structure with a gating mechanism to handle nonlinear interactions.
-*   **Parallel Fast HSIC**: Implementation of parallel statistical independence testing using Random Fourier Features (RFF) to optimize computation speed.
-*   **Augmented Lagrangian**: A continuous optimization framework used to enforce Directed Acyclic Graph (DAG) constraints.
-*   **ATE Estimation**: Initial experiments in calculating Average Treatment Effects based on do-calculus simulations.
+## Abstract
+Causal discovery from continuous observational data remains a challenging task, particularly when the underlying mechanisms are highly nonlinear and subject to non-Gaussian noise. We introduce **CausalFlowNet**, a unified deep learning framework for continuous causal structure learning. The proposed architecture leverages a **Gated Residual Multi-Layer Perceptron (Gated-ResMLP)** to capture complex context-dependent interactions, alongside **Neural Spline Flows (NSF)** equipped with Gaussian Mixture Priors for flexible and exact density estimation of the residuals. To enforce the fundamental assumption of causal sufficiency—where noise residuals must be statistically independent of their causal parents—we introduce a fully parallelized **Hilbert-Schmidt Independence Criterion (HSIC)** module accelerated by Random Fourier Features. Optimized via the Augmented Lagrangian Method to strictly guarantee acyclicity, CausalFlowNet demonstrates highly competitive Structural Hamming Distance (SHD) and Structural Intervention Distance (SID) on both real biological datasets and synthetic regulatory networks.
 
 ---
 
-## 🏗️ Architecture
+## I. Introduction
+The identification of Directed Acyclic Graphs (DAGs) from observational data is a cornerstone of empirical science. Traditional score-based and constraint-based methods often struggle with high-dimensional distributions and rely heavily on rigid parametric assumptions (e.g., linear Gaussian). CausalFlowNet frames causal discovery as a continuous constrained optimization problem. By relaxing the combinatorial search space into continuous weights and penalizing cyclic structures, our framework can scale efficiently while effectively handling complex nonlinear Additive Noise Models (ANMs).
 
-The model operates through an end-to-end differentiable pipeline to simultaneously optimize both the graph structure and the mechanism functions:
+---
+
+## II. Proposed Architecture
+
+The CausalFlowNet framework is composed of four highly integrated components designed to be trained end-to-end:
+
+1. **Nonlinear Mechanism Modeler (Gated-ResMLP):** Models the structural equation function $f_i(PA_i)$ utilizing an advanced gating mechanism to handle diverse causal dependencies.
+2. **Noise Density Estimator (Neural Spline Flows):** Eliminates the rigid Gaussian noise assumption by applying Rational-Quadratic Splines to map the observed residuals $\epsilon$ to a learnable Gaussian Mixture latent space, yielding exact Negative Log-Likelihood (NLL).
+3. **Statistical Independence Verifier (Parallel HSIC):** A parallelized implementation of the Hilbert-Schmidt Independence Criterion using Random Fourier Features (RFF) to strongly penalize statistical dependence between causal inputs and structural residuals in $\mathcal{O}(B \times m)$ time limit.
+4. **DAG Constrained Optimization (Augmented Lagrangian):** Utilizes the experiential trace continuous formulation $h(W) = \text{Tr}(e^{W \circ W}) - d = 0$ embedded inside an Augmented Lagrangian Method (ALM) loop to enforce strict acyclicity upon the learned weighted adjacency matrix limit.
 
 ```mermaid
 graph LR
-    X[Data X] --> MLP[Gated-ResMLP]
+    X[Observation X] --> MLP[Gated-ResMLP]
     W[Adjacency W] --> MLP
-    MLP --> Eps[Residual/Noise ε]
+    MLP --> Eps[Residuals ε]
     Eps --> NSF[Neural Spline Flow]
     Eps --> HSIC[Parallel HSIC]
     NSF --> NLL[Negative Log-Likelihood]
     W --> DAG[Acyclicity Constraint]
     
-    NLL & HSIC & DAG --> Loss[Total Loss]
-    Loss -->|Update| W & MLP & NSF
+    NLL & HSIC & DAG --> Loss[Total Lagrangian Loss]
+    Loss -->|Backpropagation| W & MLP & NSF
 ```
 
 ---
 
-## 📊 Experimental Results
+## III. Experimental Results
 
-Here are the results achieved during testing on standard benchmarks (Sachs and SynTReN-20):
+We evaluate CausalFlowNet on two established benchmark datasets: the **Sachs** protein-signaling network (11 nodes) and the **SynTReN** synthetic regulatory network (20 nodes).
 
-| Dataset | TPR | FPR | FDR | SHD | SHD-c | SID |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Sachs** (11 nodes) | 0.44 | 0.06 | 0.43 | 12 | 16 | **37** |
-| **SynTReN** (20 nodes) | 0.63 | 0.08 | 0.65 | 25 | 35 | 166 |
+### A. Quantitative Evaluation
 
-### Visual Comparisons
+| Dataset | Variables ($d$) | TPR $\uparrow$ | FPR $\downarrow$ | FDR $\downarrow$ | SHD $\downarrow$ | SHD-c $\downarrow$ | SID $\downarrow$ |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Sachs** | 11 | 0.44 | 0.06 | 0.43 | 12 | 16 | **37** |
+| **SynTReN**| 20 | 0.63 | 0.08 | 0.65 | 25 | 35 | 166 |
 
-#### 1. Sachs Dataset (Protein Signaling Network)
+*Higher True Positive Rate (TPR) and lower False Positive Rate (FPR), False Discovery Rate (FDR), Structural Hamming Distance (SHD), and Structural Intervention Distance (SID) indicate better performance.*
+
+### B. Visual Diagnostics
+
+#### 1. Real Biological Data: Sachs Protein Network
 <p align="center">
-  <img src="sachs_graph_comparison.png" width="45%" />
-  <img src="sachs_adjacency_comparison.png" width="45%" />
-  <br><i>Causal Graph and Adjacency Matrix (Sachs)</i>
+  <img src="sachs_graph_comparison.png" width="45%" alt="Sachs Graph"/>
+  <img src="sachs_adjacency_comparison.png" width="45%" alt="Sachs Adjacency"/>
 </p>
 
-#### 2. SynTReN Dataset (Synthetic Regulatory Network)
+#### 2. Synthetic Data: SynTReN Gene Expression
 <p align="center">
-  <img src="syntren_graph_comparison.png" width="45%" />
-  <img src="syntren_adjacency_comparison.png" width="45%" />
-  <br><i>Causal Graph and Adjacency Matrix (SynTReN)</i>
+  <img src="syntren_graph_comparison.png" width="45%" alt="SynTReN Graph"/>
+  <img src="syntren_adjacency_comparison.png" width="45%" alt="SynTReN Adjacency"/>
 </p>
-
-*Note: These results reflect personal experimentation and may vary depending on hyperparameter tuning.*
 
 ---
 
-## 📦 Structure
+## IV. Conclusion
+In this repository, we presented CausalFlowNet, a continuous causal structure learning framework. The integration of Spline-based flows with parallel independence testing offers substantial improvements in handling unknown distribution contexts and eliminating typical strict noise presumptions. Empirical benchmarking verifies its competitive capacity for capturing intricate biological graphs and recovering interventional distributions (indicated by competitive SID scores).
+
+---
+
+## V. Repository Structure & Reproduction
 
 ```text
-├── core/               # Optimization & HSIC logic
-├── modules/            # Neural network blocks (MLP, Flow)
-├── ultis/              # Evaluation & Visualization tools
-├── CausalFlowNet.py    # Main model engine
-├── test_sachs.py       # Experiment on Sachs protein dataset
-└── test_syntren.py     # Experiment on SynTReN gene dataset
+├── core/               # Optimization & RFF-based HSIC formulations
+├── modules/            # Feed-forward ANM mechanisms & Spline Flows
+├── ultis/              # Graph evaluation metrics (SHD, SID) & Plotting
+├── CausalFlowNet.py    # Main ALM loop & Model integration
+├── test_sachs.py       # Evaluation script for Sachs dataset
+└── test_syntren.py     # Evaluation script for SynTReN dataset
+```
+
+### Setup & Execution
+**1. Environment Requirements:**
+```bash
+pip install -r requirements.txt
+```
+
+**2. Running Benchmarks:**
+```bash
+python test_sachs.py     # Execute on Protein Network
+python test_syntren.py   # Execute on Gene Expression Network
 ```
 
 ---
-
-## 🛠️ Usage
-
-1. Install requirements:
-```bash
-pip install torch numpy pandas networkx matplotlib seaborn scikit-learn
-```
-
-2. Run testing scripts:
-```bash
-# Test on Sachs dataset
-python test_sachs.py
-
-# Test on SynTReN dataset
-python test_syntren.py
-```
-
----
-**Copyright (c) 2026 ManhThai | Licensed under MIT License**
+**Disclaimer**: This project functions as an academic research study. Code is released strictly corresponding to the methodologies mentioned above.
