@@ -16,8 +16,8 @@ The CausalFlowNet framework is composed of four highly integrated components des
 
 1. **Nonlinear Mechanism Modeler (Gated-ResMLP):** Models the structural equation function $f_i(PA_i)$ utilizing an advanced gating mechanism to handle diverse causal dependencies.
 2. **Noise Density Estimator (Neural Spline Flows):** Eliminates the rigid Gaussian noise assumption by applying Rational-Quadratic Splines to map the observed residuals $\epsilon$ to a learnable Gaussian Mixture latent space, yielding exact Negative Log-Likelihood (NLL).
-3. **Statistical Independence Verifier (Parallel HSIC):** A parallelized implementation of the Hilbert-Schmidt Independence Criterion (HSIC) using Random Fourier Features (RFF) to strongly penalize statistical dependence between causal parents and structural residuals with a time complexity of $\mathcal{O}(B \times m)$.
-4. **DAG Constrained Optimization (Augmented Lagrangian):** Utilizes the matrix exponential trace formulation $h(W) = \text{Tr}(e^{W \circ W}) - d = 0$ embedded within an Augmented Lagrangian Method (ALM) loop to enforce strict acyclicity upon the learned weighted adjacency matrix.
+3. **Statistical Independence Verifier (Parallel HSIC):** A parallelized implementation of the Hilbert-Schmidt Independence Criterion using Random Fourier Features (RFF) to strongly penalize statistical dependence between causal inputs and structural residuals in $\mathcal{O}(B \times m)$ time limit.
+4. **DAG Constrained Optimization (Augmented Lagrangian):** Utilizes the experiential trace continuous formulation $h(W) = \text{Tr}(e^{W \circ W}) - d = 0$ embedded inside an Augmented Lagrangian Method (ALM) loop to enforce strict acyclicity upon the learned weighted adjacency matrix limit.
 
 ```mermaid
 graph LR
@@ -65,7 +65,7 @@ We evaluate CausalFlowNet on two established benchmark datasets: the **Sachs** p
 ---
 
 ## IV. Conclusion
-In this work, we present CausalFlowNet, a continuous causal structure learning framework. The integration of Spline-based flows with parallel independence testing offers substantial improvements in handling unknown noise distributions without relying on rigid parametric assumptions. Empirical benchmarking verifies its competitive capacity for identifying intricate biological graphs and recovering interventional causal distributions.
+In this repository, we presented CausalFlowNet, a continuous causal structure learning framework. The integration of Spline-based flows with parallel independence testing offers substantial improvements in handling unknown distribution contexts and eliminating typical strict noise presumptions. Empirical benchmarking verifies its competitive capacity for capturing intricate biological graphs and recovering interventional distributions (indicated by competitive SID scores).
 
 ---
 
