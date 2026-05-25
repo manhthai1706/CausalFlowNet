@@ -447,11 +447,11 @@ def api_cluster():
             n_samples = 500
             dataset_name = "dữ liệu mẫu"
             
-        # Segment subgroups using Dirichlet-weighted cluster assignments (with float64 precision fix)
+        # Segment subgroups using Dirichlet-weighted cluster assignments (with float64 precision and non-negative fix)
         np.random.seed(42)
         probs = np.random.dirichlet(np.ones(n_clusters))
+        probs = np.clip(probs, 0.0, 1.0)
         probs = probs / np.sum(probs)
-        probs[-1] = 1.0 - np.sum(probs[:-1])
         cluster_assignments = np.random.choice(n_clusters, size=n_samples, p=probs)
         unique, counts = np.unique(cluster_assignments, return_counts=True)
         
@@ -474,6 +474,8 @@ def api_cluster():
         }
         return jsonify(response)
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 if __name__ == '__main__':
