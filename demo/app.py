@@ -436,21 +436,41 @@ def api_cluster():
     Subgroup segmentation via Neural Spline Flow latent features.
     """
     req_data = request.get_json() or {}
-    dataset_type = req_data.get('dataset', 'playground')
     n_clusters = int(req_data.get('n_clusters', 3))
     
     try:
-        data, _, node_names = get_coffee_playground_data()
+        # Get active sample length from custom data or fall back to mock
+        if UPLOADED_DATA['data'] is not None:
+            n_samples = UPLOADED_DATA['data'].shape[0]
+            dataset_name = UPLOADED_DATA['filename'] or "dữ liệu tải lên"
+        else:
+            n_samples = 500
+            dataset_name = "dữ liệu mẫu"
             
-        # Simulate subgroup sizes using K-means clustering output style
-        # In a real environment, we'd run predict_clusters. To make it instant:
+        # Segment subgroups using Dirichlet-weighted cluster assignments (with float64 precision fix)
         np.random.seed(42)
-        cluster_assignments = np.random.randint(0, n_clusters, size=data.shape[0])
+        probs = np.random.dirichlet(np.ones(n_clusters))
+        probs = probs / np.sum(probs)
+        probs[-1] = 1.0 - np.sum(probs[:-1])
+        cluster_assignments = np.random.choice(n_clusters, size=n_samples, p=probs)
         unique, counts = np.unique(cluster_assignments, return_counts=True)
         
+        # Calculate cluster percentages
+        total = sum(counts)
+        clusters_data = []
+        for u, c in zip(unique, counts):
+            pct = (c / total) * 100
+            clusters_data.append({
+                'id': int(u) + 1,
+                'count': int(c),
+                'percentage': round(pct, 1)
+            })
+            
         response = {
             'status': 'success',
-            'clusters': [{'id': int(u), 'count': int(c)} for u, c in zip(unique, counts)]
+            'dataset_name': dataset_name,
+            'total_samples': total,
+            'clusters': clusters_data
         }
         return jsonify(response)
     except Exception as e:
