@@ -455,15 +455,15 @@ def api_cluster():
         cluster_assignments = np.random.choice(n_clusters, size=n_samples, p=probs)
         unique, counts = np.unique(cluster_assignments, return_counts=True)
         
-        # Calculate cluster percentages
-        total = sum(counts)
+        # Calculate cluster percentages with standard Python JSON-serializable types (.item() conversion)
+        total = int(sum(counts).item())
         clusters_data = []
         for u, c in zip(unique, counts):
-            pct = (c / total) * 100
+            pct = (c.item() / total) * 100
             clusters_data.append({
-                'id': int(u) + 1,
-                'count': int(c),
-                'percentage': round(pct, 1)
+                'id': int(u.item()) + 1,
+                'count': int(c.item()),
+                'percentage': round(float(pct), 1)
             })
             
         response = {
