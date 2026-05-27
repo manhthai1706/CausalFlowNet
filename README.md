@@ -33,6 +33,16 @@ graph LR
     Loss -->|Backpropagation| W & MLP & NSF
 ```
 
+### Architectural Flowchart
+
+Below is the detailed structural mathematical block diagram of **CausalFlowNet** mapping our non-linear deep learning components, spline flows, and parallel HSIC networks:
+
+<p align="center">
+  <img src="causalflownet_architecture.png" width="95%" alt="CausalFlowNet Architecture Diagram"/>
+</p>
+
+---
+
 ---
 
 ## III. Experimental Results

@@ -1,11 +1,11 @@
 # CausalFlowNet Benchmarking & Architecture Report
 
-## Model Architecture: Gated-ResMLP Causal Block
+## CausalFlowNet Unified Data Flow Pipeline
 
-Below is the detailed scientific architectural diagram of the **Gated-ResMLP Causal Block** implemented in CausalFlowNet (`modules/MLP.py`), which models the non-linear relationship between parent nodes and the target child node:
+Below is the mathematically precise and technically accurate architectural pipeline diagram of **CausalFlowNet** as implemented across the core files (`CausalFlowNet.py`, `modules/MLP.py`, `modules/Flow.py`, `core/HSIC.py`, and `core/Optimization.py`). It illustrates the flow from input variables, masked parent mapping, non-linear expectation fitting, residual extraction, to parallel loss optimization:
 
 <p align="center">
-  <img src="causal_resmlp_architecture.png" width="90%" alt="Gated-ResMLP Causal Block Architecture"/>
+  <img src="causalflownet_pipeline.png" width="95%" alt="CausalFlowNet Unified Data Flow Pipeline"/>
 </p>
 
 ---
