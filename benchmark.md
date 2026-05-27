@@ -1,4 +1,16 @@
-# Experimental Results Comparison Table
+# CausalFlowNet Benchmarking & Architecture Report
+
+## Model Architecture: Gated-ResMLP Causal Block
+
+Below is the detailed scientific architectural diagram of the **Gated-ResMLP Causal Block** implemented in CausalFlowNet (`modules/MLP.py`), which models the non-linear relationship between parent nodes and the target child node:
+
+<p align="center">
+  <img src="causal_resmlp_architecture.png" width="90%" alt="Gated-ResMLP Causal Block Architecture"/>
+</p>
+
+---
+
+## Experimental Results Comparison Table
 
 Below is the performance comparison of **CausalFlowNet (Ours)** against popular baseline methods on two standard datasets: **Sachs** (11 nodes) and **SynTReN** (20 nodes).
 
