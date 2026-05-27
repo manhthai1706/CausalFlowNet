@@ -1,16 +1,4 @@
-# CausalFlowNet Benchmarking & Architecture Report
-
-## CausalFlowNet Unified Data Flow Pipeline
-
-Below is the mathematically precise and technically accurate architectural pipeline diagram of **CausalFlowNet** as implemented across the core files (`CausalFlowNet.py`, `modules/MLP.py`, `modules/Flow.py`, `core/HSIC.py`, and `core/Optimization.py`). It illustrates the flow from input variables, masked parent mapping, non-linear expectation fitting, residual extraction, to parallel loss optimization:
-
-<p align="center">
-  <img src="causalflownet_pipeline.png" width="95%" alt="CausalFlowNet Unified Data Flow Pipeline"/>
-</p>
-
----
-
-## Experimental Results Comparison Table
+# Experimental Results Comparison Table
 
 Below is the performance comparison of **CausalFlowNet (Ours)** against popular baseline methods on two standard datasets: **Sachs** (11 nodes) and **SynTReN** (20 nodes).
 
