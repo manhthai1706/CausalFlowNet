@@ -48,19 +48,11 @@ We evaluate CausalFlowNet on two established benchmark datasets: the **Sachs** p
 
 *Higher True Positive Rate (TPR) and lower False Positive Rate (FPR), False Discovery Rate (FDR), Structural Hamming Distance (SHD), and Structural Intervention Distance (SID) indicate better performance.*
 
-### B. Visual Diagnostics
+### B. Visual Diagnostics & Baselines Comparison
 
-#### 1. Real Biological Data: Sachs Protein Network
-<p align="center">
-  <img src="sachs_graph_comparison.png" width="45%" alt="Sachs Graph"/>
-  <img src="sachs_adjacency_comparison.png" width="45%" alt="Sachs Adjacency"/>
-</p>
+For high-resolution reconstructed causal graphs, adjacency matrix comparison plots, and comprehensive quantitative comparisons against 8+ state-of-the-art baseline methods (e.g. GraN-DAG, GraN-DAG++, DAG-GNN, NOTEARS, CAM, GSF, PC, GES), please refer to our dedicated reporting document:
 
-#### 2. Synthetic Data: SynTReN Gene Expression
-<p align="center">
-  <img src="syntren_graph_comparison.png" width="45%" alt="SynTReN Graph"/>
-  <img src="syntren_adjacency_comparison.png" width="45%" alt="SynTReN Adjacency"/>
-</p>
+👉 **[Detailed Experimental Benchmarking Report (benchmark.md)](file:///c:/Users/manht/Downloads/CausalFlowNet/benchmark.md)**
 
 ---
 
