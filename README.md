@@ -32,10 +32,11 @@ Empirical evaluation on two established benchmark datasets—the **Sachs** prote
 - [III. Proposed Architecture](#iii-proposed-architecture)
 - [IV. Experimental Results](#iv-experimental-results)
 - [V. Visual Diagnostics](#v-visual-diagnostics)
-- [VI. References](#vi-references)
-- [Repository Structure](#repository-structure)
-- [Reproduction Guide](#reproduction-guide)
-- [License](#license)
+- [VI. Repository Structure](#vi-repository-structure)
+- [VII. Reproduction Guide](#vii-reproduction-guide)
+- [VIII. References](#viii-references)
+- [IX. Citation](#ix-citation)
+- [X. License](#x-license)
 
 ---
 
@@ -249,7 +250,7 @@ The SynTReN dataset simulates a 20-gene *E. coli* sub-network with realistic noi
 
 ---
 
-## Repository Structure
+## VI. Repository Structure
 
 ```
 CausalFlowNet/
@@ -276,7 +277,7 @@ CausalFlowNet/
 
 ---
 
-## Reproduction Guide
+## VII. Reproduction Guide
 
 ### A. Environment Setup
 
@@ -344,7 +345,7 @@ python app.py
 
 ---
 
-## VI. References
+## VIII. References
 
 [1] K. Bello, B. Aragam, and P. Ravikumar, "DAGMA: Learning DAGs via M-matrices and a Log-Determinant Acyclicity Characterization," *Advances in Neural Information Processing Systems*, vol. 35, 2022.
 
@@ -378,7 +379,23 @@ python app.py
 
 ---
 
-## License
+## IX. Citation
+
+If you find CausalFlowNet useful in your research, please consider citing:
+
+```bibtex
+@software{tran2026causalflownet,
+  author       = {Tran, Manh Thai},
+  title        = {{CausalFlowNet}: Nonlinear Causal Discovery via Normalizing Flows and Parallel Independence Testing},
+  year         = {2026},
+  url          = {https://github.com/manhthai1706/CausalFlowNet},
+  license      = {MIT}
+}
+```
+
+---
+
+## X. License
 
 This project is released under the [MIT License](LICENSE).
 
