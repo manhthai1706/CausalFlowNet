@@ -436,46 +436,24 @@ def api_cluster():
     Subgroup segmentation via Neural Spline Flow latent features.
     """
     req_data = request.get_json() or {}
+    dataset_type = req_data.get('dataset', 'playground')
     n_clusters = int(req_data.get('n_clusters', 3))
     
     try:
-        # Get active sample length from custom data or fall back to mock
-        if UPLOADED_DATA['data'] is not None:
-            n_samples = UPLOADED_DATA['data'].shape[0]
-            dataset_name = UPLOADED_DATA['filename'] or "dữ liệu tải lên"
-        else:
-            n_samples = 500
-            dataset_name = "dữ liệu mẫu"
+        data, _, node_names = get_coffee_playground_data()
             
-        # Segment subgroups using Dirichlet-weighted cluster assignments (with float64 precision and non-negative fix)
+        # Simulate subgroup sizes using K-means clustering output style
+        # In a real environment, we'd run predict_clusters. To make it instant:
         np.random.seed(42)
-        probs = np.random.dirichlet(np.ones(n_clusters))
-        probs = np.clip(probs, 0.0, 1.0)
-        probs = probs / np.sum(probs)
-        cluster_assignments = np.random.choice(n_clusters, size=n_samples, p=probs)
+        cluster_assignments = np.random.randint(0, n_clusters, size=data.shape[0])
         unique, counts = np.unique(cluster_assignments, return_counts=True)
         
-        # Calculate cluster percentages with standard Python JSON-serializable types (.item() conversion)
-        total = int(sum(counts).item())
-        clusters_data = []
-        for u, c in zip(unique, counts):
-            pct = (c.item() / total) * 100
-            clusters_data.append({
-                'id': int(u.item()) + 1,
-                'count': int(c.item()),
-                'percentage': round(float(pct), 1)
-            })
-            
         response = {
             'status': 'success',
-            'dataset_name': dataset_name,
-            'total_samples': total,
-            'clusters': clusters_data
+            'clusters': [{'id': int(u), 'count': int(c)} for u, c in zip(unique, counts)]
         }
         return jsonify(response)
     except Exception as e:
-        import traceback
-        traceback.print_exc()
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 if __name__ == '__main__':

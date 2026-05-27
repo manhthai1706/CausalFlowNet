@@ -58,15 +58,6 @@ const elements = {
     labSliderVal: document.getElementById('lab-slider-val'),
     impactBox: document.getElementById('impact-box'),
     
-    // Tabbed Lab Elements
-    tabLabIntervene: document.getElementById('tab-lab-intervene'),
-    tabLabCluster: document.getElementById('tab-lab-cluster'),
-    interveneInterface: document.getElementById('intervene-interface'),
-    clusterInterface: document.getElementById('cluster-interface'),
-    clusterCountSelect: document.getElementById('cluster-count-select'),
-    btnRunCluster: document.getElementById('btn-run-cluster'),
-    clusterResultsBox: document.getElementById('cluster-results-box'),
-    
     explainerOverlay: document.getElementById('explainer-overlay'),
     explainerContent: document.getElementById('explainer-content'),
     explainerClose: document.getElementById('explainer-close')
@@ -140,24 +131,6 @@ function setupEventListeners() {
     elements.explainerClose.addEventListener('click', () => {
         elements.explainerOverlay.style.display = 'none';
     });
-    
-    // Tabbed Lab Panel Switching
-    elements.tabLabIntervene.addEventListener('click', () => {
-        elements.tabLabIntervene.classList.add('active');
-        elements.tabLabCluster.classList.remove('active');
-        elements.interveneInterface.style.display = 'flex';
-        elements.clusterInterface.style.display = 'none';
-    });
-    
-    elements.tabLabCluster.addEventListener('click', () => {
-        elements.tabLabCluster.classList.add('active');
-        elements.tabLabIntervene.classList.remove('active');
-        elements.clusterInterface.style.display = 'flex';
-        elements.interveneInterface.style.display = 'none';
-    });
-    
-    // Trigger Latent Subgroup Discovery
-    elements.btnRunCluster.addEventListener('click', runLatentClustering);
 }
 
 // Load initial status (if already running or loaded)
@@ -305,71 +278,6 @@ function runIntervention() {
             appState.activeImpacts = data.impacts;
             renderImpactIndicators();
             updateNodeVisualsByImpact();
-        }
-    });
-}
-
-// API: Run latent space subgroup clustering
-function runLatentClustering() {
-    elements.btnRunCluster.disabled = true;
-    elements.btnRunCluster.innerHTML = '<span class="spinner"></span> Đang phân nhóm...';
-    
-    const params = {
-        n_clusters: parseInt(elements.clusterCountSelect.value)
-    };
-    
-    fetch('/api/cluster', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(params)
-    })
-    .then(res => res.json())
-    .then(data => {
-        elements.btnRunCluster.disabled = false;
-        elements.btnRunCluster.innerHTML = '<i data-lucide="zoom-in" style="width: 15px; height: 15px;"></i> Bắt Đầu Phân Nhóm';
-        
-        if (data.status === 'success') {
-            const colors = ['var(--accent-blue)', 'var(--accent-green)', 'var(--accent-gold)', 'var(--accent-crimson)', '#818cf8'];
-            
-            elements.clusterResultsBox.innerHTML = `
-                <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 6px; padding: 2px 4px;">
-                    Dữ liệu đang xem: <b style="color: var(--accent-blue);">${data.dataset_name}</b> | Tổng số dòng: <b>${data.total_samples}</b>.
-                </div>
-                ${data.clusters.map((c, i) => {
-                    const color = colors[i % colors.length];
-                    return `
-                        <div class="impact-row" style="flex-direction: column; align-items: stretch; gap: 6px; background: rgba(255,255,255,0.015); border: 1px solid rgba(255,255,255,0.03); margin-bottom: 4px; padding: 10px;">
-                            <div style="display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 600;">
-                                <span style="display: flex; align-items: center; gap: 6px;">
-                                    <span style="width: 8px; height: 8px; border-radius: 50%; background: ${color};"></span>
-                                    Nhóm #${c.id}
-                                </span>
-                                <span style="color: ${color}; font-weight: 700;">${c.percentage}% <span style="font-size: 10px; color: var(--text-muted); font-weight: 500;">(${c.count} dòng)</span></span>
-                            </div>
-                            <div class="progress-bar-container" style="height: 4px; background: rgba(255,255,255,0.04); border-radius: 4px; overflow: hidden; margin-top: 4px;">
-                                <div style="height: 100%; width: ${c.percentage}%; background: ${color}; border-radius: 4px;"></div>
-                            </div>
-                        </div>
-                    `;
-                }).join('')}
-                <div style="font-size: 9.5px; color: var(--text-muted); line-height: 1.4; margin-top: 6px; text-align: justify; padding: 6px 10px; background: rgba(255,255,255,0.01); border-radius: 6px; border: 1px solid rgba(255,255,255,0.03);">
-                    💡 <b>Giải thích đơn giản:</b> Hệ thống sẽ tự động quét qua dữ liệu và chia các đối tượng (như bệnh nhân hoặc ngôi nhà) thành những nhóm nhỏ có đặc điểm tương đồng với nhau (ví dụ: nhóm bệnh nhân có nguy cơ cao, hoặc nhóm nhà giá rẻ). Điều này giúp bạn hiểu rõ từng phân khúc cụ thể mà không cần phải phân loại thủ công.
-                </div>
-            `;
-            
-            if (window.lucide) {
-                lucide.createIcons();
-            }
-        } else {
-            alert('Lỗi phân nhóm: ' + data.message);
-        }
-    })
-    .catch(err => {
-        console.error(err);
-        elements.btnRunCluster.disabled = false;
-        elements.btnRunCluster.innerHTML = '<i data-lucide="zoom-in" style="width: 15px; height: 15px;"></i> Bắt Đầu Phân Nhóm';
-        if (window.lucide) {
-            lucide.createIcons();
         }
     });
 }

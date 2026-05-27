@@ -141,66 +141,35 @@
                 </div>
             </section>
 
-            <!-- Intervention & Clustering Laboratory (What-If & Subgroup Simulator) -->
+            <!-- Intervention Laboratory (What-If Simulator) -->
             <section class="lab-card glass-panel" id="lab-panel">
-                <div class="data-tabs" style="display: flex; gap: 6px; margin-bottom: 12px; background: rgba(255, 255, 255, 0.04); padding: 4px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
-                    <button type="button" class="tab-btn active" id="tab-lab-intervene" style="flex: 1; padding: 6px; border: none; background: transparent; color: var(--text-muted); font-size: 11px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 4px;"><i data-lucide="flask-conical" style="width: 13px; height: 13px;"></i> Thử Nghiệm Can Thiệp</button>
-                    <button type="button" class="tab-btn" id="tab-lab-cluster" style="flex: 1; padding: 6px; border: none; background: transparent; color: var(--text-muted); font-size: 11px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 4px;"><i data-lucide="network" style="width: 13px; height: 13px;"></i> Tự Động Phân Nhóm</button>
+                <h3 class="section-title" style="display: flex; align-items: center; gap: 6px;"><i data-lucide="flask-conical" style="width: 16px; height: 16px; color: var(--accent-crimson);"></i> Phòng Thí Nghiệm Can Thiệp (What-If)</h3>
+                
+                <div class="lab-selector">
+                    <label for="lab-node-select">Giả sử ta ép buộc giá trị của biến:</label>
+                    <select id="lab-node-select">
+                        <option value="" disabled selected>Chưa có dữ liệu</option>
+                    </select>
+                </div>
+
+                <div class="lab-control">
+                    <div class="lab-header">
+                        <span>Giá trị gán <span class="lab-node-name" id="lab-node-name">None</span>:</span>
+                        <span class="lab-val" id="lab-slider-val">+0.00</span>
+                    </div>
+                    <input type="range" id="lab-slider" min="-2.0" max="2.0" step="0.2" value="0.0">
+                    <div class="slider-container" style="font-size:10px;">
+                        <span>Cực Thấp (-2.0σ)</span>
+                        <span>Cực Cao (+2.0σ)</span>
+                    </div>
+                </div>
+
+                <div style="font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:-5px; display: flex; align-items: center; gap: 6px;">
+                    <i data-lucide="git-merge" style="width: 14px; height: 14px; color: var(--text-muted);"></i> Ảnh hưởng lan truyền hạ nguồn (ATE):
                 </div>
                 
-                <!-- What-If Intervention Interface (Visible by default) -->
-                <div id="intervene-interface" style="display: flex; flex-direction: column; gap: 12px;">
-                    <div class="lab-selector" style="margin-top: 0px;">
-                        <label for="lab-node-select">Giả sử ta ép buộc giá trị của biến:</label>
-                        <select id="lab-node-select">
-                            <option value="" disabled selected>Chưa có dữ liệu</option>
-                        </select>
-                    </div>
-
-                    <div class="lab-control">
-                        <div class="lab-header">
-                            <span>Giá trị gán <span class="lab-node-name" id="lab-node-name">None</span>:</span>
-                            <span class="lab-val" id="lab-slider-val">+0.00</span>
-                        </div>
-                        <input type="range" id="lab-slider" min="-2.0" max="2.0" step="0.2" value="0.0">
-                        <div class="slider-container" style="font-size:10px;">
-                            <span>Cực Thấp (-2.0σ)</span>
-                            <span>Cực Cao (+2.0σ)</span>
-                        </div>
-                    </div>
-
-                    <div style="font-size:11.5px; font-weight:700; color:var(--text-muted); margin-bottom:-5px; display: flex; align-items: center; gap: 6px;">
-                        <i data-lucide="git-merge" style="width: 14px; height: 14px; color: var(--text-muted);"></i> Tác động lan truyền hạ nguồn (ATE):
-                    </div>
-                    
-                    <div class="impact-indicator-box" id="impact-box">
-                        <div style="color:var(--text-muted);font-size:12px;text-align:center;">Can thiệp biến nguồn để đo lường tác động hạ nguồn.</div>
-                    </div>
-                </div>
-
-                <!-- Latent Clustering Interface (Hidden by default) -->
-                <div id="cluster-interface" style="display: none; flex-direction: column; gap: 12px;">
-                    <div class="lab-selector" style="margin-top: 0px;">
-                        <label for="cluster-count-select">Chọn số lượng nhóm muốn phân chia:</label>
-                        <select id="cluster-count-select" style="width: 100%; margin-top: 6px; background: rgba(10, 15, 30, 0.8); border: 1px solid rgba(255,255,255,0.1); color: var(--text-main); padding: 8px; border-radius: 8px; font-size: 13px; outline: none; cursor: pointer;">
-                            <option value="2">2 Nhóm (Khuyên dùng)</option>
-                            <option value="3" selected>3 Nhóm (Cân bằng)</option>
-                            <option value="4">4 Nhóm (Chi tiết)</option>
-                            <option value="5">5 Nhóm (Tối đa)</option>
-                        </select>
-                    </div>
-
-                    <button class="btn-primary" id="btn-run-cluster" style="width: 100%; background: linear-gradient(135deg, var(--accent-green) 0%, #10b981 100%); border: none; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15); display: flex; align-items: center; justify-content: center; gap: 8px;">
-                        <i data-lucide="zoom-in" style="width: 15px; height: 15px;"></i> Bắt Đầu Phân Nhóm
-                    </button>
-
-                    <div style="font-size:11.5px; font-weight:700; color:var(--text-muted); margin-bottom:-5px; display: flex; align-items: center; gap: 6px; margin-top: 4px;">
-                        <i data-lucide="network" style="width: 14px; height: 14px; color: var(--text-muted);"></i> Tỷ lệ phân chia giữa các nhóm:
-                    </div>
-
-                    <div id="cluster-results-box" class="impact-indicator-box" style="margin-top: 2px;">
-                        <div style="color:var(--text-muted);font-size:12px;text-align:center; padding: 10px;">Vui lòng tải lên dữ liệu và nhấn "Bắt Đầu Phân Nhóm" để phân tích nhóm đối tượng.</div>
-                    </div>
+                <div class="impact-indicator-box" id="impact-box">
+                    <div style="color:var(--text-muted);font-size:12px;text-align:center;">Can thiệp biến nguồn để đo lường tác động hạ nguồn.</div>
                 </div>
             </section>
 
