@@ -62,7 +62,7 @@ $$\varepsilon_j \perp\!\!\!\perp X_i, \quad \forall X_i \in \mathbf{PA}_j^{\math
 
 Thay vì áp đặt giả định nhiễu Gauss thông thường, CausalFlowNet học mật độ chính xác của từng phần dư cấu trúc bằng cách sử dụng **Luồng Spline Nơ-ron (Neural Spline Flow - NSF)** [3]. Đối với mỗi biến $X_j$, phần dư $\varepsilon_j = X_j - f_j(\mathbf{PA}_j^{\mathcal{G}})$ được ánh xạ qua một hàm khả nghịch $g_{\boldsymbol{\theta}}: \mathbb{R} \rightarrow \mathbb{R}$ để chuyển sang một biến ẩn $z_j$. Áp dụng định lý biến đổi biến số (change-of-variables), ta thu được hàm log-likelihood chính xác và khả vi:
 
-$$\log p(\varepsilon_j) = \log p_{\text{prior}}\bigl(g_{\boldsymbol{\theta}}(\varepsilon_j)\bigr) + \log \left| \frac{\partial g_{\boldsymbol{\theta}}(\varepsilon_j)}{\partial \varepsilon_j} \right|$$
+$$\log p(\varepsilon_j) = \log p_{\text{prior}}\bigl(g_{\boldsymbol{\theta}}(\varepsilon_j)\bigr) + \log \left\lvert \frac{\partial g_{\boldsymbol{\theta}}(\varepsilon_j)}{\partial \varepsilon_j} \right\rvert$$
 
 Luồng $g_{\boldsymbol{\theta}}$ được hiện thực hóa bằng sự kết hợp của các tầng liên kết **Rational-Quadratic Spline** (RQS). Đây là các phép biến đổi đơn điệu, khả nghịch giải tích, có các tham số được dự báo bởi một mạng nơ-ron nhỏ, cho phép mô hình hóa các phân phối phần dư phức tạp, phi Gauss một cách cực kỳ linh hoạt.
 
