@@ -37,7 +37,7 @@ The architecture consists of three core components:
 *   **📈 Expressive Non-Gaussian Noise Estimation**: Leverages invertible **Neural Spline Flows (NSF)** with rational-quadratic splines and a learnable **Gaussian Mixture Model (GMM)** prior.
 *   **⚡ Super-Fast Parallelized Independence Testing**: Employs **Random Fourier Features (RFF)** to approximate the RBF kernel, reducing HSIC complexity from $\mathcal{O}(d \cdot n^2)$ to $\mathcal{O}(d \cdot n \cdot m)$.
 *   **🔗 Guaranteed Acyclicity**: Optimizes the weighted adjacency matrix under the continuous **NOTEARS** matrix exponential constraint via the **Augmented Lagrangian Method (ALM)**.
-*   **📊 Causal Subgrouping & ATE Analysis**: Supports unsupervised clustering of structural states in the latent space and performs causal interventions ($do(X_s = v)$) to calculate **Average Treatment Effects (ATE)**.
+*   **📊 Causal Subgrouping & ATE Analysis**: Supports unsupervised clustering of structural states in the latent space and performs causal interventions ($\text{do}(X_s = v)$) to calculate **Average Treatment Effects (ATE)**.
 *   **💻 Interactive UI Dashboard**: Includes a complete Flask backend with a beautiful frontend to dynamically run causal "what-if" simulations.
 
 ---
@@ -97,7 +97,7 @@ python demo/app.py
 
 1.  Open your browser and navigate to `http://127.0.0.1:5000`.
 2.  **Visual Interaction**: Inspect the interactive causal graph dynamically.
-3.  **Virtual Interventions**: Select any source node $X_s$, apply a virtual intervention value ($do(X_s = v)$), and watch downstream target node expectations update instantly via real-time forward passes through the trained nonlinear mechanism.
+3.  **Virtual Interventions**: Select any source node $X_s$, apply a virtual intervention value ($\text{do}(X_s = v)$), and watch downstream target node expectations update instantly via real-time forward passes through the trained nonlinear mechanism.
 
 ---
 
