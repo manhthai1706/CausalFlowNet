@@ -1,6 +1,3 @@
-<p align="center">
-  <img src="causalflownet_architecture.png" width="90%" alt="CausalFlowNet Scientific Architecture Diagram"/>
-</p>
 
 <h1 align="center">CausalFlowNet</h1>
 <h3 align="center">Nonlinear Causal Discovery via Normalizing Flows and Parallel Independence Testing</h3>
@@ -71,7 +68,7 @@ While NOTEARS and its deep neural network extensions (e.g., GraN-DAG [15], DAG-G
 ## II. Theoretical Foundation & Mathematical Framework
 
 <p align="center">
-  <img src="causalflownet_architecture.png" width="90%" alt="CausalFlowNet Scientific Architecture Diagram"/>
+  <img src="arch.png" width="90%" alt="CausalFlowNet Scientific Architecture Diagram"/>
 </p>
 
 ### A. Structural Equation Models and Additive Noise Assumptions
