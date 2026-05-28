@@ -10,29 +10,19 @@
 
 ---
 
-## 🌟 Introduction / Giới thiệu ngắn
+## 🌟 Introduction / Giới thiệu
 
-**CausalFlowNet** is a state-of-the-art, end-to-end deep learning framework designed to discover continuous causal DAGs (Directed Acyclic Graphs) from observational data. Unlike traditional causal structure learning algorithms that rely on rigid parametric assumptions (such as linear Gaussian mechanisms), CausalFlowNet integrates highly flexible neural density estimators with an extremely fast parallelized independence penalty to model complex nonlinear systems.
+**CausalFlowNet** is an end-to-end deep learning framework designed to discover continuous causal DAGs (Directed Acyclic Graphs) from observational data. Unlike traditional causal structure learning methods that rely on rigid parametric assumptions (such as linear Gaussian noise), CausalFlowNet integrates flexible neural density estimators with a fast parallelized independence penalty to model complex nonlinear systems.
 
 > [!NOTE]
 > **Giới thiệu bằng tiếng Việt:**  
-> **CausalFlowNet** là một khung học sâu hợp nhất đầu-cuối giúp khám phá đồ thị cấu trúc nhân quả (DAG) liên tục từ dữ liệu quan sát. Khác với các mô hình truyền thống dựa trên các giả định nhiễu tuyến tính Gauss cứng nhắc, CausalFlowNet kết hợp bộ ước lượng mật độ nơ-ron Rational-Quadratic Spline linh hoạt và hàm phạt độc lập song song hóa siêu nhanh (RFF-HSIC) để giải quyết các hệ thống sinh học phi tuyến tính phức tạp một cách chính xác và hiệu quả nhất.
-
----
-
-## 📖 Deep Dive & Scientific Paper / Đọc Bài báo Khoa học
-
-For a mathematically rigorous breakdown of the formulas, mechanisms, and algorithms behind this framework, please refer to the fully detailed academic paper written in Vietnamese:
-
-👉 **[Xem Bài báo Khoa học Chi tiết tại paper.md (Vietnamese)](file:///c:/Users/manht/Downloads/CausalFlowNet/paper.md)**
-
-*This paper covers the exact formulations for Additive Noise Models, Neural Spline Flows (NSF), GMM Priors, Random Fourier Features (RFF) for $\mathcal{O}(d \cdot n \cdot m)$ HSIC estimation, and Augmented Lagrangian Method (ALM) constrained optimization.*
+> **CausalFlowNet** là một khung học sâu tích hợp đầu-cuối giúp khám phá đồ thị cấu trúc nhân quả (DAG) từ dữ liệu quan sát. Khác với các phương pháp truyền thống dựa trên các giả định nhiễu tuyến tính Gauss cứng nhắc, CausalFlowNet kết hợp bộ ước lượng mật độ nơ-ron Rational-Quadratic Spline linh hoạt và hàm phạt độc lập song song hóa siêu nhanh (RFF-HSIC) để giải quyết các hệ thống phi tuyến tính phức tạp một cách chính xác và hiệu quả.
 
 ---
 
 ## 🛠️ System Architecture / Kiến trúc Hệ thống
 
-CausalFlowNet models the Structural Equation Model (SEM) $X_j = f_j(\mathbf{PA}_j) + \varepsilon_j$ and explicitly enforces the Additive Noise Model (ANM) independence condition $\varepsilon_j \perp\!\!\!\perp \mathbf{PA}_j$ through the following modular pipeline:
+CausalFlowNet models the Structural Equation Model (SEM) $X_j = f_j(\mathbf{PA}_j) + \varepsilon_j$ and enforces the Additive Noise Model (ANM) independence condition $\varepsilon_j \perp\!\!\!\perp \mathbf{PA}_j$ through the following modular pipeline:
 
 ```mermaid
 graph TD
@@ -78,7 +68,7 @@ graph TD
 
 ---
 
-## 🚀 Step-by-Step Installation & Setup
+## 🚀 Installation & Setup
 
 ### A. Prerequisites
 *   Python $\geq 3.8$
@@ -126,10 +116,6 @@ python test_syntren.py
 
 We provide an interactive **Flask Web Application** that acts as an analytical dashboard. You can perform real-time virtual interventions and study causal cascades!
 
-<p align="center">
-  <strong>Run the web interface locally:</strong>
-</p>
-
 ```bash
 # Start the Flask web application
 python demo/app.py
@@ -147,9 +133,9 @@ Performance comparison of CausalFlowNet against standard baselines:
 
 | Paradigm | Method | SHD (Sachs) ↓ | SHD-c (Sachs) ↓ | SID (Sachs) ↓ | SHD (Syn) ↓ | SHD-c (Syn) ↓ | SID (Syn) ↓ |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **CB** | PC [11] | $17.0$ | $11.0$ | $47.0 \text{ to } 62.0$ | $41.0 \pm 5.1$ | $42.4 \pm 4.6$ | $154.8 \pm 47.6$ |
-| **SB** | GES [2] | $26.0$ | $28.0$ | $34.0 \text{ to } 45.0$ | $82.6 \pm 9.3$ | $85.6 \pm 10.0$ | $157.2 \pm 48.3$ |
-| **FCM** | CAM [7] | $12.0$ | **$9.0$** | $55.0$ | $40.5 \pm 6.8$ | $41.4 \pm 7.1$ | $152.3 \pm 48.0$ |
+| **CB** | PC | $17.0$ | $11.0$ | $47.0 \text{ to } 62.0$ | $41.0 \pm 5.1$ | $42.4 \pm 4.6$ | $154.8 \pm 47.6$ |
+| **SB** | GES | $26.0$ | $28.0$ | $34.0 \text{ to } 45.0$ | $82.6 \pm 9.3$ | $85.6 \pm 10.0$ | $157.2 \pm 48.3$ |
+| **FCM** | CAM | $12.0$ | **$9.0$** | $55.0$ | $40.5 \pm 6.8$ | $41.4 \pm 7.1$ | $152.3 \pm 48.0$ |
 | **CO** | NOTEARS | $21.0$ | $21.0$ | $44.0$ | $151.8 \pm 28.2$ | $156.1 \pm 28.7$ | $110.7 \pm 66.7$ |
 | **CO** | DAG-GNN | $16.0$ | $21.0$ | $44.0$ | $93.6 \pm 9.2$ | $97.6 \pm 10.3$ | $157.5 \pm 74.6$ |
 | **CO** | GSF | $18.0$ | $10.0$ | $44.0 \text{ to } 61.0$ | $61.8 \pm 9.6$ | $63.3 \pm 11.4$ | **$76.7 \pm 51.1$** |
@@ -197,7 +183,6 @@ CausalFlowNet/
 ├── test_sachs.py          # Sachs benchmark reproduction script
 ├── test_syntren.py        # SynTReN benchmark reproduction script
 ├── requirements.txt       # Core dependencies
-├── paper.md               # Scientific research paper (Vietnamese)
 └── LICENSE                # MIT License
 ```
 
