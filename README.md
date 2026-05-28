@@ -160,25 +160,8 @@ CausalFlowNet/
 └── LICENSE                # MIT License
 ```
 
----
-
-## ✍️ Citation
-
-If you find **CausalFlowNet** useful in your research or application, please cite our repository:
-
-```bibtex
-@software{tran2026causalflownet,
-  author       = {Tran, Manh Thai},
-  title        = {{CausalFlowNet}: Nonlinear Causal Discovery via Normalizing Flows and Parallel Independence Testing},
-  year         = {2026},
-  url          = {https://github.com/manhthai1706/CausalFlowNet},
-  license      = {MIT}
-}
-```
-
----
 
 ## 📄 License
 
 This project is licensed under the terms of the [MIT License](LICENSE).  
-Copyright © 2026 Manh Thai Tran.
+Copyright © 2026 Manh Thai .
