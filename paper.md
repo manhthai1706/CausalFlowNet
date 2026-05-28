@@ -39,7 +39,7 @@ Mặc dù NOTEARS và các biến thể mạng nơ-ron sâu của nó (như GraN
 ## II. Cơ sở Lý thuyết & Khung Toán học
 
 <p align="center">
-  <img src="causalflownet_architecture.png" width="90%" alt="Kiến trúc Khoa học của CausalFlowNet"/>
+  <img src="arch.png" width="90%" alt="Kiến trúc Khoa học của CausalFlowNet"/>
 </p>
 
 ### A. Mô hình Phương trình Cấu trúc và Giả định Nhiễu Cộng
