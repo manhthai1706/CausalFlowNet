@@ -12,7 +12,7 @@
 
 ## 🌟 Introduction
 
-**CausalFlowNet** is an end-to-end deep learning framework designed to discover continuous causal DAGs (Directed Acyclic Graphs) from observational data. Unlike traditional causal structure learning methods that rely on rigid parametric assumptions (such as linear Gaussian noise), CausalFlowNet integrates flexible neural density estimators with a fast parallelized independence penalty to model complex nonlinear systems.
+**CausalFlowNet** is an end-to-end deep learning model designed to discover continuous causal DAGs (Directed Acyclic Graphs) from observational data. Unlike traditional causal structure learning methods that rely on rigid parametric assumptions (such as linear Gaussian noise), CausalFlowNet integrates flexible neural density estimators with a fast parallelized independence penalty to model complex nonlinear systems.
 
 ---
 
