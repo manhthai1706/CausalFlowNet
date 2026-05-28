@@ -100,18 +100,19 @@ $$\min_{\mathbf{W}, \boldsymbol{\theta}} \quad \mathcal{L}_{\text{main}}(\mathbf
 $$\text{thỏa mãn} \quad h(\mathbf{W}) = \text{Tr}\left(e^{\mathbf{W} \circ \mathbf{W}}\right) - d = 0$$
 
 Trong đó:
-* **Hàm log-likelihood âm ($\mathcal{L}_{\text{NLL}}$)**:
+* **Hàm log-likelihood âm**:
   $$\mathcal{L}_{\text{NLL}} = -\sum_{j=1}^d \log p(\varepsilon_j)$$
   là hàm âm log-likelihood của dữ liệu quan sát dưới luồng chuẩn hóa rational-quadratic splines đã học.
-* **Hàm phạt độc lập ($\mathcal{L}_{\text{HSIC}}$)**:
+* **Hàm phạt độc lập**:
   $$\mathcal{L}_{\text{HSIC}} = \sum_{j=1}^d \log\left(\widehat{\text{HSIC}}(j) + \epsilon_{\text{stab}}\right)$$
   là tổng hàm phạt độc lập trên tất cả $d$ nút, thúc đẩy trực tiếp tính độc lập giữa cha và phần dư (với $\epsilon_{\text{stab}}$ là hằng số ổn định số học).
-* **Chuẩn $L_1$ của ma trận trọng số ($\lVert\mathbf{W}\rVert_1$)**:
+* **Chuẩn L1 của ma trận trọng số**:
   $$\lVert\mathbf{W}\rVert_1 = \sum_{i \neq j} |W_{ij}|$$
   là chuẩn $L_1$ của các trọng số ngoài đường chéo, có tác dụng áp đặt tính thưa (sparsity) cho cấu trúc đồ thị.
-* **Ràng buộc phi chu trình ($h(\mathbf{W}) = 0$)**:
+* **Ràng buộc phi chu trình**:
   $$h(\mathbf{W}) = \text{Tr}\left(e^{\mathbf{W} \circ \mathbf{W}}\right) - d = 0$$
   là ràng buộc phi chu trình trơn (NOTEARS), trong đó $\circ$ là phép nhân liên kết phần tử Hadamard (element-wise product) và $e^{\mathbf{A}}$ là hàm mũ ma trận.
+
 
 
 Chúng tôi giải quyết bài toán tối ưu hóa phi tuyến có ràng buộc này bằng **Phương pháp Lagrangian Tăng cường (ALM)**. Thuật toán tối ưu hóa một chuỗi các bài toán con không ràng buộc:
