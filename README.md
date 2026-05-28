@@ -88,7 +88,7 @@ $$\varepsilon_j \perp\!\!\!\perp X_i, \quad \forall X_i \in \mathbf{PA}_j^{\math
 
 ### B. Invertible Residual Modeling via Neural Spline Flows
 
-Rather than assuming Gaussian noise, CausalFlowNet learns the exact density of each structural residual $\varepsilon_j = X_j - f_j(\mathbf{PA}_j^{\mathcal{G}})$ using a **Neural Spline Flow (NSF)** [3]. An invertible mapping $g_{\boldsymbol{\theta}}: \mathbb{R} \rightarrow \mathbb{R}$ transforms each residual to a latent variable $z_j$, and the change-of-variables theorem yields a tractable exact log-likelihood:
+Rather than assuming Gaussian noise, CausalFlowNet learns the exact density of each structural residual using a **Neural Spline Flow (NSF)** [3]. For each variable $X_j$, the residual $\varepsilon_j = X_j - f_j(\mathbf{PA}_j^{\mathcal{G}})$ is mapped by an invertible function $g_{\boldsymbol{\theta}}: \mathbb{R} \rightarrow \mathbb{R}$ to a latent variable $z_j$, and the change-of-variables theorem yields a tractable exact log-likelihood:
 
 $$\log p(\varepsilon_j) = \log p_{\text{prior}}\bigl(g_{\boldsymbol{\theta}}(\varepsilon_j)\bigr) + \log \left| \frac{\partial g_{\boldsymbol{\theta}}(\varepsilon_j)}{\partial \varepsilon_j} \right|$$
 
@@ -129,8 +129,8 @@ $$\text{subject to} \quad h(\mathbf{W}) = \text{Tr}\left(e^{\mathbf{W} \circ \ma
 
 where:
 *   $\mathcal{L}_{\text{NLL}}$ is the negative log-likelihood of the observational data under the learned rational-quadratic splines.
-*   $\mathcal{L}_{\text{HSIC}} = \sum_{j=1}^{d} \log(\widehat{\text{HSIC}}(j) + \delta)$ forces parent-residual independence.
-*   $\|\mathbf{W}\|_1 = \sum_{i \neq j} |W_{ij}|$ enforces structural sparsity.
+*   $\mathcal{L}_{\text{HSIC}}$ is the sum of log-HSIC penalties over all $d$ nodes, explicitly driving parent-residual independence.
+*   $\lVert\mathbf{W}\rVert_1$ is the entry-wise L1 norm of off-diagonal weights, enforcing structural sparsity.
 
 We solve this using the **Augmented Lagrangian Method (ALM)**, which optimizes a sequence of unconstrained subproblems:
 
